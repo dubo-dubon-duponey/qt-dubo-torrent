@@ -37,16 +37,26 @@ DEFINES += BOOST_FILESYSTEM_VERSION=2
 SOURCES += qtlibtorrent.cpp \
     qtltalert.cpp \
     qtltsession.cpp \
-    qtltalerttypes.cpp \
     dirtyhack.cpp \
     qtlttorrentinfo.cpp \
-    qtlttorrenthandle.cpp
+    qtlttorrenthandle.cpp \
+    qtltfileentry.cpp \
+    qtlttorrentstatus.cpp \
+    qtlttypessavestates.cpp \
+    qtlttypesalerttypes.cpp \
+    qtlttypestorrentstates.cpp \
+    qtltsessionstatus.cpp
 
 HEADERS += qtlibtorrent.h \
         qt-libtorrent_global.h \
     qtltalert.h \
     qtltsession.h \
-    qtltalerttypes.h \
     dirtyhack.h \
     qtlttorrentinfo.h \
-    qtlttorrenthandle.h
+    qtlttorrenthandle.h \
+    qtltfileentry.h \
+    qtlttorrentstatus.h \
+    qtlttypessavestates.h \
+    qtlttypesalerttypes.h \
+    qtlttypestorrentstates.h \
+    qtltsessionstatus.h
