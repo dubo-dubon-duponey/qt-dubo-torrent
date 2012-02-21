@@ -1,7 +1,3 @@
-/**
- * @alpha1
- */
-
 #ifndef QTLTALERTTYPES_H
 #define QTLTALERTTYPES_H
 
@@ -9,11 +5,6 @@
 
 #include <QObject>
 #include <QMutex>
-
-/**
- * A singleton to hold the alerts types, as I couldn't find a way to expose stuff to JS but via properties
- * and as it would be ridiculous to construct a new object each time we want to access that.
- */
 
 class QTLIBTORRENTSHARED_EXPORT QtltAlertTypes : public QObject
 {
@@ -40,8 +31,7 @@ public:
         mutex.unlock();
     }
 
-    Q_PROPERTY(int NONE         READ none)
-    Q_PROPERTY(int ERROR        READ error)
+    Q_PROPERTY(const int ERROR        READ error)
     Q_PROPERTY(int PEER         READ peer)
     Q_PROPERTY(int PORT_MAPPING READ port_mapping)
     Q_PROPERTY(int STORAGE      READ storage)
@@ -55,7 +45,6 @@ public:
     Q_PROPERTY(int STATS        READ stats)
     Q_PROPERTY(int ALL          READ all)
 
-    const int none();
     const int error();
     const int peer();
     const int port_mapping();
@@ -81,3 +70,4 @@ private:
 };
 
 #endif // QTLTALERTTYPES_H
+

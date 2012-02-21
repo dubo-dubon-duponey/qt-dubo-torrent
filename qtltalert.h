@@ -23,14 +23,14 @@ public:
 
     const QString message();
     const QString what();
-    const u_int64_t timestamp();
+    const qint64 timestamp();
     const int category();
 
 private:
     QString         _message;
     QString         _what;
     int             _category;
-    u_int64_t          _timestamp;
+    u_int64_t       _timestamp;
 
 };
 

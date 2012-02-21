@@ -1,5 +1,6 @@
 #include "qtltsession.h"
 
+#include <libtorrent/bencode.hpp>
 #include <libtorrent/session.hpp>
 #include <libtorrent/torrent_info.hpp>
 #include <boost/filesystem.hpp>
@@ -8,6 +9,7 @@
 
 #include <QDateTime>
 #include <QDebug>
+#include <QByteArray>
 
 // XXX maybe let pass the error mask?
 QtltSession::QtltSession(const QString & id, const int & major, const int & minor, const int & revision, const int & tag, QObject* parent):
@@ -23,13 +25,60 @@ QtltSession::QtltSession(const QString & id, const int & major, const int & mino
                 libtorrent::alert::all_categories));
 }
 
+
+void QtltSession::addTorrent(const QString & torrentfilepath){
+    // save_path, ti, pointeur vers torrent_info
+
+    // XXX To avoid some exceptions
+    // boost::filesystem::path::default_name_check(boost::filesystem::no_check);
+    boost::filesystem::path t = boost::filesystem::path(torrentfilepath.toLocal8Bit());
+    libtorrent::torrent_info* ti = new libtorrent::torrent_info(t);
+
+    boost::filesystem::path s = boost::filesystem::path("/Users/dmp/Desktop/test");
+
+    //    boost::filesystem::path const& filename
+
+    libtorrent::torrent_handle to = dirtyHack::instance()->getSession()->add_torrent(ti, s);
+
+
+    //    boost::intrusive_ptr<libtorrent::torrent_info> ti = new libtorrent::torrent_info();
+}
+
+// http://code.google.com/p/libtorrent/issues/detail?id=96
+
+
+
 // XXX will block until all trackers are notified - might or might not be what we want
 QtltSession::~QtltSession()
 {
     dirtyHack::instance()->drop();
 }
 
-const bool QtltSession::isPaused(){
+void QtltSession::loadState(const QString & entry)
+{
+    const char * in = entry.toLocal8Bit().constData();
+    libtorrent::lazy_entry e;
+    if (lazy_bdecode(&in[0], &in[0] + sizeof(in), e) == 0) {
+      dirtyHack::instance()->getSession()->load_state(e);
+    }
+}
+
+const QString QtltSession::saveState(const int & flags)
+{
+    libtorrent::entry e;
+    if(flags){
+        dirtyHack::instance()->getSession()->save_state(e, flags);
+    }else{
+        dirtyHack::instance()->getSession()->save_state(e);
+    }
+    std::vector<char> out;
+    bencode(std::back_inserter(out), e);
+    QByteArray * q = new QByteArray();
+    return QString::fromLocal8Bit(out.data());
+}
+
+
+const bool QtltSession::is_paused(){
     return dirtyHack::instance()->getSession()->is_paused();
 }
 
@@ -41,7 +90,11 @@ void QtltSession::resume(){
     dirtyHack::instance()->getSession()->resume();
 }
 
-const bool QtltSession::isDhtRunning(){
+void QtltSession::abort(){
+    dirtyHack::instance()->getSession()->abort();
+}
+
+const bool QtltSession::is_dht_running(){
     return dirtyHack::instance()->getSession()->is_dht_running();
 }
 
@@ -61,6 +114,9 @@ void QtltSession::stopLsd(){
     dirtyHack::instance()->getSession()->stop_lsd();
 }
 
+/**
+ * Limit stuff
+ */
 const int QtltSession::upload_rate_limit(){
     return dirtyHack::instance()->getSession()->upload_rate_limit();
 }
@@ -117,6 +173,9 @@ const int QtltSession::num_connections(){
     return dirtyHack::instance()->getSession()->num_connections();
 }
 
+/**
+ * Alerts
+ */
 const QVariant QtltSession::popAlert(){
     std::auto_ptr<libtorrent::alert> t = dirtyHack::instance()->getSession()->pop_alert();
     if(t.get()){
@@ -140,6 +199,9 @@ void QtltSession::setAlertQueueSizeLimit(int l){
     dirtyHack::instance()->getSession()->set_alert_queue_size_limit(l);
 }
 
+/**
+ * Listening
+ */
 const bool QtltSession::is_listening(){
     return dirtyHack::instance()->getSession()->is_listening();
 }
@@ -155,25 +217,9 @@ bool QtltSession::listenOn(const int startPort, const int endPort){
 }
 
 
-void QtltSession::addTorrent(){
-    // save_path, ti, pointeur vers torrent_info
-
-    // XXX To avoid some exceptions
-    // boost::filesystem::path::default_name_check(boost::filesystem::no_check);
-    boost::filesystem::path t = boost::filesystem::path("/Users/dmp/test.torrent");
-
-    boost::filesystem::path s = boost::filesystem::path("/Users/dmp/Desktop/test");
-
-    //    boost::filesystem::path const& filename
-    libtorrent::torrent_info* ti = new libtorrent::torrent_info(t);
-
-    libtorrent::torrent_handle to = dirtyHack::instance()->getSession()->add_torrent(ti, s);
 
 
-    //    boost::intrusive_ptr<libtorrent::torrent_info> ti = new libtorrent::torrent_info();
-}
 
-// http://code.google.com/p/libtorrent/issues/detail?id=96
 
 /*
 

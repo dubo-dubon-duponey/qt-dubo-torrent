@@ -1,5 +1,4 @@
 /**
- * @alpha1
  * XXX timestamp are deadly borked - not too sure why - see session initialization to get it right
  */
 
@@ -23,9 +22,9 @@ const QString QtltAlert::what()      {
     return _what;
 }
 
-const u_int64_t QtltAlert::timestamp()
+const qint64 QtltAlert::timestamp()
 {
-    return _timestamp;
+    return qint64(_timestamp);
 }
 
 // To be compared against an error type

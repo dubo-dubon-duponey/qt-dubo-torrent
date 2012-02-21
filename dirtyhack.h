@@ -9,11 +9,6 @@
 
 #include <QMutex>
 
-/**
- * This is the only way I found to keep a reference onto the native session object and NOT including libtorrent headers into my own headers
- * It's only purpose is to let other classes store and retrieve the native session object.
- */
-
 class dirtyHack
 {
 public:

@@ -19,12 +19,25 @@ public:
     explicit QtltSession(const QString & id, const int & major, const int & minor, const int & revision, const int & tag, QObject* parent = 0);
     ~QtltSession();
 
-    Q_INVOKABLE const bool isPaused();
+    Q_INVOKABLE void loadState(const QString & e);
+    Q_INVOKABLE const QString saveState(const int & flags);
+
     Q_INVOKABLE void pause();
     Q_INVOKABLE void resume();
-    Q_INVOKABLE const bool isDhtRunning();
+    Q_INVOKABLE void abort();
+
+    Q_PROPERTY(const bool isPaused READ is_paused)
+    const bool is_paused();
+
+    Q_INVOKABLE void addTorrent(const QString & torrentfilepath);
+//    Q_INVOKABLE void removeTorrent(const QString & torrentfilepath);
+// find_torrent() get_torrents()
+
+    Q_PROPERTY(const bool isDhtRunning READ is_dht_running)
+    const bool is_dht_running();
     Q_INVOKABLE void startDht();
     Q_INVOKABLE void stopDht();
+
     Q_INVOKABLE void startLsd();
     Q_INVOKABLE void stopLsd();
 
@@ -33,12 +46,11 @@ public:
     Q_PROPERTY(int localUploadRateLimit     READ local_upload_rate_limit    WRITE set_local_upload_rate_limit)
     Q_PROPERTY(int localDownloadRateLimit   READ local_download_rate_limit  WRITE set_local_download_rate_limit)
     Q_PROPERTY(int maxConnections           READ max_connections            WRITE set_max_connections)
-    Q_PROPERTY(int maxHalfOpenConnections   READ max_half_open_connections  WRITE set_max_half_open_connections)
     Q_PROPERTY(int maxUploads               READ max_uploads                WRITE set_max_uploads)
+    Q_PROPERTY(int maxHalfOpenConnections   READ max_half_open_connections  WRITE set_max_half_open_connections)
+
     Q_PROPERTY(int numUploads               READ num_uploads)
     Q_PROPERTY(int numConnections           READ num_connections)
-    Q_PROPERTY(bool isListening READ is_listening)
-    Q_PROPERTY(int  listenPort  READ listen_port)
 
     const int upload_rate_limit();
     void set_upload_rate_limit(const int rate);
@@ -56,15 +68,33 @@ public:
     void set_max_uploads(const int limit);
     const int num_uploads();
     const int num_connections();
+
+    Q_PROPERTY(bool isListening READ is_listening)
+    Q_PROPERTY(int  listenPort  READ listen_port)
+    Q_INVOKABLE bool listenOn(const int startPort, const int endPort);
+
     const bool is_listening();
     const int listen_port();
 
     Q_INVOKABLE const QVariant popAlert();
-    Q_INVOKABLE void setAlertMask(int m);
+    Q_INVOKABLE void setAlertMask(int m = 0);
     Q_INVOKABLE void setAlertQueueSizeLimit(int l);
-    Q_INVOKABLE bool listenOn(const int startPort, const int endPort);
 
-    Q_INVOKABLE void addTorrent();
+
+    //    Q_INVOKABLE const QVariant waitForAlert();
+    // load_asnum_db() load_country_db() as_for_ip() set_ip_filter get_ip_filter
+    // add_extension
+    // set_settings() set_pe_settings() set_proxy() proxy()
+    // http://doc.qt.nokia.com/4.8-snapshot/qnetworkproxyfactory.html#systemProxyForQuery
+
+//    status()
+//    session_status status() const;
+//    status() returns session wide-statistics and status. The session_status struct has the following members:
+    // set_dht_settings() dht_state()
+    // add_dht_node() add_dht_router()
+    // start_upnp() stop_upnp()
+    // start_natpmp() stop_natpmp()
+
 
 signals:
 
@@ -84,24 +114,6 @@ private:
         void add_extension(boost::function<
                 boost::shared_ptr<torrent_plugin>(torrent*)> ext);
 
-// THAT should rather get in
-    void load_state(lazy_entry const& e);
-    void save_state(entry& e, boost::uint32_t flags) const;
-
-        enum save_state_flags_t
-        {
-                save_settings = 0x001,
-                save_dht_settings = 0x002,
-                save_dht_proxy = 0x004,
-                save_dht_state = 0x008,
-                save_i2p_proxy = 0x010,
-                save_encryption_settings = 0x020,
-                save_peer_proxy = 0x040,
-                save_web_proxy = 0x080,
-                save_tracker_proxy = 0x100,
-                save_as_map = 0x200,
-        };
-
 
 // should rather be controlled by the app, not by script, which knows bothing about system proxy and so forth...
         // either way, investigate proxy problems more globally
@@ -115,7 +127,6 @@ private:
 
 
         // Might be interesting in order not to freeze like an ass when closing the session
-        session_proxy abort();
 
 // Settings stuff
     void set_settings(session_settings const& settings);
