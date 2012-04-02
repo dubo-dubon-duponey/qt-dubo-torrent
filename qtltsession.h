@@ -6,9 +6,11 @@
 // #include <libtorrent/session.hpp>
 
 #include "qtltalert.h"
+#include "qtlttorrenthandle.h"
 
 #include <QObject>
 #include <QVariant>
+// #include <QArray>
 
 class QTLIBTORRENTSHARED_EXPORT QtltSession : public QObject
 {
@@ -30,8 +32,11 @@ public:
     const bool is_paused();
 
     Q_INVOKABLE void addTorrent(const QString & torrentfilepath);
-//    Q_INVOKABLE void removeTorrent(const QString & torrentfilepath);
+
+    //    Q_INVOKABLE void removeTorrent(const QString & torrentfilepath);
 // find_torrent() get_torrents()
+
+
 
     Q_PROPERTY(const bool isDhtRunning READ is_dht_running)
     const bool is_dht_running();
@@ -80,6 +85,8 @@ public:
     Q_INVOKABLE void setAlertMask(int m = 0);
     Q_INVOKABLE void setAlertQueueSizeLimit(int l);
 
+    Q_INVOKABLE const int getTorrentsLength();
+    Q_INVOKABLE const QVariant getTorrentAt(int pos);
 
     //    Q_INVOKABLE const QVariant waitForAlert();
     // load_asnum_db() load_country_db() as_for_ip() set_ip_filter get_ip_filter
@@ -95,6 +102,7 @@ public:
     // start_upnp() stop_upnp()
     // start_natpmp() stop_natpmp()
 
+    Q_INVOKABLE void addMagnet(const QString & path, const QString & save_path);
 
 signals:
 

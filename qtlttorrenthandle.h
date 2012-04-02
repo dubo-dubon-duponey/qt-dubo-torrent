@@ -19,6 +19,9 @@ signals:
 
 public slots:
 
+
+private:
+    QString m_hash;
 };
 
 #endif // QTLTTORRENTHANDLE_H
