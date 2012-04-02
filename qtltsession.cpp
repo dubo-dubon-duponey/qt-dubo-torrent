@@ -3,12 +3,15 @@
 #include <libtorrent/bencode.hpp>
 #include <libtorrent/session.hpp>
 #include <libtorrent/torrent_info.hpp>
+#include <libtorrent/torrent_handle.hpp>
 #include <boost/filesystem.hpp>
+#include <libtorrent/magnet_uri.hpp>
 
 #include "dirtyhack.h"
 
 #include <QDateTime>
 #include <QDebug>
+// #include <QArray>
 #include <QByteArray>
 
 // XXX maybe let pass the error mask?
@@ -45,6 +48,27 @@ void QtltSession::addTorrent(const QString & torrentfilepath){
 }
 
 // http://code.google.com/p/libtorrent/issues/detail?id=96
+
+
+void QtltSession::addMagnet(const QString & uri, const QString & save_path)
+{
+//    boost::filesystem::path t = boost::filesystem::path(path.toLocal8Bit());
+    boost::filesystem::path s = boost::filesystem::path(save_path.toLocal8Bit());
+    libtorrent::torrent_handle to = libtorrent::add_magnet_uri(* dirtyHack::instance()->getSession(),
+        uri.toStdString(), s);
+//            ->add_torrent(ti, s);
+}
+
+//add_magnet_uri()
+//torrent_handle add_magnet_uri(session& ses, std::string const& uri
+//        add_torrent_params p);
+//torrent_handle add_magnet_uri(session& ses, std::string const& uri
+//        add_torrent_params p, error_code& ec);
+//This function parses the magnet URI (uri) as a bittorrent magnet link, and adds the torrent to the specified session (ses). It returns the handle to the newly added torrent, or an invalid handle in case parsing failed. To control some initial settings of the torrent, sepcify those in the add_torrent_params, p. See add_torrent().
+
+//The overload that does not take an error_code throws an exception on error and is not available when building without exception support.
+
+//For more information about magnet links, see magnet links.
 
 
 
@@ -217,9 +241,54 @@ bool QtltSession::listenOn(const int startPort, const int endPort){
 }
 
 
+const int QtltSession::getTorrentsLength()
+{
+    int num_resume_data = 0;
+    std::vector<libtorrent::torrent_handle> handles = dirtyHack::instance()->getSession()->get_torrents();
+    for (std::vector<libtorrent::torrent_handle>::iterator i = handles.begin();
+            i != handles.end(); ++i)
+    {
+        ++num_resume_data;
+    }
+    return num_resume_data;
+}
 
-
-
+const QVariant QtltSession::getTorrentAt(const int pos)
+{
+    std::vector<libtorrent::torrent_handle> handles = dirtyHack::instance()->getSession()->get_torrents();
+    int num_resume_data = 0;
+    for (std::vector<libtorrent::torrent_handle>::iterator i = handles.begin();
+            i != handles.end(); ++i)
+    {
+        if(num_resume_data == pos){
+            libtorrent::torrent_handle& h = *i;
+            libtorrent::sha1_hash hash = h.get_torrent_info().info_hash();
+            std::ostringstream o;
+            o << hash;
+            QtLtTorrentHandle * h2 = new QtLtTorrentHandle(QString(o.str().c_str()), this);
+            QVariant var(QMetaType::QObjectStar);
+            var.setValue((QObject*) h2);
+            return var;
+//            return QString(h.get_torrent_info().info_hash());
+        }
+        num_resume_data++;
+    }
+    return 0;
+}
+/*
+std::auto_ptr<libtorrent::alert> t = dirtyHack::instance()->getSession()->pop_alert();
+if(t.get()){
+    QtltAlert* myalert = new QtltAlert(QString::fromLocal8Bit(t->what()),
+                                       QString::fromLocal8Bit(t->message().c_str()),
+                                       t->category(),
+                                       t->timestamp().time,
+                                       this);
+    QVariant var(QMetaType::QObjectStar);
+    var.setValue((QObject*) myalert);
+    return var;
+}
+return 0;
+*/
 
 /*
 
