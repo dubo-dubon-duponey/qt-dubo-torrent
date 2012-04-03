@@ -1,13 +1,13 @@
 #include "QtLtTorrentInfo.h"
-#include <libtorrent/torrent_info.hpp>
 #include <qDebug>
 #include "qtltfileentry.h"
 
-QtLtTorrentInfo::QtLtTorrentInfo(const QString & path, QObject *parent):
+QtLtTorrentInfo::QtLtTorrentInfo(libtorrent::torrent_info & info, QObject *parent):
     QObject(parent)
 {
-    boost::filesystem::path boostpath = boost::filesystem::path(path.toLocal8Bit());
-    torrentinfo = new libtorrent::torrent_info(boostpath);
+//    boost::filesystem::path boostpath = boost::filesystem::path(path.toLocal8Bit());
+//    torrentinfo = new libtorrent::torrent_info(boostpath);
+//    torrentinfo = info;
 
 //    QStringList * files = new QStringList();
 ////    QObject * toto = new QObject();

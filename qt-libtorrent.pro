@@ -38,7 +38,6 @@ SOURCES += qtlibtorrent.cpp \
     qtltalert.cpp \
     qtltsession.cpp \
     dirtyhack.cpp \
-    qtlttorrentinfo.cpp \
     qtlttorrenthandle.cpp \
     qtltfileentry.cpp \
     qtlttorrentstatus.cpp \
@@ -46,13 +45,13 @@ SOURCES += qtlibtorrent.cpp \
     qtlttypesalerttypes.cpp \
     qtlttypestorrentstates.cpp \
     qtltsessionstatus.cpp
+#    qtlttorrentinfo.cpp \
 
 HEADERS += qtlibtorrent.h \
         qt-libtorrent_global.h \
     qtltalert.h \
     qtltsession.h \
     dirtyhack.h \
-    qtlttorrentinfo.h \
     qtlttorrenthandle.h \
     qtltfileentry.h \
     qtlttorrentstatus.h \
@@ -60,3 +59,4 @@ HEADERS += qtlibtorrent.h \
     qtlttypesalerttypes.h \
     qtlttypestorrentstates.h \
     qtltsessionstatus.h
+#    qtlttorrentinfo.h \

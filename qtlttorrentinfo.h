@@ -9,11 +9,14 @@
 #include <QVariantList>
 #include "qtltfileentry.h"
 
+// XXX deprecated for now (flattened into torrent_handle)
+
 class QTLIBTORRENTSHARED_EXPORT QtLtTorrentInfo : public QObject
 {
     Q_OBJECT
 public:
-    explicit QtLtTorrentInfo(const QString & path, QObject *parent = 0);
+
+    explicit QtLtTorrentInfo(libtorrent::torrent_info & info, QObject *parent = 0);
 
     //    void add_tracker(const QString & url, int tier = 0);
     //    QVariantList<QVariant> const& trackers();
@@ -74,7 +77,7 @@ signals:
 public slots:
 
 private:
-    libtorrent::torrent_info * torrentinfo;
+    libtorrent::torrent_info torrentinfo;
 
 };
 

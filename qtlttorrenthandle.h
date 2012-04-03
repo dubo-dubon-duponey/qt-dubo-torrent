@@ -2,8 +2,10 @@
 #define QTLTTORRENTHANDLE_H
 
 #include "qt-libtorrent_global.h"
+// #include "qtlttorrentinfo.h"
 
 #include <QObject>
+#include <QVariant>
 
 
 class QTLIBTORRENTSHARED_EXPORT QtLtTorrentHandle : public QObject
@@ -12,8 +14,56 @@ class QTLIBTORRENTSHARED_EXPORT QtLtTorrentHandle : public QObject
 public:
     explicit QtLtTorrentHandle(const QString & info_hash, QObject *parent = 0);
     Q_PROPERTY(const QString infoHash READ info_hash)
+    Q_PROPERTY(const QString name READ name)
+    Q_PROPERTY(bool isValid READ is_valid)
+    Q_PROPERTY(bool isSequential READ is_sequential_download)
 
+    Q_INVOKABLE void setSequential(bool flag);
     const QString info_hash();
+    const QString name();
+    bool is_sequential_download();
+    bool is_valid();
+
+//    Q_INVOKABLE QVariant getInfo();
+
+
+
+    Q_PROPERTY(const int numFiles READ num_files)
+    Q_PROPERTY(const int priv READ priv)
+
+    Q_PROPERTY(const qint64 totalSize READ total_size)
+    Q_PROPERTY(const qint64 pieceLength READ piece_length)
+    Q_PROPERTY(const qint64 numPieces READ num_pieces)
+
+    Q_PROPERTY(const qint64 allTimeDownload READ all_time_download)
+
+
+//    Q_PROPERTY(const QString infoHash READ info_hash)
+
+//    Q_PROPERTY(const QString name READ name)
+    Q_PROPERTY(const QString comment READ comment)
+    Q_PROPERTY(const QString creator READ creator)
+
+//    Q_PROPERTY(const qint64 creationDate READ creation_date)
+    Q_PROPERTY(const QString metadata READ metadata)
+
+
+//    Q_INVOKABLE const QtLtFileEntry * getFileAt(const int & pos);
+
+    const int num_files();
+    const bool priv();
+    const qint64 total_size();
+    const qint64 all_time_download();
+    const int piece_length();
+    const int num_pieces();
+//    const QString info_hash();
+
+//    const QString name();
+    const QString comment();
+    const QString creator();
+
+//    const qint64 creation_date();
+    const QString metadata();
 
 signals:
 
@@ -28,18 +78,19 @@ private:
 
 
 /*
-struct torrent_handle
-{
-        torrent_handle();
-
-        torrent_status status();
-        void file_progress(std::vector<size_type>& fp, int flags = 0);
-        void get_download_queue(std::vector<partial_piece_info>& queue) const;
-        void get_peer_info(std::vector<peer_info>& v) const;
+        std::string name() const;
+        sha1_hash info_hash() const;
+        bool is_sequential_download() const;
+        void set_sequential_download(bool sd) const;
         torrent_info const& get_torrent_info() const;
         bool is_valid() const;
 
-        std::string name() const;
+        void file_progress(std::vector<size_type>& fp, int flags = 0);
+
+
+        torrent_status status();
+        void get_download_queue(std::vector<partial_piece_info>& queue) const;
+        void get_peer_info(std::vector<peer_info>& v) const;
 
         void save_resume_data() const;
         void force_reannounce() const;
@@ -72,8 +123,6 @@ struct torrent_handle
         int upload_limit() const;
         void set_download_limit(int limit) const;
         int download_limit() const;
-        void set_sequential_download(bool sd) const;
-        bool is_sequential_download() const;
 
         void set_peer_upload_limit(asio::ip::tcp::endpoint ip, int limit) const;
         void set_peer_download_limit(asio::ip::tcp::endpoint ip, int limit) const;
@@ -135,8 +184,9 @@ struct torrent_handle
         void add_piece(int piece, char const* data, int flags = 0) const;
         void read_piece(int piece) const;
 
+
         bool operator==(torrent_handle const&) const;
         bool operator!=(torrent_handle const&) const;
         bool operator<(torrent_handle const&) const;
-};
+}
   */
