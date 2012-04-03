@@ -262,7 +262,7 @@ const QVariant QtltSession::getTorrentAt(const int pos)
     {
         if(num_resume_data == pos){
             libtorrent::torrent_handle& h = *i;
-            libtorrent::sha1_hash hash = h.get_torrent_info().info_hash();
+            libtorrent::sha1_hash hash = h.info_hash();
             std::ostringstream o;
             o << hash;
             QtLtTorrentHandle * h2 = new QtLtTorrentHandle(QString(o.str().c_str()), this);
