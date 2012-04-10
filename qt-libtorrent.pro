@@ -33,6 +33,8 @@ macx{
 # Fixes compilation with Boost >= v1.46 where boost
 # filesystem v3 is the default.
 DEFINES += BOOST_FILESYSTEM_VERSION=2
+DEFINES += BOOST_ASIO_ENABLE_CANCELIO
+DEFINES += WITH_SHIPPED_GEOPIP_H
 
 SOURCES += qtlibtorrent.cpp \
     qtltalert.cpp \
