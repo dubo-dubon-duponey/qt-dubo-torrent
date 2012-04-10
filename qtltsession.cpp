@@ -206,7 +206,7 @@ const QVariant QtltSession::popAlert(){
         QtltAlert* myalert = new QtltAlert(QString::fromLocal8Bit(t->what()),
                                            QString::fromLocal8Bit(t->message().c_str()),
                                            t->category(),
-                                           t->timestamp().time,
+                                           qint64(t->timestamp().time),
                                            this);
         QVariant var(QMetaType::QObjectStar);
         var.setValue((QObject*) myalert);

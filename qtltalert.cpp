@@ -5,7 +5,7 @@
 #include "qtltalert.h"
 #include <qDebug>
 
-QtltAlert::QtltAlert(const QString &what, const QString &message, const int category, const u_int64_t timestamp, QObject *parent):
+QtltAlert::QtltAlert(const QString &what, const QString &message, const int category, const qint64 timestamp, QObject *parent):
     QObject(parent)
 {
     _message    = message;
@@ -24,7 +24,7 @@ const QString QtltAlert::what()      {
 
 const qint64 QtltAlert::timestamp()
 {
-    return qint64(_timestamp);
+    return _timestamp;
 }
 
 // To be compared against an error type
