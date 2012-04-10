@@ -22,7 +22,7 @@ public:
     ~QtltSession();
 
     Q_INVOKABLE void loadState(const QString & e);
-    Q_INVOKABLE const QString saveState(const int & flags);
+    Q_INVOKABLE const QString saveState(const int & flags = 0);
 
     Q_INVOKABLE void pause();
     Q_INVOKABLE void resume();
