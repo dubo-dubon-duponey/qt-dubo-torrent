@@ -6,7 +6,7 @@ QtLtTorrentHandle::QtLtTorrentHandle(const QString & hash, QObject *parent) :
     QObject(parent)
 {
     m_hash = QString(hash);
-    qDebug() << QString("HAD" + m_hash);
+//    qDebug() << QString("HAD" + m_hash);
 
 //    // Convert string to ha1
 //    std::string str(hash.toAscii().data());
@@ -55,22 +55,22 @@ bool QtLtTorrentHandle::is_valid()
 
 const QString QtLtTorrentHandle::info_hash()
 {
-//    return m_hash;
-    // Convert string to ha1
-    std::string str(m_hash.toAscii().data());
-    std::istringstream i(str);
-    libtorrent::sha1_hash x;
-    i>>x;
+    return m_hash;
+//    // Convert string to ha1
+//    std::string str(m_hash.toAscii().data());
+//    std::istringstream i(str);
+//    libtorrent::sha1_hash x;
+//    i>>x;
 
-    libtorrent::torrent_handle h = dirtyHack::instance()->getSession()->find_torrent(x);
-    if(h.is_valid()){
-        libtorrent::sha1_hash hash = h.info_hash();
+//    libtorrent::torrent_handle h = dirtyHack::instance()->getSession()->find_torrent(x);
+//    if(h.is_valid()){
+//        libtorrent::sha1_hash hash = h.info_hash();
 
-        std::ostringstream o;
-        o << hash;
-        return QString(o.str().c_str());
-    }
-    return 0;
+//        std::ostringstream o;
+//        o << hash;
+//        return QString(o.str().c_str());
+//    }
+//    return 0;
 }
 
 const QString QtLtTorrentHandle::name()
