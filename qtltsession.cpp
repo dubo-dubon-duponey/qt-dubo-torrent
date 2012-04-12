@@ -50,13 +50,21 @@ void QtltSession::addTorrent(const QString & torrentfilepath){
 // http://code.google.com/p/libtorrent/issues/detail?id=96
 
 
-void QtltSession::addMagnet(const QString & uri, const QString & save_path)
+QString QtltSession::addMagnet(const QString & uri, const QString & save_path)
 {
 //    boost::filesystem::path t = boost::filesystem::path(path.toLocal8Bit());
     boost::filesystem::path s = boost::filesystem::path(save_path.toLocal8Bit());
     libtorrent::torrent_handle to = libtorrent::add_magnet_uri(* dirtyHack::instance()->getSession(),
         uri.toStdString(), s);
-//            ->add_torrent(ti, s);
+    qDebug() << "hooooooooooooooooooooooooooooooooo";
+
+    libtorrent::sha1_hash hash = to.info_hash();
+    std::ostringstream o;
+    o << hash;
+    return QString(o.str().c_str());
+////    return QString(o.str().c_str());
+
+////            ->add_torrent(ti, s);
 }
 
 //add_magnet_uri()
