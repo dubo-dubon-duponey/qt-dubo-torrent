@@ -56,11 +56,12 @@ QString QtltSession::addMagnet(const QString & uri, const QString & save_path)
     boost::filesystem::path s = boost::filesystem::path(save_path.toLocal8Bit());
     libtorrent::torrent_handle to = libtorrent::add_magnet_uri(* dirtyHack::instance()->getSession(),
         uri.toStdString(), s);
-    qDebug() << "hooooooooooooooooooooooooooooooooo";
 
     libtorrent::sha1_hash hash = to.info_hash();
     std::ostringstream o;
     o << hash;
+    qDebug() << "hooooooooooooooooooooooooooooooooo";
+    qDebug() << o.str().c_str();
     return QString(o.str().c_str());
 ////    return QString(o.str().c_str());
 
