@@ -48,7 +48,24 @@ public:
     Q_PROPERTY(const QString metadata READ metadata)
 
 
-//    Q_INVOKABLE const QtLtFileEntry * getFileAt(const int & pos);
+    Q_INVOKABLE QString filePathAt(const int pos);
+    Q_INVOKABLE qint64 fileSizeAt(const int pos);
+//    file_entry const& file_at(int index) const;
+//    struct file_entry
+//    {
+//            std::string path;
+//            size_type offset;
+//            size_type size;
+//            size_type file_base;
+//            time_t mtime;
+//            sha1_hash filehash;
+//            bool pad_file:1;
+//            bool hidden_attribute:1;
+//            bool executable_attribute:1;
+//            bool symlink_attribute:1;
+//    };
+
+    //    Q_INVOKABLE const QtLtFileEntry * getFileAt(const int & pos);
 
     const int num_files();
     const bool priv();

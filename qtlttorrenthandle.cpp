@@ -21,6 +21,8 @@ QtLtTorrentHandle::QtLtTorrentHandle(const QString & hash, QObject *parent) :
 
 //    qDebug("Back to square 1");
 //    qDebug() << QString(ret);
+
+
 }
 
 // ToQString
@@ -85,6 +87,56 @@ const QString QtLtTorrentHandle::name()
     }
     return 0;
 }
+
+
+QString QtLtTorrentHandle::filePathAt(const int pos)
+{
+    // Convert string to ha1
+    std::string str(m_hash.toAscii().data());
+    std::istringstream i(str);
+    libtorrent::sha1_hash x;
+    i>>x;
+
+    libtorrent::torrent_handle h = dirtyHack::instance()->getSession()->find_torrent(x);
+    if(h.is_valid()){
+        libtorrent::file_entry const& fe = h.get_torrent_info().file_at(pos);
+        return QString::fromUtf8(fe.path.string().c_str());
+    }
+    return 0;
+}
+
+qint64 QtLtTorrentHandle::fileSizeAt(const int pos)
+{
+    // Convert string to ha1
+    std::string str(m_hash.toAscii().data());
+    std::istringstream i(str);
+    libtorrent::sha1_hash x;
+    i>>x;
+
+    libtorrent::torrent_handle h = dirtyHack::instance()->getSession()->find_torrent(x);
+    if(h.is_valid()){
+        libtorrent::file_entry const& fe = h.get_torrent_info().file_at(pos);
+        return fe.size;
+    }
+    return 0;
+}
+//Q_INVOKABLE qint64 fileSizeAt(const int pos);
+//    file_entry const& file_at(int index) const;
+//    struct file_entry
+//    {
+//            std::string path;
+//            size_type offset;
+//            size_type size;
+//            size_type file_base;
+//            time_t mtime;
+//            sha1_hash filehash;
+//            bool pad_file:1;
+//            bool hidden_attribute:1;
+//            bool executable_attribute:1;
+//            bool symlink_attribute:1;
+//    };
+
+
 
 bool QtLtTorrentHandle::is_sequential_download()
 {

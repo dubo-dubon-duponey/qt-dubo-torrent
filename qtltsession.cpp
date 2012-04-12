@@ -253,6 +253,23 @@ const int QtltSession::getTorrentsLength()
     return num_resume_data;
 }
 
+void QtltSession::removeTorrentAt(const int pos)
+{
+    std::vector<libtorrent::torrent_handle> handles = dirtyHack::instance()->getSession()->get_torrents();
+    int num_resume_data = 0;
+    for (std::vector<libtorrent::torrent_handle>::iterator i = handles.begin();
+            i != handles.end(); ++i)
+    {
+        if(num_resume_data == pos){
+            libtorrent::torrent_handle& h = *i;
+            dirtyHack::instance()->getSession()->remove_torrent(h, 1);//libtorrent::session::delete_files);
+            return;
+        }
+        num_resume_data++;
+    }
+    return;
+}
+
 const QVariant QtltSession::getTorrentAt(const int pos)
 {
     std::vector<libtorrent::torrent_handle> handles = dirtyHack::instance()->getSession()->get_torrents();
@@ -291,6 +308,12 @@ return 0;
 */
 
 /*
+
+
+
+
+
+
 
       boost::intrusive_ptr<torrent_info> ti;
 
