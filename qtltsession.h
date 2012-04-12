@@ -103,7 +103,7 @@ public:
     // start_upnp() stop_upnp()
     // start_natpmp() stop_natpmp()
 
-    Q_INVOKABLE void addMagnet(const QString & path, const QString & save_path);
+    Q_INVOKABLE QString addMagnet(const QString & path, const QString & save_path);
 
 signals:
 
