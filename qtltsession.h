@@ -87,6 +87,7 @@ public:
 
     Q_INVOKABLE const int getTorrentsLength();
     Q_INVOKABLE const QVariant getTorrentAt(int pos);
+    Q_INVOKABLE void removeTorrentAt(int pos);
 
     //    Q_INVOKABLE const QVariant waitForAlert();
     // load_asnum_db() load_country_db() as_for_ip() set_ip_filter get_ip_filter
