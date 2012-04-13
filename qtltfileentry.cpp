@@ -48,10 +48,10 @@ const bool QtLtFileEntry::symlink_attribute()
 
 const QString QtLtFileEntry::path()
 {
-    return QString::fromUtf8(fileentry.path.string().c_str());
+    return QString::fromStdString(fileentry.path);// .string().c_str());
 }
 
 const QString QtLtFileEntry::symlink_path()
 {
-    return QString::fromUtf8(fileentry.symlink_path.string().c_str());
+    return QString::fromStdString(fileentry.symlink_path);//.string().c_str());
 }
