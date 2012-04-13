@@ -23,6 +23,7 @@ DESTDIR = $$PWD/lib
 target.path = $$DESTDIR
 INSTALLS += target
 
+DEFINES += BOOST_ASIO_DYN_LINK
 
 macx{
     INCLUDEPATH +=  /Users/dmp/buildd/deploy.webitup.org/client/Darwin/include

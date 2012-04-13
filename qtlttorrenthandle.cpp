@@ -100,7 +100,8 @@ QString QtLtTorrentHandle::filePathAt(const int pos)
     libtorrent::torrent_handle h = dirtyHack::instance()->getSession()->find_torrent(x);
     if(h.is_valid()){
         libtorrent::file_entry const& fe = h.get_torrent_info().file_at(pos);
-        return QString::fromUtf8(fe.path.string().c_str());
+        return QString::fromStdString(fe.path);
+//        return QString::fromUtf8(fe.path.string().c_str());
     }
     return 0;
 }

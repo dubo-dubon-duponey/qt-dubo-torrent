@@ -31,7 +31,7 @@ QtltSession::QtltSession(const QString & id, const int & major, const int & mino
 
 void QtltSession::addTorrent(const QString & torrentfilepath){
     // save_path, ti, pointeur vers torrent_info
-
+/*
     // XXX To avoid some exceptions
     // boost::filesystem::path::default_name_check(boost::filesystem::no_check);
     boost::filesystem::path t = boost::filesystem::path(torrentfilepath.toLocal8Bit());
@@ -43,7 +43,7 @@ void QtltSession::addTorrent(const QString & torrentfilepath){
 
     libtorrent::torrent_handle to = dirtyHack::instance()->getSession()->add_torrent(ti, s);
 
-
+*/
     //    boost::intrusive_ptr<libtorrent::torrent_info> ti = new libtorrent::torrent_info();
 }
 
@@ -53,9 +53,10 @@ void QtltSession::addTorrent(const QString & torrentfilepath){
 QString QtltSession::addMagnet(const QString & uri, const QString & save_path)
 {
 //    boost::filesystem::path t = boost::filesystem::path(path.toLocal8Bit());
-    boost::filesystem::path s = boost::filesystem::path(save_path.toLocal8Bit());
+//    boost::filesystem::path s = boost::filesystem::path(save_path.toLocal8Bit());
     libtorrent::torrent_handle to = libtorrent::add_magnet_uri(* dirtyHack::instance()->getSession(),
-        uri.toStdString(), s);
+        uri.toStdString(), save_path.toStdString());
+//        uri.toStdString(), s);
 
     libtorrent::sha1_hash hash = to.info_hash();
     std::ostringstream o;
