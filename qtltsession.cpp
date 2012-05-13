@@ -4,7 +4,7 @@
 #include <libtorrent/session.hpp>
 #include <libtorrent/torrent_info.hpp>
 #include <libtorrent/torrent_handle.hpp>
-#include <boost/filesystem.hpp>
+//#include <boost/filesystem.hpp>
 #include <libtorrent/magnet_uri.hpp>
 
 #include "dirtyhack.h"
@@ -20,9 +20,11 @@ QtltSession::QtltSession(const QString & id, const int & major, const int & mino
 {
     // Check http://wiki.theory.org/BitTorrentSpecification#peer_id
     // Should be two char long
-    const char * identifier = id.toLocal8Bit().constData();
+    // XXX BOGUS
+//    const char * identifier = id.toLocal8Bit().constData();
+//    std::string identifier = id.toStdString();
     dirtyHack::instance()->setSession( new libtorrent::session(
-                libtorrent::fingerprint( identifier, major, minor, revision, tag),
+               libtorrent::fingerprint( id.toLocal8Bit().constData(), major, minor, revision, tag),
                 libtorrent::session::start_default_features
                 | libtorrent::session::add_default_plugins,
                 libtorrent::alert::all_categories));

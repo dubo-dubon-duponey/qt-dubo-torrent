@@ -10,11 +10,12 @@ TARGET = qt-libtorrent
 TEMPLATE = lib
 
 DEFINES += QTLIBTORRENT_LIBRARY
+DEFINES += TORRENT_DISABLE_GEO_IP
 
 INCLUDEPATH += $$PWD
 
 mac:CONFIG += absolute_library_soname
-win32|mac:!wince*:!win32-msvc:!macx-xcode:CONFIG += debug_and_release build_all
+#win32|mac:!wince*:!win32-msvc:!macx-xcode:CONFIG += debug_and_release build_all
 DESTDIR = $$PWD/lib
 #win32 {
 #    DLLDESTDIR = $$[QT_INSTALL_BINS]
