@@ -12,7 +12,7 @@
 #ifndef QTLTSESSION_H
 #define QTLTSESSION_H
 
-#include "qt-libtorrent_global.h"
+#include "libroxeetorrent_global.h"
 
 // #include <libtorrent/session.hpp>
 
@@ -22,7 +22,7 @@
 #include <QtCore/QObject>
 #include <QtCore/QVariant>
 
-class QTLIBTORRENTSHARED_EXPORT QtltSession : public QObject
+class LIBROXEETORRENTSHARED_EXPORT QtltSession : public QObject
 {
     Q_OBJECT
 public:

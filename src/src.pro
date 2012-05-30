@@ -5,11 +5,11 @@ TEMPLATE = lib
 QT = core
 
 # Name of the target file (lowercase shit to avoid problems)
-TARGET = qt-libtorrent
+TARGET = roxeetorrent
 
 include(../vars.pri)
 
-include(../conf/confversion.pri)
+include(../conf/confbase.pri)
 
 # Windows specific configuration
 win32{
@@ -30,7 +30,7 @@ unix:!macx {
 }
 
 
-DEFINES += QTLIBTORRENT_LIBRARY
+DEFINES += LIBROXEETORRENT_LIBRARY
 
 INCLUDEPATH += $$PWD
 
@@ -42,9 +42,6 @@ OBJECTS_DIR = $$PWD/../buildd/temp/obj
 
 
 #CONFIG += debug_and_release build_all
-
-CONFIG(debug, debug|release):   DESTDIR = $$PWD/../buildd/$$PROJECT_NAME-$$PROJECT_VERSION-debug/$$GITVERSION-$$GITCHANGENUMBER
-CONFIG(release, debug|release): DESTDIR = $$PWD/../buildd/$$PROJECT_NAME-$$PROJECT_VERSION-release/$$GITVERSION-$$GITCHANGENUMBER
 
 target.path = $$DESTDIR
 INSTALLS += target
@@ -72,8 +69,8 @@ macx{
     DEFINES += BOOST_FILESYSTEM_VERSION=2
 }
 
-SOURCES += qtlibtorrent.cpp \
-    qtltalert.cpp \
+# qtlibtorrent.cpp \
+SOURCES += qtltalert.cpp \
     qtltsession.cpp \
     dirtyhack.cpp \
     qtlttorrenthandle.cpp \
@@ -85,8 +82,7 @@ SOURCES += qtlibtorrent.cpp \
     qtltsessionstatus.cpp
 #    qtlttorrentinfo.cpp \
 
-HEADERS += qtlibtorrent.h \
-    qt-libtorrent_global.h \
+HEADERS += \
     qtltalert.h \
     qtltsession.h \
     dirtyhack.h \
@@ -96,5 +92,7 @@ HEADERS += qtlibtorrent.h \
     qtlttypessavestates.h \
     qtlttypesalerttypes.h \
     qtlttypestorrentstates.h \
-    qtltsessionstatus.h
+    qtltsessionstatus.h \
+    libroxeetorrent_global.h \
+    libroxeetorrent.h
 #    qtlttorrentinfo.h \

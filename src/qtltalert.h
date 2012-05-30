@@ -14,11 +14,11 @@
 #ifndef QTLTALERT_H
 #define QTLTALERT_H
 
-#include "qt-libtorrent_global.h"
+#include "libroxeetorrent_global.h"
 
 #include <QtCore/QObject>
 
-class QTLIBTORRENTSHARED_EXPORT QtltAlert : public QObject
+class LIBROXEETORRENTSHARED_EXPORT QtltAlert : public QObject
 {
     Q_OBJECT
 public:

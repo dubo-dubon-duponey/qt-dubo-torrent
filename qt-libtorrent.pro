@@ -10,3 +10,4 @@ TEMPLATE = subdirs
 CONFIG = ordered
 SUBDIRS = src
 # res
+#OTHER_FILES += ../vars.pri.in
