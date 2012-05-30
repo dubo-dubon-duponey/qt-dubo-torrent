@@ -12,12 +12,12 @@
 #ifndef QTLTALERTTYPES_H
 #define QTLTALERTTYPES_H
 
-#include "qt-libtorrent_global.h"
+#include "libroxeetorrent_global.h"
 
 #include <QtCore/QObject>
 #include <QtCore/QMutex>
 
-class QTLIBTORRENTSHARED_EXPORT QtltAlertTypes : public QObject
+class LIBROXEETORRENTSHARED_EXPORT QtltAlertTypes : public QObject
 {
     Q_OBJECT
 public:

@@ -12,14 +12,14 @@
 #ifndef QTLTTORRENTHANDLE_H
 #define QTLTTORRENTHANDLE_H
 
-#include "qt-libtorrent_global.h"
+#include "libroxeetorrent_global.h"
 // #include "qtlttorrentinfo.h"
 
 #include <QtCore/QObject>
 #include <QtCore/QVariant>
 
 
-class QTLIBTORRENTSHARED_EXPORT QtLtTorrentHandle : public QObject
+class LIBROXEETORRENTSHARED_EXPORT QtLtTorrentHandle : public QObject
 {
     Q_OBJECT
 public:

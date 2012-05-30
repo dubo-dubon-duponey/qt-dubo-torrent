@@ -11,6 +11,6 @@
 
 #include "qtlibtorrent.h"
 
-Qtlibtorrent::Qtlibtorrent()
+RoxeeTorrent::RoxeeTorrent()
 {
 }
