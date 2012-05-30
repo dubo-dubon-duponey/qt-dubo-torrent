@@ -1,0 +1,2 @@
+PROJECT_NAME = QtLibTorrent
+PROJECT_VERSION = 0.2.0
