@@ -1,0 +1,4 @@
+QtLibtorrent is a (very) thin layer on top of rasterbar libtorrent that exposes a uniform scriptable API for it.
+
+It is primarily meant to serve as part of the Roxee runner application, though other people might find interest in it.
+It's released with the same license as libtorrent itself (BSD).
