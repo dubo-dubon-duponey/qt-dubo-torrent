@@ -13,10 +13,44 @@
 #define LIBROXEETORRENT_H
 
 #include "libroxeetorrent_global.h"
+#include <libtorrent/version.hpp>
 
-class LIBROXEETORRENTSHARED_EXPORT RoxeeTorrent {
-public:
-    RoxeeTorrent(){}
-};
+namespace RoxeeTorrent
+{
+
+    class LIBROXEETORRENTSHARED_EXPORT RoxeeTorrent {
+    public:
+        Q_PROPERTY(const QString roxeeVersion READ getVersion)
+        Q_PROPERTY(const QString roxeeRevision READ getRevision)
+        Q_PROPERTY(const QString roxeeChangeset READ getChangeset)
+
+        const QString getVersion(){
+            return VERSION_FULL;
+        }
+
+        const QString getRevision(){
+            return VERSION_GIT;
+        }
+
+        const QString getChangeset(){
+            return VERSION_CHANGE;
+        }
+
+        Q_PROPERTY(const QString libtorrentVersion READ getTorrentVersion)
+        Q_PROPERTY(const QString libtorrentRevision READ getTorrentRevision)
+
+        const QString getTorrentVersion(){
+            return LIBTORRENT_VERSION;
+        }
+
+        const QString getTorrentRevision(){
+            return LIBTORRENT_REVISION;
+        }
+
+        //        RoxeeTorrent(){}
+    };
+
+
+}
 
 #endif // LIBROXEETORRENT_H

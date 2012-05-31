@@ -9,8 +9,8 @@
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#ifndef QTLTTORRENTHANDLE_H
-#define QTLTTORRENTHANDLE_H
+#ifndef TORRENTHANDLE_H
+#define TORRENTHANDLE_H
 
 #include "libroxeetorrent_global.h"
 // #include "qtlttorrentinfo.h"
@@ -19,90 +19,93 @@
 #include <QtCore/QVariant>
 
 
-class LIBROXEETORRENTSHARED_EXPORT QtLtTorrentHandle : public QObject
+namespace RoxeeTorrent
 {
-    Q_OBJECT
-public:
-    explicit QtLtTorrentHandle(const QString & info_hash, QObject *parent = 0);
-    Q_PROPERTY(const QString infoHash READ info_hash)
-    Q_PROPERTY(const QString name READ name)
-    Q_PROPERTY(bool isValid READ is_valid)
-    Q_PROPERTY(bool isSequential READ is_sequential_download)
+    class TorrentHandle : public QObject
+    {
+        Q_OBJECT
+    public:
+        explicit TorrentHandle(const QString & info_hash, QObject *parent = 0);
+        Q_PROPERTY(const QString infoHash READ info_hash)
+        Q_PROPERTY(const QString name READ name)
+        Q_PROPERTY(bool isValid READ is_valid)
+        Q_PROPERTY(bool isSequential READ is_sequential_download)
 
-    Q_INVOKABLE void setSequential(bool flag);
-    const QString info_hash();
-    const QString name();
-    bool is_sequential_download();
-    bool is_valid();
+        Q_INVOKABLE void setSequential(bool flag);
+        const QString info_hash();
+        const QString name();
+        bool is_sequential_download();
+        bool is_valid();
 
-//    Q_INVOKABLE QVariant getInfo();
-
-
-
-    Q_PROPERTY(const int numFiles READ num_files)
-    Q_PROPERTY(const int priv READ priv)
-
-    Q_PROPERTY(const qint64 totalSize READ total_size)
-    Q_PROPERTY(const qint64 pieceLength READ piece_length)
-    Q_PROPERTY(const qint64 numPieces READ num_pieces)
-
-    Q_PROPERTY(const qint64 allTimeDownload READ all_time_download)
+    //    Q_INVOKABLE QVariant getInfo();
 
 
-//    Q_PROPERTY(const QString infoHash READ info_hash)
 
-//    Q_PROPERTY(const QString name READ name)
-    Q_PROPERTY(const QString comment READ comment)
-    Q_PROPERTY(const QString creator READ creator)
+        Q_PROPERTY(const int numFiles READ num_files)
+        Q_PROPERTY(const int priv READ priv)
 
-//    Q_PROPERTY(const qint64 creationDate READ creation_date)
-    Q_PROPERTY(const QString metadata READ metadata)
+        Q_PROPERTY(const qint64 totalSize READ total_size)
+        Q_PROPERTY(const qint64 pieceLength READ piece_length)
+        Q_PROPERTY(const qint64 numPieces READ num_pieces)
 
-
-    Q_INVOKABLE QString filePathAt(const int pos);
-    Q_INVOKABLE qint64 fileSizeAt(const int pos);
-//    file_entry const& file_at(int index) const;
-//    struct file_entry
-//    {
-//            std::string path;
-//            size_type offset;
-//            size_type size;
-//            size_type file_base;
-//            time_t mtime;
-//            sha1_hash filehash;
-//            bool pad_file:1;
-//            bool hidden_attribute:1;
-//            bool executable_attribute:1;
-//            bool symlink_attribute:1;
-//    };
-
-    //    Q_INVOKABLE const QtLtFileEntry * getFileAt(const int & pos);
-
-    const int num_files();
-    const bool priv();
-    const qint64 total_size();
-    const qint64 all_time_download();
-    const int piece_length();
-    const int num_pieces();
-//    const QString info_hash();
-
-//    const QString name();
-    const QString comment();
-    const QString creator();
-
-//    const qint64 creation_date();
-    const QString metadata();
-
-signals:
-
-public slots:
+        Q_PROPERTY(const qint64 allTimeDownload READ all_time_download)
 
 
-private:
-    QString m_hash;
-};
+    //    Q_PROPERTY(const QString infoHash READ info_hash)
 
-#endif // QTLTTORRENTHANDLE_H
+    //    Q_PROPERTY(const QString name READ name)
+        Q_PROPERTY(const QString comment READ comment)
+        Q_PROPERTY(const QString creator READ creator)
+
+    //    Q_PROPERTY(const qint64 creationDate READ creation_date)
+        Q_PROPERTY(const QString metadata READ metadata)
+
+
+        Q_INVOKABLE QString filePathAt(const int pos);
+        Q_INVOKABLE qint64 fileSizeAt(const int pos);
+    //    file_entry const& file_at(int index) const;
+    //    struct file_entry
+    //    {
+    //            std::string path;
+    //            size_type offset;
+    //            size_type size;
+    //            size_type file_base;
+    //            time_t mtime;
+    //            sha1_hash filehash;
+    //            bool pad_file:1;
+    //            bool hidden_attribute:1;
+    //            bool executable_attribute:1;
+    //            bool symlink_attribute:1;
+    //    };
+
+        //    Q_INVOKABLE const QtLtFileEntry * getFileAt(const int & pos);
+
+        const int num_files();
+        const bool priv();
+        const qint64 total_size();
+        const qint64 all_time_download();
+        const int piece_length();
+        const int num_pieces();
+    //    const QString info_hash();
+
+    //    const QString name();
+        const QString comment();
+        const QString creator();
+
+    //    const qint64 creation_date();
+        const QString metadata();
+
+    signals:
+
+    public slots:
+
+
+    private:
+        QString m_hash;
+    };
+}
+
+#endif // TORRENTHANDLE_H
 
 
 /*

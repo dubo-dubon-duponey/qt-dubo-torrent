@@ -14,19 +14,22 @@
 
 #include <QtCore/QObject>
 
-class QtLtSessionStatus : public QObject
+namespace RoxeeTorrent
 {
-    Q_OBJECT
-public:
-    explicit QtLtSessionStatus(QObject *parent = 0);
-    
-//    Q_PROPERTY(const bool has_incoming_connections READ has_incoming_connections)
+    class QtLtSessionStatus : public QObject
+    {
+        Q_OBJECT
+    public:
+        explicit QtLtSessionStatus(QObject *parent = 0);
 
-signals:
-    
-public slots:
-    
-};
+    //    Q_PROPERTY(const bool has_incoming_connections READ has_incoming_connections)
+
+    signals:
+
+    public slots:
+
+    };
+}
 
 #endif // QTLTSESSIONSTATUS_H
 

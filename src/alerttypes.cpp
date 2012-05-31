@@ -9,31 +9,27 @@
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#ifndef QTLTALERTTYPES_H
-#define QTLTALERTTYPES_H
+#include "alerttypes.h"
 
-#include "libroxeetorrent_global.h"
+#include <libtorrent/alert_types.hpp>
 
-#include <QtCore/QObject>
-#include <QtCore/QMutex>
+using namespace RoxeeTorrent;
+namespace RoxeeTorrent{
+    AlertTypes* AlertTypes::m_Instance = 0;
 
-class LIBROXEETORRENTSHARED_EXPORT QtltAlertTypes : public QObject
-{
-    Q_OBJECT
-public:
-    static QtltAlertTypes* instance()
+    AlertTypes* AlertTypes::instance()
     {
         static QMutex mutex;
         if (!m_Instance){
             mutex.lock();
             if (!m_Instance)
-                m_Instance = new QtltAlertTypes;
+                m_Instance = new AlertTypes;
             mutex.unlock();
         }
         return m_Instance;
     }
 
-    static void drop()
+    void AlertTypes::drop()
     {
         static QMutex mutex;
         mutex.lock();
@@ -42,43 +38,18 @@ public:
         mutex.unlock();
     }
 
-    Q_PROPERTY(const int ERROR        READ error)
-    Q_PROPERTY(int PEER         READ peer)
-    Q_PROPERTY(int PORT_MAPPING READ port_mapping)
-    Q_PROPERTY(int STORAGE      READ storage)
-    Q_PROPERTY(int TRACKER      READ tracker)
-    Q_PROPERTY(int DEBUG        READ debug)
-    Q_PROPERTY(int STATUS       READ status)
-    Q_PROPERTY(int PROGRESS     READ progress)
-    Q_PROPERTY(int IP_BLOCK     READ ip_block)
-    Q_PROPERTY(int PERFORMANCE  READ performance)
-    Q_PROPERTY(int DHT          READ dht)
-    Q_PROPERTY(int STATS        READ stats)
-    Q_PROPERTY(int ALL          READ all)
 
-    const int error();
-    const int peer();
-    const int port_mapping();
-    const int storage();
-    const int tracker();
-    const int debug();
-    const int status();
-    const int progress();
-    const int ip_block();
-    const int performance();
-    const int dht();
-    const int stats();
-    const int all();
-
-private:
-    QtltAlertTypes() {}
-
-    QtltAlertTypes(const QtltAlertTypes &);
-    QtltAlertTypes& operator=(const QtltAlertTypes &);
-
-    static QtltAlertTypes* m_Instance;
-
-};
-
-#endif // QTLTALERTTYPES_H
-
+    const int AlertTypes::all()             { return libtorrent::alert::all_categories;}
+    const int AlertTypes::debug()           { return libtorrent::alert::debug_notification;}
+    const int AlertTypes::dht()             { return libtorrent::alert::dht_notification;}
+    const int AlertTypes::error()           { return libtorrent::alert::error_notification;}
+    const int AlertTypes::ip_block()        { return libtorrent::alert::ip_block_notification;}
+    const int AlertTypes::peer()            { return libtorrent::alert::peer_notification;}
+    const int AlertTypes::performance()     { return libtorrent::alert::performance_warning;}
+    const int AlertTypes::port_mapping()    { return libtorrent::alert::port_mapping_notification;}
+    const int AlertTypes::progress()        { return libtorrent::alert::progress_notification;}
+    const int AlertTypes::stats()           { return libtorrent::alert::stats_notification;}
+    const int AlertTypes::status()          { return libtorrent::alert::status_notification;}
+    const int AlertTypes::storage()         { return libtorrent::alert::storage_notification;}
+    const int AlertTypes::tracker()         { return libtorrent::alert::tracker_notification;}
+}

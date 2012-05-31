@@ -11,32 +11,38 @@
 
 // * XXX timestamp are deadly borked - not too sure why - see session initialization to get it right
 
-#include "qtltalert.h"
-#include <QtCore/qDebug>
+#ifndef ALERT_H
+#define ALERT_H
 
-QtltAlert::QtltAlert(const QString &what, const QString &message, const int category, const qint64 timestamp, QObject *parent):
-    QObject(parent)
+#include "libroxeetorrent_global.h"
+
+#include <QtCore/QObject>
+
+namespace RoxeeTorrent
 {
-    _message    = message;
-    _what       = what;
-    _timestamp  = timestamp;
-    _category   = category;
+    class Alert : public QObject
+    {
+        Q_OBJECT
+    public:
+        explicit Alert(const QString &what, const QString &message, const int category, const qint64 timestamp, QObject *parent = 0);
+
+        Q_PROPERTY(QString      what        READ what)
+        Q_PROPERTY(QString      message     READ message)
+        Q_PROPERTY(int          category    READ category)
+        Q_PROPERTY(qint64       timestamp   READ timestamp)
+
+        const QString message();
+        const QString what();
+        const qint64 timestamp();
+        const int category();
+
+    private:
+        QString         _message;
+        QString         _what;
+        int             _category;
+        qint64       _timestamp;
+
+    };
 }
 
-const QString QtltAlert::message()    {
-    return _message;
-}
-
-const QString QtltAlert::what()      {
-    return _what;
-}
-
-const qint64 QtltAlert::timestamp()
-{
-    return _timestamp;
-}
-
-// To be compared against an error type
-const int QtltAlert::category()       {
-    return _category;
-}
+#endif // QTLTALERT_H

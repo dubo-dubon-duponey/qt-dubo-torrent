@@ -48,7 +48,6 @@ public:
 
 private:
     dirtyHack() {}
-
     dirtyHack(const dirtyHack &); // hide copy constructor
     dirtyHack& operator=(const dirtyHack &); // hide assign op
 

@@ -11,6 +11,8 @@
 
 #include "qtltsessionstatus.h"
 
+using namespace RoxeeTorrent;
+
 QtLtSessionStatus::QtLtSessionStatus(QObject *parent) :
     QObject(parent)
 {
