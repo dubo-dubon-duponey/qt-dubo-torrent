@@ -9,5 +9,9 @@ lessThan(QT_VERSION, 4.8) {
 TEMPLATE = subdirs
 CONFIG = ordered
 SUBDIRS = src
-# res
-OTHER_FILES += vars.pri.in
+
+OTHER_FILES += vars.pri.in \
+    res/redist/AUTHORS \
+    res/redist/ChangeLog \
+    res/redist/LICENSE.BSD2 \
+    README

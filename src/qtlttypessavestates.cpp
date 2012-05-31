@@ -12,6 +12,8 @@
 #include "qtlttypessavestates.h"
 #include <libtorrent/session.hpp>
 
+using namespace RoxeeTorrent;
+
 QtLtSaveStates* QtLtSaveStates::m_Instance = 0;
 
 const int QtLtSaveStates::save_settings()               { return libtorrent::session::save_settings;}

@@ -11,6 +11,8 @@
 
 #include "qtlttorrentstatus.h"
 
+using namespace RoxeeTorrent;
+
 QtLtTorrentStatus::QtLtTorrentStatus(QObject *parent) :
     QObject(parent)
 {

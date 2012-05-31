@@ -1,14 +1,20 @@
+# Basic consumer variables
+include(../vars.pri)
+
 # This is a library (to be ovveridden by eg MSVC specific config)
 TEMPLATE = lib
 
 # Requires only core
 QT = core
+# And be boring
+CONFIG +=   QT_NO_CAST_FROM_ASCII \
+            QT_NO_CAST_TO_ASCII \
+            QT_STRICT_ITERATORS
 
-# Name of the target file (lowercase shit to avoid problems)
-TARGET = roxeetorrent
+# Yes, this will build a lib
+DEFINES += LIBROXEETORRENT_LIBRARY
 
-include(../vars.pri)
-
+# Basic stuff (version and build/path magic)
 include(../conf/confbase.pri)
 
 # Windows specific configuration
@@ -29,22 +35,27 @@ unix:!macx {
     include(../conf/confunix.pri)
 }
 
-
-DEFINES += LIBROXEETORRENT_LIBRARY
+# Other files to include in the distributable
+#DISTFILES   += ../res/redist/AUTHORS \
+#    ../res/redist/ChangeLog \
+#    ../res/redist/LICENSE.BSD2 \
+#    ../README
 
 INCLUDEPATH += $$PWD
 
-# Share object files for faster compiling
-RCC_DIR     = $$PWD/../buildd/temp/rcc
-UI_DIR      = $$PWD/../buildd/temp/ui
-MOC_DIR     = $$PWD/../buildd/temp/moc
-OBJECTS_DIR = $$PWD/../buildd/temp/obj
+target.path = $$DESTDIR/lib
+INSTALLS += target dist
 
 
-#CONFIG += debug_and_release build_all
+##### libtorrent general configuration
+# Fixes things with Boost >= v1.46 where boost filesystem v3 is the default.
+# Using v3 makes for crash on OSX at least
+DEFINES += BOOST_FILESYSTEM_VERSION=2
 
-target.path = $$DESTDIR
-INSTALLS += target
+
+#DEFINES += TORRENT_DISABLE_GEO_IP
+#DEFINES += WITH_SHIPPED_GEOPIP_H
+
 
 #win32|mac:!wince*:!win32-msvc:!macx-xcode:CONFIG += debug_and_release build_all
 #win32 {
@@ -52,47 +63,31 @@ INSTALLS += target
 #    QMAKE_DISTCLEAN += $$[QT_INSTALL_BINS]\\$${QTSINGLEAPPLICATION_LIBNAME}.dll
 #}
 
-DEFINES += BOOST_ASIO_ENABLE_CANCELIO
-
-DEFINES += TORRENT_DISABLE_GEO_IP
-#DEFINES += WITH_SHIPPED_GEOPIP_H
-
-macx{
-    CONFIG += absolute_library_soname
-    INCLUDEPATH +=  /Users/dmp/buildd/deploy.webitup.org/client/Darwin/include
-    LIBS += -L/Users/dmp/buildd/deploy.webitup.org/client/Darwin/lib
-    LIBS += -ltorrent-rasterbar -lcrypto -lboost_system-mt-roxee -lboost_filesystem-mt-roxee -lboost_thread-mt-roxee
-
-    DEFINES += BOOST_ASIO_DYN_LINK
-# Fixes compilation with Boost >= v1.46 where boost
-# filesystem v3 is the default.
-    DEFINES += BOOST_FILESYSTEM_VERSION=2
-}
-
 # qtlibtorrent.cpp \
-SOURCES += qtltalert.cpp \
-    qtltsession.cpp \
+SOURCES += \
     dirtyhack.cpp \
-    qtlttorrenthandle.cpp \
-    qtltfileentry.cpp \
-    qtlttorrentstatus.cpp \
-    qtlttypessavestates.cpp \
-    qtlttypesalerttypes.cpp \
-    qtlttypestorrentstates.cpp \
-    qtltsessionstatus.cpp
+    session.cpp \
+    alert.cpp \
+    torrenthandle.cpp \
+    alerttypes.cpp
+#    qtltfileentry.cpp \
+#    qtlttorrentstatus.cpp \
+#    qtlttypessavestates.cpp \
+#    qtlttypestorrentstates.cpp \
+#    qtltsessionstatus.cpp \
 #    qtlttorrentinfo.cpp \
 
 HEADERS += \
-    qtltalert.h \
-    qtltsession.h \
     dirtyhack.h \
-    qtlttorrenthandle.h \
-    qtltfileentry.h \
-    qtlttorrentstatus.h \
-    qtlttypessavestates.h \
-    qtlttypesalerttypes.h \
-    qtlttypestorrentstates.h \
-    qtltsessionstatus.h \
+    libroxeetorrent.h \
     libroxeetorrent_global.h \
-    libroxeetorrent.h
+    session.h \
+    alert.h \
+    torrenthandle.h \
+    alerttypes.h
+#    qtltfileentry.h \
+#    qtlttorrentstatus.h \
+#    qtlttypessavestates.h \
+#    qtlttypestorrentstates.h \
+#    qtltsessionstatus.h \
 #    qtlttorrentinfo.h \

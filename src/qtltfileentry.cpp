@@ -11,6 +11,8 @@
 
 #include "qtltfileentry.h"
 
+using namespace RoxeeTorrent;
+
 QtLtFileEntry::QtLtFileEntry(libtorrent::file_entry fe, QObject *parent) :
     QObject(parent)
 {

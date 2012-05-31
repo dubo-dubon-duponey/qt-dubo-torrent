@@ -12,6 +12,8 @@
 #include "qtlttypestorrentstates.h"
 #include <libtorrent/torrent.hpp>
 
+using namespace RoxeeTorrent;
+
 QtLtTorrentStates* QtLtTorrentStates::m_Instance = 0;
 
 const int QtLtTorrentStates::queued_for_checking()  { return libtorrent::torrent_status::queued_for_checking; }

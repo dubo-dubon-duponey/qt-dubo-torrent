@@ -9,22 +9,23 @@
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#include "qtltsession.h"
+#include "dirtyhack.h"
+#include "session.h"
 
 #include <libtorrent/bencode.hpp>
-#include <libtorrent/session.hpp>
 #include <libtorrent/torrent_info.hpp>
 #include <libtorrent/torrent_handle.hpp>
 #include <libtorrent/magnet_uri.hpp>
-
-#include "dirtyhack.h"
 
 #include <QtCore/QDateTime>
 #include <QtCore/QDebug>
 #include <QtCore/QByteArray>
 
+using namespace RoxeeTorrent;
+namespace RoxeeTorrent{
+
 // XXX maybe let pass the error mask?
-QtltSession::QtltSession(const QString & id, const int & major, const int & minor, const int & revision, const int & tag, QObject* parent):
+Session::Session(const QString & id, const int & major, const int & minor, const int & revision, const int & tag, QObject* parent):
     QObject(parent)
 {
     // Check http://wiki.theory.org/BitTorrentSpecification#peer_id
@@ -40,7 +41,7 @@ QtltSession::QtltSession(const QString & id, const int & major, const int & mino
 }
 
 
-void QtltSession::addTorrent(const QString & torrentfilepath){
+void Session::addTorrent(const QString & torrentfilepath){
     // save_path, ti, pointeur vers torrent_info
 /*
     // XXX To avoid some exceptions
@@ -61,7 +62,7 @@ void QtltSession::addTorrent(const QString & torrentfilepath){
 // http://code.google.com/p/libtorrent/issues/detail?id=96
 
 
-QString QtltSession::addMagnet(const QString & uri, const QString & save_path)
+QString Session::addMagnet(const QString & uri, const QString & save_path)
 {
 //    boost::filesystem::path t = boost::filesystem::path(path.toLocal8Bit());
 //    boost::filesystem::path s = boost::filesystem::path(save_path.toLocal8Bit());
@@ -94,12 +95,12 @@ QString QtltSession::addMagnet(const QString & uri, const QString & save_path)
 
 
 // XXX will block until all trackers are notified - might or might not be what we want
-QtltSession::~QtltSession()
+Session::~Session()
 {
     dirtyHack::instance()->drop();
 }
 
-void QtltSession::loadState(const QString & entry)
+void Session::loadState(const QString & entry)
 {
     const char * in = entry.toLocal8Bit().constData();
     libtorrent::lazy_entry e;
@@ -108,7 +109,7 @@ void QtltSession::loadState(const QString & entry)
     }
 }
 
-const QString QtltSession::saveState(const int & flags)
+const QString Session::saveState(const int & flags)
 {
     libtorrent::entry e;
     if(flags){
@@ -123,108 +124,108 @@ const QString QtltSession::saveState(const int & flags)
 }
 
 
-const bool QtltSession::is_paused(){
+const bool Session::is_paused(){
     return dirtyHack::instance()->getSession()->is_paused();
 }
 
-void QtltSession::pause(){
+void Session::pause(){
     dirtyHack::instance()->getSession()->pause();
 }
 
-void QtltSession::resume(){
+void Session::resume(){
     dirtyHack::instance()->getSession()->resume();
 }
 
-void QtltSession::abort(){
+void Session::abort(){
     dirtyHack::instance()->getSession()->abort();
 }
 
-const bool QtltSession::is_dht_running(){
+const bool Session::is_dht_running(){
     return dirtyHack::instance()->getSession()->is_dht_running();
 }
 
-void QtltSession::startDht(){
+void Session::startDht(){
     dirtyHack::instance()->getSession()->start_dht();
 }
 
-void QtltSession::stopDht(){
+void Session::stopDht(){
     dirtyHack::instance()->getSession()->stop_dht();
 }
 
-void QtltSession::startLsd(){
+void Session::startLsd(){
     dirtyHack::instance()->getSession()->start_lsd();
 }
 
-void QtltSession::stopLsd(){
+void Session::stopLsd(){
     dirtyHack::instance()->getSession()->stop_lsd();
 }
 
 /**
  * Limit stuff
  */
-const int QtltSession::upload_rate_limit(){
+const int Session::upload_rate_limit(){
     return dirtyHack::instance()->getSession()->upload_rate_limit();
 }
-void QtltSession::set_upload_rate_limit(const int rate){
+void Session::set_upload_rate_limit(const int rate){
     dirtyHack::instance()->getSession()->set_upload_rate_limit(rate);
 }
 
-const int QtltSession::download_rate_limit(){
+const int Session::download_rate_limit(){
     return dirtyHack::instance()->getSession()->download_rate_limit();
 }
-void QtltSession::set_download_rate_limit(const int rate){
+void Session::set_download_rate_limit(const int rate){
     dirtyHack::instance()->getSession()->set_download_rate_limit(rate);
 }
 
-const int QtltSession::local_upload_rate_limit(){
+const int Session::local_upload_rate_limit(){
     return dirtyHack::instance()->getSession()->local_upload_rate_limit();
 }
-void QtltSession::set_local_upload_rate_limit(const int rate){
+void Session::set_local_upload_rate_limit(const int rate){
     dirtyHack::instance()->getSession()->set_local_upload_rate_limit(rate);
 }
 
-const int QtltSession::local_download_rate_limit(){
+const int Session::local_download_rate_limit(){
     return dirtyHack::instance()->getSession()->local_download_rate_limit();
 }
-void QtltSession::set_local_download_rate_limit(const int rate){
+void Session::set_local_download_rate_limit(const int rate){
     dirtyHack::instance()->getSession()->set_local_download_rate_limit(rate);
 }
 
-const int QtltSession::max_connections(){
+const int Session::max_connections(){
     return dirtyHack::instance()->getSession()->max_connections();
 }
-void QtltSession::set_max_connections(const int limit){
+void Session::set_max_connections(const int limit){
     dirtyHack::instance()->getSession()->set_max_connections(limit);
 }
 
-const int QtltSession::max_half_open_connections(){
+const int Session::max_half_open_connections(){
     return dirtyHack::instance()->getSession()->max_half_open_connections();
 }
-void QtltSession::set_max_half_open_connections(const int limit){
+void Session::set_max_half_open_connections(const int limit){
     dirtyHack::instance()->getSession()->set_max_half_open_connections(limit);
 }
 
-const int QtltSession::max_uploads(){
+const int Session::max_uploads(){
     return dirtyHack::instance()->getSession()->max_uploads();
 }
-void QtltSession::set_max_uploads(const int limit){
+void Session::set_max_uploads(const int limit){
     dirtyHack::instance()->getSession()->set_max_uploads(limit);
 }
 
-const int QtltSession::num_uploads(){
+const int Session::num_uploads(){
     return dirtyHack::instance()->getSession()->num_uploads();
 }
-const int QtltSession::num_connections(){
+const int Session::num_connections(){
     return dirtyHack::instance()->getSession()->num_connections();
 }
 
 /**
  * Alerts
  */
-const QVariant QtltSession::popAlert(){
+const QVariant Session::popAlert(){
     std::auto_ptr<libtorrent::alert> t = dirtyHack::instance()->getSession()->pop_alert();
     if(t.get()){
-        QtltAlert* myalert = new QtltAlert(QString::fromLocal8Bit(t->what()),
+        Alert* myalert = new Alert(QString::fromLocal8Bit(t->what()),
                                            QString::fromLocal8Bit(t->message().c_str()),
                                            t->category(),
                                            qint64(t->timestamp().time),
@@ -236,33 +237,33 @@ const QVariant QtltSession::popAlert(){
     return 0;
 }
 
-void QtltSession::setAlertMask(int m){
+void Session::setAlertMask(int m){
     dirtyHack::instance()->getSession()->set_alert_mask(m);
 }
 
-void QtltSession::setAlertQueueSizeLimit(int l){
+void Session::setAlertQueueSizeLimit(int l){
     dirtyHack::instance()->getSession()->set_alert_queue_size_limit(l);
 }
 
 /**
  * Listening
  */
-const bool QtltSession::is_listening(){
+const bool Session::is_listening(){
     return dirtyHack::instance()->getSession()->is_listening();
 }
 
-const int QtltSession::listen_port(){
+const int Session::listen_port(){
     return dirtyHack::instance()->getSession()->listen_port();
 }
 
-bool QtltSession::listenOn(const int startPort, const int endPort){
+bool Session::listenOn(const int startPort, const int endPort){
     // XXX doesn't support interface specific listening
     std::pair<int,int> ports(startPort, endPort);
     return dirtyHack::instance()->getSession()->listen_on(ports);
 }
 
 
-const int QtltSession::getTorrentsLength()
+const int Session::getTorrentsLength()
 {
     int num_resume_data = 0;
     std::vector<libtorrent::torrent_handle> handles = dirtyHack::instance()->getSession()->get_torrents();
@@ -274,7 +275,7 @@ const int QtltSession::getTorrentsLength()
     return num_resume_data;
 }
 
-void QtltSession::removeTorrentAt(const int pos)
+void Session::removeTorrentAt(const int pos)
 {
     std::vector<libtorrent::torrent_handle> handles = dirtyHack::instance()->getSession()->get_torrents();
     int num_resume_data = 0;
@@ -291,7 +292,7 @@ void QtltSession::removeTorrentAt(const int pos)
     return;
 }
 
-const QVariant QtltSession::getTorrentAt(const int pos)
+const QVariant Session::getTorrentAt(const int pos)
 {
     std::vector<libtorrent::torrent_handle> handles = dirtyHack::instance()->getSession()->get_torrents();
     int num_resume_data = 0;
@@ -303,7 +304,7 @@ const QVariant QtltSession::getTorrentAt(const int pos)
             libtorrent::sha1_hash hash = h.info_hash();
             std::ostringstream o;
             o << hash;
-            QtLtTorrentHandle * h2 = new QtLtTorrentHandle(QString(o.str().c_str()), this);
+            TorrentHandle * h2 = new TorrentHandle(QString(o.str().c_str()), this);
             QVariant var(QMetaType::QObjectStar);
             var.setValue((QObject*) h2);
             return var;
@@ -313,10 +314,12 @@ const QVariant QtltSession::getTorrentAt(const int pos)
     }
     return 0;
 }
+
+}
 /*
 std::auto_ptr<libtorrent::alert> t = dirtyHack::instance()->getSession()->pop_alert();
 if(t.get()){
-    QtltAlert* myalert = new QtltAlert(QString::fromLocal8Bit(t->what()),
+    Alert* myalert = new Alert(QString::fromLocal8Bit(t->what()),
                                        QString::fromLocal8Bit(t->message().c_str()),
                                        t->category(),
                                        t->timestamp().time,

@@ -9,11 +9,14 @@
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#include "qtlttorrenthandle.h"
 #include "dirtyhack.h"
+#include "torrenthandle.h"
+
 #include <QtCore/QDebug>
 
-QtLtTorrentHandle::QtLtTorrentHandle(const QString & hash, QObject *parent) :
+using namespace RoxeeTorrent;
+
+TorrentHandle::TorrentHandle(const QString & hash, QObject *parent) :
     QObject(parent)
 {
     m_hash = QString(hash);
@@ -51,7 +54,7 @@ QtLtTorrentHandle::QtLtTorrentHandle(const QString & hash, QObject *parent) :
 //    }
 
 
-bool QtLtTorrentHandle::is_valid()
+bool TorrentHandle::is_valid()
 {
     // Convert string to ha1
     std::string str(m_hash.toAscii().data());
@@ -64,7 +67,7 @@ bool QtLtTorrentHandle::is_valid()
 }
 
 
-const QString QtLtTorrentHandle::info_hash()
+const QString TorrentHandle::info_hash()
 {
     return m_hash;
 //    // Convert string to ha1
@@ -84,7 +87,7 @@ const QString QtLtTorrentHandle::info_hash()
 //    return 0;
 }
 
-const QString QtLtTorrentHandle::name()
+const QString TorrentHandle::name()
 {
     // Convert string to ha1
     std::string str(m_hash.toAscii().data());
@@ -100,7 +103,7 @@ const QString QtLtTorrentHandle::name()
 }
 
 
-QString QtLtTorrentHandle::filePathAt(const int pos)
+QString TorrentHandle::filePathAt(const int pos)
 {
     // Convert string to ha1
     std::string str(m_hash.toAscii().data());
@@ -117,7 +120,7 @@ QString QtLtTorrentHandle::filePathAt(const int pos)
     return 0;
 }
 
-qint64 QtLtTorrentHandle::fileSizeAt(const int pos)
+qint64 TorrentHandle::fileSizeAt(const int pos)
 {
     // Convert string to ha1
     std::string str(m_hash.toAscii().data());
@@ -150,7 +153,7 @@ qint64 QtLtTorrentHandle::fileSizeAt(const int pos)
 
 
 
-bool QtLtTorrentHandle::is_sequential_download()
+bool TorrentHandle::is_sequential_download()
 {
     if(!m_hash.length()){
         return 0;
@@ -168,7 +171,7 @@ bool QtLtTorrentHandle::is_sequential_download()
     return 0;
 }
 
-void QtLtTorrentHandle::setSequential(bool flag)
+void TorrentHandle::setSequential(bool flag)
 {
     if(!m_hash.length()){
         return;
@@ -185,7 +188,7 @@ void QtLtTorrentHandle::setSequential(bool flag)
     }
 }
 
-//QVariant QtLtTorrentHandle::getInfo()
+//QVariant TorrentHandle::getInfo()
 //{
 //    // Convert string to ha1
 //    std::string str(m_hash.toAscii().data());
@@ -207,7 +210,7 @@ void QtLtTorrentHandle::setSequential(bool flag)
 
 
 
-const int QtLtTorrentHandle::num_files()
+const int TorrentHandle::num_files()
 {
     // Convert string to ha1
     std::string str(m_hash.toAscii().data());
@@ -222,14 +225,14 @@ const int QtLtTorrentHandle::num_files()
     return 0;
 }
 
-//const QtLtFileEntry * QtLtTorrentHandle::getFileAt(const int & pos)
+//const QtLtFileEntry * TorrentHandle::getFileAt(const int & pos)
 //{
 //    libtorrent::file_entry fentry = torrentinfo->file_at(pos);
 //    QtLtFileEntry * q = new QtLtFileEntry(fentry);
 //    return q;
 //}
 
-const bool QtLtTorrentHandle::priv()
+const bool TorrentHandle::priv()
 {
     // Convert string to ha1
     std::string str(m_hash.toAscii().data());
@@ -244,7 +247,7 @@ const bool QtLtTorrentHandle::priv()
     return 0;
 }
 
-const qint64 QtLtTorrentHandle::total_size()
+const qint64 TorrentHandle::total_size()
 {
 //    if(!m_hash.length()){
 //        return;
@@ -263,7 +266,7 @@ const qint64 QtLtTorrentHandle::total_size()
     return 0;
 }
 
-const int QtLtTorrentHandle::num_pieces()
+const int TorrentHandle::num_pieces()
 {
     // Convert string to ha1
     std::string str(m_hash.toAscii().data());
@@ -278,7 +281,7 @@ const int QtLtTorrentHandle::num_pieces()
     return 0;
 }
 
-const int QtLtTorrentHandle::piece_length()
+const int TorrentHandle::piece_length()
 {
     // Convert string to ha1
     std::string str(m_hash.toAscii().data());
@@ -294,7 +297,7 @@ const int QtLtTorrentHandle::piece_length()
 }
 
 
-const QString QtLtTorrentHandle::comment()
+const QString TorrentHandle::comment()
 {
     // Convert string to ha1
     std::string str(m_hash.toAscii().data());
@@ -309,7 +312,7 @@ const QString QtLtTorrentHandle::comment()
     return 0;
 }
 
-const QString QtLtTorrentHandle::creator()
+const QString TorrentHandle::creator()
 {
     // Convert string to ha1
     std::string str(m_hash.toAscii().data());
@@ -324,7 +327,7 @@ const QString QtLtTorrentHandle::creator()
     return 0;
 }
 
-const QString QtLtTorrentHandle::metadata()
+const QString TorrentHandle::metadata()
 {
     // Convert string to ha1
     std::string str(m_hash.toAscii().data());
@@ -339,7 +342,7 @@ const QString QtLtTorrentHandle::metadata()
     return 0;
 }
 
-const qint64 QtLtTorrentHandle::all_time_download()
+const qint64 TorrentHandle::all_time_download()
 {
     // Convert string to ha1
     std::string str(m_hash.toAscii().data());
