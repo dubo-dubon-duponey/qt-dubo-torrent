@@ -6,6 +6,7 @@ TEMPLATE = lib
 
 # Requires only core
 QT = core
+
 # And be boring
 CONFIG +=   QT_NO_CAST_FROM_ASCII \
             QT_NO_CAST_TO_ASCII \

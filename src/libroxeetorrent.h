@@ -20,9 +20,14 @@ namespace RoxeeTorrent
 
     class LIBROXEETORRENTSHARED_EXPORT RoxeeTorrent {
     public:
+        Q_PROPERTY(const QString roxeeName READ getName)
         Q_PROPERTY(const QString roxeeVersion READ getVersion)
         Q_PROPERTY(const QString roxeeRevision READ getRevision)
         Q_PROPERTY(const QString roxeeChangeset READ getChangeset)
+
+        const QString getName(){
+            return PROJECT_NAME;
+        }
 
         const QString getVersion(){
             return VERSION_FULL;
