@@ -44,7 +44,7 @@ unix:!macx {
 
 INCLUDEPATH += $$PWD
 
-target.path = $$DESTDIR/lib
+target.path = $$DESTDIR
 INSTALLS += target dist
 
 
