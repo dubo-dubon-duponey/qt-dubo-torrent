@@ -9,7 +9,7 @@
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#include "dirtyhack.h"
+#include "coreinstance.h"
 #include "torrenthandle.h"
 
 #include <QtCore/QDebug>
@@ -62,7 +62,7 @@ bool TorrentHandle::is_valid()
     libtorrent::sha1_hash x;
     i>>x;
 
-    libtorrent::torrent_handle h = dirtyHack::instance()->getSession()->find_torrent(x);
+    libtorrent::torrent_handle h = LRTCoreInstance::instance()->getSession()->find_torrent(x);
     return h.is_valid();
 }
 
@@ -76,7 +76,7 @@ const QString TorrentHandle::info_hash()
 //    libtorrent::sha1_hash x;
 //    i>>x;
 
-//    libtorrent::torrent_handle h = dirtyHack::instance()->getSession()->find_torrent(x);
+//    libtorrent::torrent_handle h = LRTCoreInstance::instance()->getSession()->find_torrent(x);
 //    if(h.is_valid()){
 //        libtorrent::sha1_hash hash = h.info_hash();
 
@@ -95,7 +95,7 @@ const QString TorrentHandle::name()
     libtorrent::sha1_hash x;
     i>>x;
 
-    libtorrent::torrent_handle h = dirtyHack::instance()->getSession()->find_torrent(x);
+    libtorrent::torrent_handle h = LRTCoreInstance::instance()->getSession()->find_torrent(x);
     if(h.is_valid()){
         return h.name().c_str();
     }
@@ -111,7 +111,7 @@ QString TorrentHandle::filePathAt(const int pos)
     libtorrent::sha1_hash x;
     i>>x;
 
-    libtorrent::torrent_handle h = dirtyHack::instance()->getSession()->find_torrent(x);
+    libtorrent::torrent_handle h = LRTCoreInstance::instance()->getSession()->find_torrent(x);
     if(h.is_valid()){
         libtorrent::file_entry const& fe = h.get_torrent_info().file_at(pos);
         return QString::fromStdString(fe.path);
@@ -128,7 +128,7 @@ qint64 TorrentHandle::fileSizeAt(const int pos)
     libtorrent::sha1_hash x;
     i>>x;
 
-    libtorrent::torrent_handle h = dirtyHack::instance()->getSession()->find_torrent(x);
+    libtorrent::torrent_handle h = LRTCoreInstance::instance()->getSession()->find_torrent(x);
     if(h.is_valid()){
         libtorrent::file_entry const& fe = h.get_torrent_info().file_at(pos);
         return fe.size;
@@ -164,7 +164,7 @@ bool TorrentHandle::is_sequential_download()
     libtorrent::sha1_hash x;
     i>>x;
 
-    libtorrent::torrent_handle h = dirtyHack::instance()->getSession()->find_torrent(x);
+    libtorrent::torrent_handle h = LRTCoreInstance::instance()->getSession()->find_torrent(x);
     if(h.is_valid()){
         return h.is_sequential_download();
     }
@@ -182,7 +182,7 @@ void TorrentHandle::setSequential(bool flag)
     libtorrent::sha1_hash x;
     i>>x;
 
-    libtorrent::torrent_handle h = dirtyHack::instance()->getSession()->find_torrent(x);
+    libtorrent::torrent_handle h = LRTCoreInstance::instance()->getSession()->find_torrent(x);
     if(h.is_valid()){
         h.set_sequential_download(flag);
     }
@@ -196,7 +196,7 @@ void TorrentHandle::setSequential(bool flag)
 //    libtorrent::sha1_hash x;
 //    i>>x;
 
-//    libtorrent::torrent_handle h = dirtyHack::instance()->getSession()->find_torrent(x);
+//    libtorrent::torrent_handle h = LRTCoreInstance::instance()->getSession()->find_torrent(x);
 
 //    if(h.is_valid()){
 //        libtorrent::torrent_info inf = h.get_torrent_info();
@@ -218,7 +218,7 @@ const int TorrentHandle::num_files()
     libtorrent::sha1_hash x;
     i>>x;
 
-    libtorrent::torrent_handle h = dirtyHack::instance()->getSession()->find_torrent(x);
+    libtorrent::torrent_handle h = LRTCoreInstance::instance()->getSession()->find_torrent(x);
     if(h.is_valid() && h.has_metadata()){
         return h.get_torrent_info().num_files();
     }
@@ -240,7 +240,7 @@ const bool TorrentHandle::priv()
     libtorrent::sha1_hash x;
     i>>x;
 
-    libtorrent::torrent_handle h = dirtyHack::instance()->getSession()->find_torrent(x);
+    libtorrent::torrent_handle h = LRTCoreInstance::instance()->getSession()->find_torrent(x);
     if(h.is_valid() && h.has_metadata()){
         return h.get_torrent_info().priv();
     }
@@ -258,7 +258,7 @@ const qint64 TorrentHandle::total_size()
     libtorrent::sha1_hash x;
     i>>x;
 
-    libtorrent::torrent_handle h = dirtyHack::instance()->getSession()->find_torrent(x);
+    libtorrent::torrent_handle h = LRTCoreInstance::instance()->getSession()->find_torrent(x);
     if(h.is_valid() && h.has_metadata()){
         libtorrent::torrent_info toto = h.get_torrent_info();
         return toto.total_size();
@@ -274,7 +274,7 @@ const int TorrentHandle::num_pieces()
     libtorrent::sha1_hash x;
     i>>x;
 
-    libtorrent::torrent_handle h = dirtyHack::instance()->getSession()->find_torrent(x);
+    libtorrent::torrent_handle h = LRTCoreInstance::instance()->getSession()->find_torrent(x);
     if(h.is_valid() && h.has_metadata()){
         return h.get_torrent_info().num_pieces();
     }
@@ -289,7 +289,7 @@ const int TorrentHandle::piece_length()
     libtorrent::sha1_hash x;
     i>>x;
 
-    libtorrent::torrent_handle h = dirtyHack::instance()->getSession()->find_torrent(x);
+    libtorrent::torrent_handle h = LRTCoreInstance::instance()->getSession()->find_torrent(x);
     if(h.is_valid() && h.has_metadata()){
         return h.get_torrent_info().piece_length();
     }
@@ -305,7 +305,7 @@ const QString TorrentHandle::comment()
     libtorrent::sha1_hash x;
     i>>x;
 
-    libtorrent::torrent_handle h = dirtyHack::instance()->getSession()->find_torrent(x);
+    libtorrent::torrent_handle h = LRTCoreInstance::instance()->getSession()->find_torrent(x);
     if(h.is_valid() && h.has_metadata()){
         return h.get_torrent_info().comment().c_str();
     }
@@ -320,7 +320,7 @@ const QString TorrentHandle::creator()
     libtorrent::sha1_hash x;
     i>>x;
 
-    libtorrent::torrent_handle h = dirtyHack::instance()->getSession()->find_torrent(x);
+    libtorrent::torrent_handle h = LRTCoreInstance::instance()->getSession()->find_torrent(x);
     if(h.is_valid() && h.has_metadata()){
         return h.get_torrent_info().creator().c_str();
     }
@@ -335,7 +335,7 @@ const QString TorrentHandle::metadata()
     libtorrent::sha1_hash x;
     i>>x;
 
-    libtorrent::torrent_handle h = dirtyHack::instance()->getSession()->find_torrent(x);
+    libtorrent::torrent_handle h = LRTCoreInstance::instance()->getSession()->find_torrent(x);
     if(h.is_valid() && h.has_metadata()){
         return h.get_torrent_info().metadata().get();// c_str();
     }
@@ -350,7 +350,7 @@ const qint64 TorrentHandle::all_time_download()
     libtorrent::sha1_hash x;
     i>>x;
 
-    libtorrent::torrent_handle h = dirtyHack::instance()->getSession()->find_torrent(x);
+    libtorrent::torrent_handle h = LRTCoreInstance::instance()->getSession()->find_torrent(x);
     if(h.is_valid()){
         return h.status().all_time_download;// c_str();
     }

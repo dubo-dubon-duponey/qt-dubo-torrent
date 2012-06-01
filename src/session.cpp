@@ -9,7 +9,7 @@
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#include "dirtyhack.h"
+#include "coreinstance.h"
 #include "session.h"
 
 #include <libtorrent/bencode.hpp>
@@ -28,12 +28,13 @@ namespace RoxeeTorrent{
 Session::Session(const QString & id, const int & major, const int & minor, const int & revision, const int & tag, QObject* parent):
     QObject(parent)
 {
+    qDebug() << " [M] TORRENT: constructor";
     // Check http://wiki.theory.org/BitTorrentSpecification#peer_id
     // Should be two char long
     // XXX BOGUS
 //    const char * identifier = id.toLocal8Bit().constData();
 //    std::string identifier = id.toStdString();
-    dirtyHack::instance()->setSession( new libtorrent::session(
+    LRTCoreInstance::instance()->setSession( new libtorrent::session(
                libtorrent::fingerprint( id.toLocal8Bit().constData(), major, minor, revision, tag),
                 libtorrent::session::start_default_features
                 | libtorrent::session::add_default_plugins,
@@ -53,7 +54,7 @@ void Session::addTorrent(const QString & torrentfilepath){
 
     //    boost::filesystem::path const& filename
 
-    libtorrent::torrent_handle to = dirtyHack::instance()->getSession()->add_torrent(ti, s);
+    libtorrent::torrent_handle to = LRTCoreInstance::instance()->getSession()->add_torrent(ti, s);
 
 */
     //    boost::intrusive_ptr<libtorrent::torrent_info> ti = new libtorrent::torrent_info();
@@ -64,9 +65,10 @@ void Session::addTorrent(const QString & torrentfilepath){
 
 QString Session::addMagnet(const QString & uri, const QString & save_path)
 {
+    qDebug() << " [M] TORRENT: add magnet";
 //    boost::filesystem::path t = boost::filesystem::path(path.toLocal8Bit());
 //    boost::filesystem::path s = boost::filesystem::path(save_path.toLocal8Bit());
-    libtorrent::torrent_handle to = libtorrent::add_magnet_uri(* dirtyHack::instance()->getSession(),
+    libtorrent::torrent_handle to = libtorrent::add_magnet_uri(* LRTCoreInstance::instance()->getSession(),
         uri.toStdString(), save_path.toStdString());
 //        uri.toStdString(), s);
 
@@ -97,7 +99,8 @@ QString Session::addMagnet(const QString & uri, const QString & save_path)
 // XXX will block until all trackers are notified - might or might not be what we want
 Session::~Session()
 {
-    dirtyHack::instance()->drop();
+    qDebug() << " [M] TORRENT: destructor";
+    LRTCoreInstance::instance()->drop();
 }
 
 void Session::loadState(const QString & entry)
@@ -105,7 +108,7 @@ void Session::loadState(const QString & entry)
     const char * in = entry.toLocal8Bit().constData();
     libtorrent::lazy_entry e;
     if (lazy_bdecode(&in[0], &in[0] + sizeof(in), e) == 0) {
-      dirtyHack::instance()->getSession()->load_state(e);
+      LRTCoreInstance::instance()->getSession()->load_state(e);
     }
 }
 
@@ -113,9 +116,9 @@ const QString Session::saveState(const int & flags)
 {
     libtorrent::entry e;
     if(flags){
-        dirtyHack::instance()->getSession()->save_state(e, flags);
+        LRTCoreInstance::instance()->getSession()->save_state(e, flags);
     }else{
-        dirtyHack::instance()->getSession()->save_state(e);
+        LRTCoreInstance::instance()->getSession()->save_state(e);
     }
     std::vector<char> out;
     bencode(std::back_inserter(out), e);
@@ -125,105 +128,110 @@ const QString Session::saveState(const int & flags)
 
 
 const bool Session::is_paused(){
-    return dirtyHack::instance()->getSession()->is_paused();
+    qDebug() << " [M] TORRENT: is paused?";
+    LRTCoreInstance * c = LRTCoreInstance::instance();
+    return c->getSession()->is_paused();
 }
 
 void Session::pause(){
-    dirtyHack::instance()->getSession()->pause();
+    qDebug() << " [M] TORRENT: pause";
+    LRTCoreInstance::instance()->getSession()->pause();
 }
 
 void Session::resume(){
-    dirtyHack::instance()->getSession()->resume();
+    qDebug() << " [M] TORRENT: resume";
+    LRTCoreInstance::instance()->getSession()->resume();
 }
 
 void Session::abort(){
-    dirtyHack::instance()->getSession()->abort();
+    qDebug() << " [M] TORRENT: abort";
+    LRTCoreInstance::instance()->getSession()->abort();
 }
 
 const bool Session::is_dht_running(){
-    return dirtyHack::instance()->getSession()->is_dht_running();
+    return LRTCoreInstance::instance()->getSession()->is_dht_running();
 }
 
 void Session::startDht(){
-    dirtyHack::instance()->getSession()->start_dht();
+    LRTCoreInstance::instance()->getSession()->start_dht();
 }
 
 void Session::stopDht(){
-    dirtyHack::instance()->getSession()->stop_dht();
+    LRTCoreInstance::instance()->getSession()->stop_dht();
 }
 
 void Session::startLsd(){
-    dirtyHack::instance()->getSession()->start_lsd();
+    LRTCoreInstance::instance()->getSession()->start_lsd();
 }
 
 void Session::stopLsd(){
-    dirtyHack::instance()->getSession()->stop_lsd();
+    LRTCoreInstance::instance()->getSession()->stop_lsd();
 }
 
 /**
  * Limit stuff
  */
 const int Session::upload_rate_limit(){
-    return dirtyHack::instance()->getSession()->upload_rate_limit();
+    return LRTCoreInstance::instance()->getSession()->upload_rate_limit();
 }
 void Session::set_upload_rate_limit(const int rate){
-    dirtyHack::instance()->getSession()->set_upload_rate_limit(rate);
+    LRTCoreInstance::instance()->getSession()->set_upload_rate_limit(rate);
 }
 
 const int Session::download_rate_limit(){
-    return dirtyHack::instance()->getSession()->download_rate_limit();
+    return LRTCoreInstance::instance()->getSession()->download_rate_limit();
 }
 void Session::set_download_rate_limit(const int rate){
-    dirtyHack::instance()->getSession()->set_download_rate_limit(rate);
+    LRTCoreInstance::instance()->getSession()->set_download_rate_limit(rate);
 }
 
 const int Session::local_upload_rate_limit(){
-    return dirtyHack::instance()->getSession()->local_upload_rate_limit();
+    return LRTCoreInstance::instance()->getSession()->local_upload_rate_limit();
 }
 void Session::set_local_upload_rate_limit(const int rate){
-    dirtyHack::instance()->getSession()->set_local_upload_rate_limit(rate);
+    LRTCoreInstance::instance()->getSession()->set_local_upload_rate_limit(rate);
 }
 
 const int Session::local_download_rate_limit(){
-    return dirtyHack::instance()->getSession()->local_download_rate_limit();
+    return LRTCoreInstance::instance()->getSession()->local_download_rate_limit();
 }
 void Session::set_local_download_rate_limit(const int rate){
-    dirtyHack::instance()->getSession()->set_local_download_rate_limit(rate);
+    LRTCoreInstance::instance()->getSession()->set_local_download_rate_limit(rate);
 }
 
 const int Session::max_connections(){
-    return dirtyHack::instance()->getSession()->max_connections();
+    return LRTCoreInstance::instance()->getSession()->max_connections();
 }
 void Session::set_max_connections(const int limit){
-    dirtyHack::instance()->getSession()->set_max_connections(limit);
+    LRTCoreInstance::instance()->getSession()->set_max_connections(limit);
 }
 
 const int Session::max_half_open_connections(){
-    return dirtyHack::instance()->getSession()->max_half_open_connections();
+    return LRTCoreInstance::instance()->getSession()->max_half_open_connections();
 }
 void Session::set_max_half_open_connections(const int limit){
-    dirtyHack::instance()->getSession()->set_max_half_open_connections(limit);
+    LRTCoreInstance::instance()->getSession()->set_max_half_open_connections(limit);
 }
 
 const int Session::max_uploads(){
-    return dirtyHack::instance()->getSession()->max_uploads();
+    return LRTCoreInstance::instance()->getSession()->max_uploads();
 }
 void Session::set_max_uploads(const int limit){
-    dirtyHack::instance()->getSession()->set_max_uploads(limit);
+    LRTCoreInstance::instance()->getSession()->set_max_uploads(limit);
 }
 
 const int Session::num_uploads(){
-    return dirtyHack::instance()->getSession()->num_uploads();
+    return LRTCoreInstance::instance()->getSession()->num_uploads();
 }
 const int Session::num_connections(){
-    return dirtyHack::instance()->getSession()->num_connections();
+    return LRTCoreInstance::instance()->getSession()->num_connections();
 }
 
 /**
  * Alerts
  */
 const QVariant Session::popAlert(){
-    std::auto_ptr<libtorrent::alert> t = dirtyHack::instance()->getSession()->pop_alert();
+    std::auto_ptr<libtorrent::alert> t = LRTCoreInstance::instance()->getSession()->pop_alert();
     if(t.get()){
         Alert* myalert = new Alert(QString::fromLocal8Bit(t->what()),
                                            QString::fromLocal8Bit(t->message().c_str()),
@@ -238,35 +246,35 @@ const QVariant Session::popAlert(){
 }
 
 void Session::setAlertMask(int m){
-    dirtyHack::instance()->getSession()->set_alert_mask(m);
+    LRTCoreInstance::instance()->getSession()->set_alert_mask(m);
 }
 
 void Session::setAlertQueueSizeLimit(int l){
-    dirtyHack::instance()->getSession()->set_alert_queue_size_limit(l);
+    LRTCoreInstance::instance()->getSession()->set_alert_queue_size_limit(l);
 }
 
 /**
  * Listening
  */
 const bool Session::is_listening(){
-    return dirtyHack::instance()->getSession()->is_listening();
+    return LRTCoreInstance::instance()->getSession()->is_listening();
 }
 
 const int Session::listen_port(){
-    return dirtyHack::instance()->getSession()->listen_port();
+    return LRTCoreInstance::instance()->getSession()->listen_port();
 }
 
 bool Session::listenOn(const int startPort, const int endPort){
     // XXX doesn't support interface specific listening
     std::pair<int,int> ports(startPort, endPort);
-    return dirtyHack::instance()->getSession()->listen_on(ports);
+    return LRTCoreInstance::instance()->getSession()->listen_on(ports);
 }
 
 
 const int Session::getTorrentsLength()
 {
     int num_resume_data = 0;
-    std::vector<libtorrent::torrent_handle> handles = dirtyHack::instance()->getSession()->get_torrents();
+    std::vector<libtorrent::torrent_handle> handles = LRTCoreInstance::instance()->getSession()->get_torrents();
     for (std::vector<libtorrent::torrent_handle>::iterator i = handles.begin();
             i != handles.end(); ++i)
     {
@@ -277,14 +285,14 @@ const int Session::getTorrentsLength()
 
 void Session::removeTorrentAt(const int pos)
 {
-    std::vector<libtorrent::torrent_handle> handles = dirtyHack::instance()->getSession()->get_torrents();
+    std::vector<libtorrent::torrent_handle> handles = LRTCoreInstance::instance()->getSession()->get_torrents();
     int num_resume_data = 0;
     for (std::vector<libtorrent::torrent_handle>::iterator i = handles.begin();
             i != handles.end(); ++i)
     {
         if(num_resume_data == pos){
             libtorrent::torrent_handle& h = *i;
-            dirtyHack::instance()->getSession()->remove_torrent(h, 1);//libtorrent::session::delete_files);
+            LRTCoreInstance::instance()->getSession()->remove_torrent(h, 1);//libtorrent::session::delete_files);
             return;
         }
         num_resume_data++;
@@ -294,7 +302,7 @@ void Session::removeTorrentAt(const int pos)
 
 const QVariant Session::getTorrentAt(const int pos)
 {
-    std::vector<libtorrent::torrent_handle> handles = dirtyHack::instance()->getSession()->get_torrents();
+    std::vector<libtorrent::torrent_handle> handles = LRTCoreInstance::instance()->getSession()->get_torrents();
     int num_resume_data = 0;
     for (std::vector<libtorrent::torrent_handle>::iterator i = handles.begin();
             i != handles.end(); ++i)
@@ -317,7 +325,7 @@ const QVariant Session::getTorrentAt(const int pos)
 
 }
 /*
-std::auto_ptr<libtorrent::alert> t = dirtyHack::instance()->getSession()->pop_alert();
+std::auto_ptr<libtorrent::alert> t = LRTCoreInstance::instance()->getSession()->pop_alert();
 if(t.get()){
     Alert* myalert = new Alert(QString::fromLocal8Bit(t->what()),
                                        QString::fromLocal8Bit(t->message().c_str()),
