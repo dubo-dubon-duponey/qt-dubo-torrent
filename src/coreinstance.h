@@ -9,49 +9,51 @@
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#ifndef LIBROXEETORRENT_H
-#define LIBROXEETORRENT_H
+#ifndef ROXEETORRENT_COREINSTANCE_H
+#define ROXEETORRENT_COREINSTANCE_H
 
-#include "libroxeetorrent_global.h"
-#include <libtorrent/version.hpp>
+#include <libtorrent/session.hpp>
 
-namespace RoxeeTorrent
+#include <QtCore/QMutex>
+
+class LRTCoreInstance
 {
-
-    class LIBROXEETORRENTSHARED_EXPORT RoxeeTorrent {
-    public:
-        Q_PROPERTY(const QString ROXEE_NAME READ getName)
-        Q_PROPERTY(const QString ROXEE_VERSION READ getVersion)
-        Q_PROPERTY(const QString ROXEE_REVISION READ getRevision)
-        Q_PROPERTY(const QString ROXEE_CHANGESET READ getChangeset)
-
-        const QString getName(){
-            return PROJECT_NAME;
+public:
+    static LRTCoreInstance* instance()
+    {
+        static QMutex mutex;
+        if (!m_Instance){
+            mutex.lock();
+            if (!m_Instance)
+                m_Instance = new LRTCoreInstance;
+            mutex.unlock();
         }
+        return m_Instance;
+    }
 
-        const QString getVersion(){
-            return VERSION_FULL;
-        }
+    static void drop()
+    {
+        // Destroy the session
+        m_Instance->getSession()->~session();
+        m_Instance->setSession(0);
 
-        const QString getRevision(){
-            return VERSION_GIT;
-        }
+        static QMutex mutex;
+        mutex.lock();
+        delete m_Instance;
+        m_Instance = 0;
+        mutex.unlock();
+    }
 
-        const QString getChangeset(){
-            return VERSION_CHANGE;
-        }
+    void setSession (libtorrent::session* val) { _lt_session = val; }
+    libtorrent::session* getSession () { return _lt_session; }
 
-        Q_PROPERTY(const QString PLUGIN_VERSION READ getLibVersion)
-        Q_PROPERTY(const QString PLUGIN_REVISION READ getLibRevision)
+private:
+    LRTCoreInstance() {}
+    LRTCoreInstance(const LRTCoreInstance &); // hide copy constructor
+    LRTCoreInstance& operator=(const LRTCoreInstance &); // hide assign op
 
-        const QString getLibVersion(){
-            return LIBTORRENT_VERSION;
-        }
+    static LRTCoreInstance* m_Instance;
+    libtorrent::session* _lt_session;
+};
 
-        const QString getLibRevision(){
-            return LIBTORRENT_REVISION;
-        }
-    };
-}
-
-#endif // LIBROXEETORRENT_H
+#endif // ROXEETORRENT_COREINSTANCE_H

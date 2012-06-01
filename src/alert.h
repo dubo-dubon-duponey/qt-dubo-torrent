@@ -11,8 +11,8 @@
 
 // * XXX timestamp are deadly borked - not too sure why - see session initialization to get it right
 
-#ifndef ALERT_H
-#define ALERT_H
+#ifndef ROXEETORRENT_ALERT_H
+#define ROXEETORRENT_ALERT_H
 
 #include "libroxeetorrent_global.h"
 
@@ -45,4 +45,4 @@ namespace RoxeeTorrent
     };
 }
 
-#endif // QTLTALERT_H
+#endif // ROXEETORRENT_ALERT_H

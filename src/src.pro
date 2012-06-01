@@ -10,7 +10,8 @@ QT = core
 # And be boring
 CONFIG +=   QT_NO_CAST_FROM_ASCII \
             QT_NO_CAST_TO_ASCII \
-            QT_STRICT_ITERATORS
+            QT_STRICT_ITERATORS \
+            QT_USE_FAST_CONCATENATION QT_USE_FAST_OPERATOR_PLUS
 
 # Yes, this will build a lib
 DEFINES += LIBROXEETORRENT_LIBRARY
@@ -66,11 +67,12 @@ DEFINES += BOOST_FILESYSTEM_VERSION=2
 
 # qtlibtorrent.cpp \
 SOURCES += \
-    dirtyhack.cpp \
     session.cpp \
     alert.cpp \
     torrenthandle.cpp \
-    alerttypes.cpp
+    alerttypes.cpp \
+    coreinstance.cpp \
+    root.cpp
 #    qtltfileentry.cpp \
 #    qtlttorrentstatus.cpp \
 #    qtlttypessavestates.cpp \
@@ -79,13 +81,13 @@ SOURCES += \
 #    qtlttorrentinfo.cpp \
 
 HEADERS += \
-    dirtyhack.h \
-    libroxeetorrent.h \
     libroxeetorrent_global.h \
     session.h \
     alert.h \
     torrenthandle.h \
-    alerttypes.h
+    alerttypes.h \
+    coreinstance.h \
+    root.h
 #    qtltfileentry.h \
 #    qtlttorrentstatus.h \
 #    qtlttypessavestates.h \
