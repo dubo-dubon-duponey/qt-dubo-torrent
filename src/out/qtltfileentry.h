@@ -15,6 +15,8 @@
 #include <QtCore/QObject>
 #include <libtorrent/torrent_info.hpp>
 
+/*! \cond */
+
 namespace RoxeeTorrent
 {
     class QtLtFileEntry : public QObject
@@ -54,5 +56,7 @@ namespace RoxeeTorrent
         libtorrent::file_entry fileentry;
     };
 }
+
+/*! \endcond */
 
 #endif // QTLTFILEENTRY_H

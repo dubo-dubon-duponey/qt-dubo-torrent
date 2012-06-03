@@ -20,21 +20,33 @@
 
 namespace RoxeeTorrent
 {
+    /*! \brief Every alert message implements this.
+
+      An alert consist of a "what", or subject, a "message", a "timestamp" and a category to be compared with AlertTypes.
+      @see AlertTypes
+     */
     class Alert : public QObject
     {
         Q_OBJECT
     public:
+        /*! Constructor. Test. */
         explicit Alert(const QString &what, const QString &message, const int category, const qint64 timestamp, QObject *parent = 0);
 
+        /*! Title or subject of the alert*/
         Q_PROPERTY(QString      what        READ what)
+        /*! Detailed message of the alert*/
         Q_PROPERTY(QString      message     READ message)
+        /*! Category of the alert, to becompared with alerttypes*/
         Q_PROPERTY(int          category    READ category)
+        /*! "Time" of the alert*/
         Q_PROPERTY(qint64       timestamp   READ timestamp)
 
+        /*! \cond */
         const QString message();
         const QString what();
         const qint64 timestamp();
         const int category();
+        /*! \endcond */
 
     private:
         QString         _message;

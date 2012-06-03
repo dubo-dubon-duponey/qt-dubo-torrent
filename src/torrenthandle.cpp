@@ -14,7 +14,11 @@
 
 #include <QtCore/QDebug>
 
+/*! \cond */
+
 using namespace RoxeeTorrent;
+
+namespace RoxeeTorrent{
 
 TorrentHandle::TorrentHandle(const QString & hash, QObject *parent) :
     QObject(parent)
@@ -357,3 +361,6 @@ const qint64 TorrentHandle::all_time_download()
     return 0;
 }
 
+}
+
+/*! \endcond */

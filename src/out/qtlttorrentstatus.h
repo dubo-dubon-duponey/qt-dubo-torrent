@@ -14,6 +14,8 @@
 
 #include <QtCore/QObject>
 
+/*! \cond */
+
 namespace RoxeeTorrent
 {
 
@@ -74,6 +76,8 @@ namespace RoxeeTorrent
 
     };
 }
+
+/*! \endcond */
 
 #endif // QTLTTORRENTSTATUS_H
 

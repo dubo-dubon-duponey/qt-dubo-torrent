@@ -12,6 +12,8 @@
 #include "root.h"
 #include <libtorrent/version.hpp>
 
+/*! \cond */
+
 using namespace RoxeeTorrent;
 
 namespace RoxeeTorrent{
@@ -45,3 +47,5 @@ const QString Root::getLibRevision(){
 }
 
 }
+
+/*! \endcond */

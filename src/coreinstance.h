@@ -16,6 +16,8 @@
 
 #include <QtCore/QMutex>
 
+/*! \cond */
+
 class LRTCoreInstance
 {
 public:
@@ -55,5 +57,7 @@ private:
     static LRTCoreInstance* m_Instance;
     libtorrent::session* _lt_session;
 };
+
+/*! \endcond */
 
 #endif // ROXEETORRENT_COREINSTANCE_H

@@ -11,6 +11,8 @@
 
 #include "coreinstance.h"
 #include "session.h"
+#include "torrenthandle.h"
+#include "alert.h"
 
 #include <libtorrent/bencode.hpp>
 #include <libtorrent/torrent_info.hpp>
@@ -21,6 +23,8 @@
 #include <QtCore/QDebug>
 #include <QtCore/QByteArray>
 
+/*! \cond */
+
 using namespace RoxeeTorrent;
 namespace RoxeeTorrent{
 
@@ -29,6 +33,7 @@ Session::Session(const QString & id, const int & major, const int & minor, const
     QObject(parent)
 {
     qDebug() << " [M] TORRENT: constructor";
+    _rp_root = 0;
     // Check http://wiki.theory.org/BitTorrentSpecification#peer_id
     // Should be two char long
     // XXX BOGUS
@@ -40,6 +45,16 @@ Session::Session(const QString & id, const int & major, const int & minor, const
                 | libtorrent::session::add_default_plugins,
                 libtorrent::alert::all_categories));
 }
+
+RoxeeTorrent::Root * Session::root()
+{
+    qDebug() << " [M] VLC: root getter";
+    if(!_rp_root){
+        _rp_root = new RoxeeTorrent::Root();
+    }
+    return _rp_root;
+}
+
 
 
 void Session::addTorrent(const QString & torrentfilepath){
@@ -168,9 +183,6 @@ void Session::stopLsd(){
     LRTCoreInstance::instance()->getSession()->stop_lsd();
 }
 
-/**
- * Limit stuff
- */
 const int Session::upload_rate_limit(){
     return LRTCoreInstance::instance()->getSession()->upload_rate_limit();
 }
@@ -227,9 +239,6 @@ const int Session::num_connections(){
     return LRTCoreInstance::instance()->getSession()->num_connections();
 }
 
-/**
- * Alerts
- */
 const QVariant Session::popAlert(){
     std::auto_ptr<libtorrent::alert> t = LRTCoreInstance::instance()->getSession()->pop_alert();
     if(t.get()){
@@ -253,9 +262,6 @@ void Session::setAlertQueueSizeLimit(int l){
     LRTCoreInstance::instance()->getSession()->set_alert_queue_size_limit(l);
 }
 
-/**
- * Listening
- */
 const bool Session::is_listening(){
     return LRTCoreInstance::instance()->getSession()->is_listening();
 }
@@ -396,3 +402,4 @@ torrent_handle add_torrent(add_torrent_params const& params
 
 
   */
+/*! \endcond */

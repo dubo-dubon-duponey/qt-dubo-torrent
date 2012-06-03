@@ -14,6 +14,8 @@
 
 #include <QtCore/QObject>
 
+/*! \cond */
+
 namespace RoxeeTorrent
 {
     class QtLtSessionStatus : public QObject
@@ -30,6 +32,8 @@ namespace RoxeeTorrent
 
     };
 }
+
+/*! \endcond */
 
 #endif // QTLTSESSIONSTATUS_H
 

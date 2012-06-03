@@ -21,29 +21,54 @@
 
 namespace RoxeeTorrent
 {
+    /*! \brief Describes types categories used by alerts sent by the library.
+
+      These should be checked against the "category" for any "Alert", or used as an alert mask.
+
+      This is a singleton.
+      @see Alert
+      @see Session
+      */
     class LIBROXEETORRENTSHARED_EXPORT AlertTypes : public QObject
     {
         Q_OBJECT
     public:
 
+        /*! \brief Singleton */
         static AlertTypes* instance();
+
+        /*! \cond */
         static void drop();
+        /*! \endcond */
 
-
+        /*! \brief The alert is an error */
         Q_PROPERTY(const int ERROR        READ error)
-        Q_PROPERTY(int PEER         READ peer)
-        Q_PROPERTY(int PORT_MAPPING READ port_mapping)
-        Q_PROPERTY(int STORAGE      READ storage)
-        Q_PROPERTY(int TRACKER      READ tracker)
-        Q_PROPERTY(int DEBUG        READ debug)
-        Q_PROPERTY(int STATUS       READ status)
-        Q_PROPERTY(int PROGRESS     READ progress)
-        Q_PROPERTY(int IP_BLOCK     READ ip_block)
-        Q_PROPERTY(int PERFORMANCE  READ performance)
-        Q_PROPERTY(int DHT          READ dht)
-        Q_PROPERTY(int STATS        READ stats)
-        Q_PROPERTY(int ALL          READ all)
+        /*! \brief Peer alert */
+        Q_PROPERTY(const int PEER         READ peer)
+        /*! \brief Port mapping alert */
+        Q_PROPERTY(const int PORT_MAPPING READ port_mapping)
+        /*! \brief Storage alert */
+        Q_PROPERTY(const int STORAGE      READ storage)
+        /*! \brief Tracker alert */
+        Q_PROPERTY(const int TRACKER      READ tracker)
+        /*! \brief Debug alert */
+        Q_PROPERTY(const int DEBUG        READ debug)
+        /*! \brief Status alert */
+        Q_PROPERTY(const int STATUS       READ status)
+        /*! \brief Progress alert */
+        Q_PROPERTY(const int PROGRESS     READ progress)
+        /*! \brief IP block alert */
+        Q_PROPERTY(const int IP_BLOCK     READ ip_block)
+        /*! \brief Performance alert */
+        Q_PROPERTY(const int PERFORMANCE  READ performance)
+        /*! \brief DHT alert */
+        Q_PROPERTY(const int DHT          READ dht)
+        /*! \brief Stats alert */
+        Q_PROPERTY(const int STATS        READ stats)
+        /*! \brief Peer alert */
+        Q_PROPERTY(const int ALL          READ all)
 
+        /*! \cond */
         const int error();
         const int peer();
         const int port_mapping();
@@ -57,6 +82,7 @@ namespace RoxeeTorrent
         const int dht();
         const int stats();
         const int all();
+        /*! \endcond */
 
     private:
         explicit AlertTypes(){}
