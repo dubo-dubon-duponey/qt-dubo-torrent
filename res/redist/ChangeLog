@@ -1,12 +1,12 @@
-RoxeeTorrent-0.3.0-6c476c1-18:
+RoxeeTorrent-0.3.0-17e3262-26-20120603:
     First public release
     Massive clean-up
     Proper namespacing
     Renaming
+    Doxygen
 
 0.2.0-alpha3-201205XX:
     Clean-up
 
 0.1.0-alpha1-20120414:
     Initial release.
-
