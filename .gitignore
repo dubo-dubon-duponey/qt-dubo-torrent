@@ -2,3 +2,6 @@ Makefile*
 buildd/
 .DS_Store
 *.pro.user
+buildd*
+doc/
+libroxeetorrent
