@@ -13,43 +13,49 @@
 
 #include <libtorrent/alert_types.hpp>
 
+/*! \cond */
+
 using namespace RoxeeTorrent;
 namespace RoxeeTorrent{
-    AlertTypes* AlertTypes::m_Instance = 0;
 
-    AlertTypes* AlertTypes::instance()
-    {
-        static QMutex mutex;
-        if (!m_Instance){
-            mutex.lock();
-            if (!m_Instance)
-                m_Instance = new AlertTypes;
-            mutex.unlock();
-        }
-        return m_Instance;
-    }
+AlertTypes* AlertTypes::m_Instance = 0;
 
-    void AlertTypes::drop()
-    {
-        static QMutex mutex;
+AlertTypes* AlertTypes::instance()
+{
+    static QMutex mutex;
+    if (!m_Instance){
         mutex.lock();
-        delete m_Instance;
-        m_Instance = 0;
+        if (!m_Instance)
+            m_Instance = new AlertTypes;
         mutex.unlock();
     }
-
-
-    const int AlertTypes::all()             { return libtorrent::alert::all_categories;}
-    const int AlertTypes::debug()           { return libtorrent::alert::debug_notification;}
-    const int AlertTypes::dht()             { return libtorrent::alert::dht_notification;}
-    const int AlertTypes::error()           { return libtorrent::alert::error_notification;}
-    const int AlertTypes::ip_block()        { return libtorrent::alert::ip_block_notification;}
-    const int AlertTypes::peer()            { return libtorrent::alert::peer_notification;}
-    const int AlertTypes::performance()     { return libtorrent::alert::performance_warning;}
-    const int AlertTypes::port_mapping()    { return libtorrent::alert::port_mapping_notification;}
-    const int AlertTypes::progress()        { return libtorrent::alert::progress_notification;}
-    const int AlertTypes::stats()           { return libtorrent::alert::stats_notification;}
-    const int AlertTypes::status()          { return libtorrent::alert::status_notification;}
-    const int AlertTypes::storage()         { return libtorrent::alert::storage_notification;}
-    const int AlertTypes::tracker()         { return libtorrent::alert::tracker_notification;}
+    return m_Instance;
 }
+
+void AlertTypes::drop()
+{
+    static QMutex mutex;
+    mutex.lock();
+    delete m_Instance;
+    m_Instance = 0;
+    mutex.unlock();
+}
+
+
+const int AlertTypes::all()             { return libtorrent::alert::all_categories;}
+const int AlertTypes::debug()           { return libtorrent::alert::debug_notification;}
+const int AlertTypes::dht()             { return libtorrent::alert::dht_notification;}
+const int AlertTypes::error()           { return libtorrent::alert::error_notification;}
+const int AlertTypes::ip_block()        { return libtorrent::alert::ip_block_notification;}
+const int AlertTypes::peer()            { return libtorrent::alert::peer_notification;}
+const int AlertTypes::performance()     { return libtorrent::alert::performance_warning;}
+const int AlertTypes::port_mapping()    { return libtorrent::alert::port_mapping_notification;}
+const int AlertTypes::progress()        { return libtorrent::alert::progress_notification;}
+const int AlertTypes::stats()           { return libtorrent::alert::stats_notification;}
+const int AlertTypes::status()          { return libtorrent::alert::status_notification;}
+const int AlertTypes::storage()         { return libtorrent::alert::storage_notification;}
+const int AlertTypes::tracker()         { return libtorrent::alert::tracker_notification;}
+
+}
+
+/*! \endcond */

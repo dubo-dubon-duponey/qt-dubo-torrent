@@ -21,47 +21,64 @@
 
 namespace RoxeeTorrent
 {
+    /*!
+      \brief A torrent object, as returned by the session object.
+    */
     class TorrentHandle : public QObject
     {
         Q_OBJECT
     public:
+        /*! \cond */
         explicit TorrentHandle(const QString & info_hash, QObject *parent = 0);
+        /*! \endcond */
+
+        /*! \brief Reads the torrent infohash. */
         Q_PROPERTY(const QString infoHash READ info_hash)
+        /*! \brief Reads the torrent name. */
         Q_PROPERTY(const QString name READ name)
+        /*! \brief Tells wether the torrent is valid or not. */
         Q_PROPERTY(bool isValid READ is_valid)
+        /*! \brief Tells wether the torrent is downloading sequentially. */
         Q_PROPERTY(bool isSequential READ is_sequential_download)
 
+        /*! \brief Allows to make the torrent download (un)sequentially. */
         Q_INVOKABLE void setSequential(bool flag);
-        const QString info_hash();
-        const QString name();
-        bool is_sequential_download();
-        bool is_valid();
 
     //    Q_INVOKABLE QVariant getInfo();
 
 
 
+        /*! \brief Reads the number of files in the torrent. */
         Q_PROPERTY(const int numFiles READ num_files)
+        /*! \brief Reads wether the torrent is private or not. */
         Q_PROPERTY(const int priv READ priv)
 
+        /*! \brief Reads the total size of the torrent. */
         Q_PROPERTY(const qint64 totalSize READ total_size)
+        /*! \brief Reads the torrent piece length. */
         Q_PROPERTY(const qint64 pieceLength READ piece_length)
+        /*! \brief Reads the torrent number of pieces. */
         Q_PROPERTY(const qint64 numPieces READ num_pieces)
 
+        /*! \brief Reads the torrent allTimeDownload. */
         Q_PROPERTY(const qint64 allTimeDownload READ all_time_download)
 
 
     //    Q_PROPERTY(const QString infoHash READ info_hash)
 
     //    Q_PROPERTY(const QString name READ name)
+        /*! \brief Reads the torrent comment. */
         Q_PROPERTY(const QString comment READ comment)
+        /*! \brief Reads the torrent creator. */
         Q_PROPERTY(const QString creator READ creator)
 
     //    Q_PROPERTY(const qint64 creationDate READ creation_date)
+        /*! \brief Reads the torrent metadata. */
         Q_PROPERTY(const QString metadata READ metadata)
 
-
+        /*! \brief Gets the file path of file at position pos in the list of files. */
         Q_INVOKABLE QString filePathAt(const int pos);
+        /*! \brief Reads the file size of file at position pos in the list of files. */
         Q_INVOKABLE qint64 fileSizeAt(const int pos);
     //    file_entry const& file_at(int index) const;
     //    struct file_entry
@@ -80,6 +97,12 @@ namespace RoxeeTorrent
 
         //    Q_INVOKABLE const QtLtFileEntry * getFileAt(const int & pos);
 
+        /*! \cond */
+        const QString info_hash();
+        const QString name();
+        bool is_sequential_download();
+        bool is_valid();
+
         const int num_files();
         const bool priv();
         const qint64 total_size();
@@ -94,6 +117,7 @@ namespace RoxeeTorrent
 
     //    const qint64 creation_date();
         const QString metadata();
+        /*! \endcond */
 
     signals:
 

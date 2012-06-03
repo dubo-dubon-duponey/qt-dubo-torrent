@@ -11,6 +11,8 @@
 
 // XXX deprecated for now (flattened into torrent_handle)
 
+/*! \cond */
+
 class QTLIBTORRENTSHARED_EXPORT QtLtTorrentInfo : public QObject
 {
     Q_OBJECT
@@ -80,6 +82,7 @@ private:
     libtorrent::torrent_info torrentinfo;
 
 };
+/*! \endcond */
 
 /*
 class torrent_info

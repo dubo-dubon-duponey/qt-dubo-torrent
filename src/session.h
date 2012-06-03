@@ -14,33 +14,45 @@
 
 #include "libroxeetorrent_global.h"
 
-#include "alert.h"
-#include "torrenthandle.h"
-
 #include <QtCore/QObject>
 #include <QtCore/QVariant>
 
+#include "root.h"
+
 namespace RoxeeTorrent
 {
+    /*!
+      \brief The main instaciable class.
+    */
     class LIBROXEETORRENTSHARED_EXPORT Session : public QObject
     {
         Q_OBJECT
     public:
         // XXX maybe let pass the error mask?
         // XXX maybe let expose the constructor to JS
+        /*! \brief Session constructor.*/
         explicit Session(const QString & id, const int & major, const int & minor, const int & revision, const int & tag, QObject* parent = 0);
         ~Session();
 
+        /*! \brief Accessor to the Root object */
+        RoxeeTorrent::Root * root();
+
+        /*! \brief Allows to restore the previous session state. */
         Q_INVOKABLE void loadState(const QString & e);
+        /*! \brief Allows to serialize the current session state. */
         Q_INVOKABLE const QString saveState(const int & flags = 0);
 
+        /*! \brief Pause the session. */
         Q_INVOKABLE void pause();
+        /*! \brief Resume the session. */
         Q_INVOKABLE void resume();
+        /*! \brief Abort the session. (dmp: wtf?) */
         Q_INVOKABLE void abort();
 
+        /*! \brief Checks wether the session is paused or running. */
         Q_PROPERTY(const bool isPaused READ is_paused)
-        const bool is_paused();
 
+        /*! \brief Allows to add a torrent file. */
         Q_INVOKABLE void addTorrent(const QString & torrentfilepath);
 
         //    Q_INVOKABLE void removeTorrent(const QString & torrentfilepath);
@@ -48,25 +60,41 @@ namespace RoxeeTorrent
 
 
 
+        /*! \brief Tells wether dht is enable or not. */
         Q_PROPERTY(const bool isDhtRunning READ is_dht_running)
-        const bool is_dht_running();
+        /*! \brief Start dht. */
         Q_INVOKABLE void startDht();
+        /*! \brief Stop dht. */
         Q_INVOKABLE void stopDht();
 
+        /*! \brief Start lsd. */
         Q_INVOKABLE void startLsd();
+        /*! \brief Stop lsd. */
         Q_INVOKABLE void stopLsd();
 
+        /*! \brief Allow to retrieve and set the upload limit. */
         Q_PROPERTY(int uploadRateLimit          READ upload_rate_limit          WRITE set_upload_rate_limit)
+        /*! \brief Allow to retrieve and set the download limit. */
         Q_PROPERTY(int downloadRateLimit        READ download_rate_limit        WRITE set_download_rate_limit)
+        /*! \brief Allow to retrieve and set the local upload limit. */
         Q_PROPERTY(int localUploadRateLimit     READ local_upload_rate_limit    WRITE set_local_upload_rate_limit)
+        /*! \brief Allow to retrieve and set the local download limit. */
         Q_PROPERTY(int localDownloadRateLimit   READ local_download_rate_limit  WRITE set_local_download_rate_limit)
+        /*! \brief Allow to retrieve and set the max number of connections. */
         Q_PROPERTY(int maxConnections           READ max_connections            WRITE set_max_connections)
+        /*! \brief Allow to retrieve and set the max number of uploads. */
         Q_PROPERTY(int maxUploads               READ max_uploads                WRITE set_max_uploads)
+        /*! \brief Allow to retrieve and set the maxi number of half open connections. */
         Q_PROPERTY(int maxHalfOpenConnections   READ max_half_open_connections  WRITE set_max_half_open_connections)
 
+        /*! \brief Allow to retrieve the number of current uploads. */
         Q_PROPERTY(int numUploads               READ num_uploads)
+        /*! \brief Allow to retrieve the number of current connections. */
         Q_PROPERTY(int numConnections           READ num_connections)
 
+        /*! \cond */
+        const bool is_paused();
+        const bool is_dht_running();
         const int upload_rate_limit();
         void set_upload_rate_limit(const int rate);
         const int download_rate_limit();
@@ -83,20 +111,32 @@ namespace RoxeeTorrent
         void set_max_uploads(const int limit);
         const int num_uploads();
         const int num_connections();
+        /*! \endcond */
 
+        /*! \brief Wether we are listening or not. */
         Q_PROPERTY(bool isListening READ is_listening)
+        /*! \brief Gets the listening port. */
         Q_PROPERTY(int  listenPort  READ listen_port)
+        /*! \brief Order to listen on the first available port between startPort and endPort. */
         Q_INVOKABLE bool listenOn(const int startPort, const int endPort);
 
+        /*! \cond */
         const bool is_listening();
         const int listen_port();
+        /*! \endcond */
 
+        /*! \brief Retrieve the last alert. @see Alert */
         Q_INVOKABLE const QVariant popAlert();
+        /*! \brief Allows to set an alert mask. */
         Q_INVOKABLE void setAlertMask(int m = 0);
+        /*! \brief Allows to set the max queue size of alerts. */
         Q_INVOKABLE void setAlertQueueSizeLimit(int l);
 
+        /*! \brief Gets the total number of torrents. */
         Q_INVOKABLE const int getTorrentsLength();
+        /*! \brief Returns a torrent handle at position "pos". @see TorrentHandle */
         Q_INVOKABLE const QVariant getTorrentAt(int pos);
+        /*! \brief Delete torrent at position "pos" (including files). */
         Q_INVOKABLE void removeTorrentAt(int pos);
 
         //    Q_INVOKABLE const QVariant waitForAlert();
@@ -113,6 +153,7 @@ namespace RoxeeTorrent
         // start_upnp() stop_upnp()
         // start_natpmp() stop_natpmp()
 
+        /*! \brief Adds a new torrent from magnet. */
         Q_INVOKABLE QString addMagnet(const QString & path, const QString & save_path);
 
     signals:
@@ -120,6 +161,7 @@ namespace RoxeeTorrent
     public slots:
 
     private:
+        RoxeeTorrent::Root * _rp_root;
 
     };
 }

@@ -14,7 +14,10 @@
 #include "alert.h"
 #include <QtCore/qDebug>
 
+/*! \cond */
+
 using namespace RoxeeTorrent;
+namespace RoxeeTorrent{
 
 Alert::Alert(const QString &what, const QString &message, const int category, const qint64 timestamp, QObject *parent):
     QObject(parent)
@@ -38,7 +41,10 @@ const qint64 Alert::timestamp()
     return _timestamp;
 }
 
-// To be compared against an error type
 const int Alert::category()       {
     return _category;
 }
+
+}
+
+/*! \endcond */

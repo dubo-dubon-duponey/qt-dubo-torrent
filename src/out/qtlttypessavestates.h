@@ -15,6 +15,8 @@
 #include <QtCore/QObject>
 #include <QtCore/QMutex>
 
+/*! \cond */
+
 namespace RoxeeTorrent
 {
     class QtLtSaveStates : public QObject
@@ -68,5 +70,7 @@ namespace RoxeeTorrent
 
     };
 }
+
+/*! \endcond */
 
 #endif // QTLTSAVESTATES_H
