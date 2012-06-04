@@ -13,11 +13,11 @@
 
 #include <libtorrent/alert_types.hpp>
 
+#include <QtCore/QMutex>
+
 /*! \cond */
 
-using namespace RoxeeTorrent;
 namespace RoxeeTorrent{
-
 AlertTypes* AlertTypes::m_Instance = 0;
 
 AlertTypes* AlertTypes::instance()
@@ -32,7 +32,8 @@ AlertTypes* AlertTypes::instance()
     return m_Instance;
 }
 
-void AlertTypes::drop()
+/*! \cond */
+AlertTypes::~AlertTypes()
 {
     static QMutex mutex;
     mutex.lock();
