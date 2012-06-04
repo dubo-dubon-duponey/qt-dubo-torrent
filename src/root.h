@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2012, WebItUp
+ * Copyright (c) 2012, WebItUp <contact@webitup.fr>
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without modification, are permitted provided that the following conditions are met:
@@ -65,6 +65,8 @@ namespace RoxeeTorrent
         /*! \brief The (git) changeset of the library.*/
         Q_PROPERTY(const QString ROXEE_CHANGESET READ getChangeset)
 
+        /*! \brief The nameof the underlying player library.*/
+        Q_PROPERTY(const QString PLUGIN_NAME READ getLibName)
         /*! \brief The version of the underlying torrent library.*/
         Q_PROPERTY(const QString PLUGIN_VERSION READ getLibVersion)
         /*! \brief The revision of the underlying torrent library.*/
@@ -76,6 +78,7 @@ namespace RoxeeTorrent
         const QString getRevision();
         const QString getChangeset();
 
+        const QString getLibName(){ return QString::fromAscii("libtorrent");}
         const QString getLibVersion();
         const QString getLibRevision();
         /*! \endcond */
