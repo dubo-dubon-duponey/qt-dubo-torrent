@@ -11,7 +11,7 @@ CONFIG = ordered
 SUBDIRS = src
 
 OTHER_FILES += vars.pri.in \
-    doxygen.tpl \
+    res/doxygen.tpl \
     res/redist/AUTHORS \
     res/redist/ChangeLog \
     res/redist/LICENSE.BSD2 \

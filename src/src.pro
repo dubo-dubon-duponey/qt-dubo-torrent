@@ -46,7 +46,7 @@ unix:!macx {
 INCLUDEPATH += $$PWD
 
 target.path = $$DESTDIR
-INSTALLS += target dist
+INSTALLS += target
 
 
 ##### libtorrent general configuration
