@@ -33,8 +33,9 @@ CONFIG(debug, debug|release){
     BT = debug
     message( -> Debug build)
 }else{
-    CONFIG -= debug
+    CONFIG -= debug declarative_debug
     BT = release
+    DEFINES += NDEBUG
     message( -> Release build)
 }
 
@@ -47,6 +48,7 @@ OBJECTS_DIR = $$PWD/../buildd-$$BT/temp/obj
 message( -> Using temp build dir $$PWD/../buildd-$$BT)
 
 isEmpty(DESTDIR){
+    CONFIG += debug_and_release build_all
     DESTDIR = $$PWD/../buildd-$$BT/$$PROJECT_NAME-$${PROJECT_VERSION_MAJOR}.$${PROJECT_VERSION_MINOR}.$${PROJECT_VERSION_BUGFIX}-$${GITVERSION}-$${GITCHANGENUMBER}
 }
 
