@@ -48,7 +48,7 @@ OBJECTS_DIR = $$PWD/../buildd-$$BT/temp/obj
 message( -> Using temp build dir $$PWD/../buildd-$$BT)
 
 isEmpty(DESTDIR){
-    CONFIG += debug_and_release build_all
+#    CONFIG += debug_and_release build_all
     DESTDIR = $$PWD/../buildd-$$BT/$$PROJECT_NAME-$${PROJECT_VERSION_MAJOR}.$${PROJECT_VERSION_MINOR}.$${PROJECT_VERSION_BUGFIX}-$${GITVERSION}-$${GITCHANGENUMBER}
 }
 
