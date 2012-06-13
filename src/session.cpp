@@ -270,10 +270,11 @@ const int Session::listen_port(){
     return LRTCoreInstance::instance()->getSession()->listen_port();
 }
 
-bool Session::listenOn(const int startPort, const int endPort){
+void Session::listenOn(const int startPort, const int endPort){
     // XXX doesn't support interface specific listening
     std::pair<int,int> ports(startPort, endPort);
-    return LRTCoreInstance::instance()->getSession()->listen_on(ports);
+    libtorrent::error_code ec;
+    return LRTCoreInstance::instance()->getSession()->listen_on(ports, ec);
 }
 
 

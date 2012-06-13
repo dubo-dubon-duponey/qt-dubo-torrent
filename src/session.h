@@ -118,7 +118,7 @@ namespace RoxeeTorrent
         /*! \brief Gets the listening port. */
         Q_PROPERTY(int  listenPort  READ listen_port)
         /*! \brief Order to listen on the first available port between startPort and endPort. */
-        Q_INVOKABLE bool listenOn(const int startPort, const int endPort);
+        Q_INVOKABLE void listenOn(const int startPort, const int endPort);
 
         /*! \cond */
         const bool is_listening();
