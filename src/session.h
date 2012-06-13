@@ -72,25 +72,25 @@ namespace RoxeeTorrent
         /*! \brief Stop lsd. */
         Q_INVOKABLE void stopLsd();
 
-        /*! \brief Allow to retrieve and set the upload limit. */
-        Q_PROPERTY(int uploadRateLimit          READ upload_rate_limit          WRITE set_upload_rate_limit)
-        /*! \brief Allow to retrieve and set the download limit. */
-        Q_PROPERTY(int downloadRateLimit        READ download_rate_limit        WRITE set_download_rate_limit)
-        /*! \brief Allow to retrieve and set the local upload limit. */
-        Q_PROPERTY(int localUploadRateLimit     READ local_upload_rate_limit    WRITE set_local_upload_rate_limit)
-        /*! \brief Allow to retrieve and set the local download limit. */
-        Q_PROPERTY(int localDownloadRateLimit   READ local_download_rate_limit  WRITE set_local_download_rate_limit)
-        /*! \brief Allow to retrieve and set the max number of connections. */
-        Q_PROPERTY(int maxConnections           READ max_connections            WRITE set_max_connections)
-        /*! \brief Allow to retrieve and set the max number of uploads. */
-        Q_PROPERTY(int maxUploads               READ max_uploads                WRITE set_max_uploads)
-        /*! \brief Allow to retrieve and set the maxi number of half open connections. */
-        Q_PROPERTY(int maxHalfOpenConnections   READ max_half_open_connections  WRITE set_max_half_open_connections)
+//        /*! \brief Allow to retrieve and set the upload limit. */
+//        Q_PROPERTY(int uploadRateLimit          READ upload_rate_limit          WRITE set_upload_rate_limit)
+//        /*! \brief Allow to retrieve and set the download limit. */
+//        Q_PROPERTY(int downloadRateLimit        READ download_rate_limit        WRITE set_download_rate_limit)
+//        /*! \brief Allow to retrieve and set the local upload limit. */
+//        Q_PROPERTY(int localUploadRateLimit     READ local_upload_rate_limit    WRITE set_local_upload_rate_limit)
+//        /*! \brief Allow to retrieve and set the local download limit. */
+//        Q_PROPERTY(int localDownloadRateLimit   READ local_download_rate_limit  WRITE set_local_download_rate_limit)
+//        /*! \brief Allow to retrieve and set the max number of connections. */
+//        Q_PROPERTY(int maxConnections           READ max_connections            WRITE set_max_connections)
+//        /*! \brief Allow to retrieve and set the max number of uploads. */
+//        Q_PROPERTY(int maxUploads               READ max_uploads                WRITE set_max_uploads)
+//        /*! \brief Allow to retrieve and set the maxi number of half open connections. */
+//        Q_PROPERTY(int maxHalfOpenConnections   READ max_half_open_connections  WRITE set_max_half_open_connections)
 
-        /*! \brief Allow to retrieve the number of current uploads. */
-        Q_PROPERTY(int numUploads               READ num_uploads)
-        /*! \brief Allow to retrieve the number of current connections. */
-        Q_PROPERTY(int numConnections           READ num_connections)
+//        /*! \brief Allow to retrieve the number of current uploads. */
+//        Q_PROPERTY(int numUploads               READ num_uploads)
+//        /*! \brief Allow to retrieve the number of current connections. */
+//        Q_PROPERTY(int numConnections           READ num_connections)
 
         /*! \cond */
         const bool is_paused();
@@ -99,18 +99,18 @@ namespace RoxeeTorrent
         void set_upload_rate_limit(const int rate);
         const int download_rate_limit();
         void set_download_rate_limit(const int rate);
-        const int local_upload_rate_limit();
-        void set_local_upload_rate_limit(const int rate);
-        const int local_download_rate_limit();
-        void set_local_download_rate_limit(const int rate);
-        const int max_connections();
-        void set_max_connections(const int limit);
-        const int max_half_open_connections();
-        void set_max_half_open_connections(const int limit);
-        const int max_uploads();
-        void set_max_uploads(const int limit);
-        const int num_uploads();
-        const int num_connections();
+//        const int local_upload_rate_limit();
+//        void set_local_upload_rate_limit(const int rate);
+//        const int local_download_rate_limit();
+//        void set_local_download_rate_limit(const int rate);
+//        const int max_connections();
+//        void set_max_connections(const int limit);
+//        const int max_half_open_connections();
+//        void set_max_half_open_connections(const int limit);
+//        const int max_uploads();
+//        void set_max_uploads(const int limit);
+//        const int num_uploads();
+//        const int num_connections();
         /*! \endcond */
 
         /*! \brief Wether we are listening or not. */
@@ -129,8 +129,8 @@ namespace RoxeeTorrent
         Q_INVOKABLE const QVariant popAlert();
         /*! \brief Allows to set an alert mask. */
         Q_INVOKABLE void setAlertMask(int m = 0);
-        /*! \brief Allows to set the max queue size of alerts. */
-        Q_INVOKABLE void setAlertQueueSizeLimit(int l);
+
+//        Q_INVOKABLE void setAlertQueueSizeLimit(int l);
 
         /*! \brief Gets the total number of torrents. */
         Q_INVOKABLE const int getTorrentsLength();

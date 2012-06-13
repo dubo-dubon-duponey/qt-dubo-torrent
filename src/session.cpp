@@ -78,14 +78,97 @@ void Session::addTorrent(const QString & torrentfilepath){
 // http://code.google.com/p/libtorrent/issues/detail?id=96
 
 
+//QString Session::addMagnet(const QString & uri, const QString & save_path)
+//{
+    // XXX DEPRECATED MUST ACCESS TORRENT_PARAM / async_add_torrent
+//    qDebug() << " [M] TORRENT: add magnet";
+//    libtorrent::torrent_handle to = libtorrent::add_magnet_uri(* LRTCoreInstance::instance()->getSession(),
+//        uri.toStdString(), save_path.toStdString());
+
+//    libtorrent::sha1_hash hash = to.info_hash();
+//    std::ostringstream o;
+//    o << hash;
+//    qDebug() << "hooooooooooooooooooooooooooooooooo";
+//    qDebug() << o.str().c_str();
+//    return QString(o.str().c_str());
+//    return 0;
+
+
+//    libtorrent::async_add_torrent()
+
+
+
+    //    boost::filesystem::path t = boost::filesystem::path(path.toLocal8Bit());
+    //    boost::filesystem::path s = boost::filesystem::path(save_path.toLocal8Bit());
+//        uri.toStdString(), s);
+
+
+    ////    return QString(o.str().c_str());
+
+    ////            ->add_torrent(ti, s);
+//}
+
+
+
+
 QString Session::addMagnet(const QString & uri, const QString & save_path)
 {
-    qDebug() << " [M] TORRENT: add magnet";
-//    boost::filesystem::path t = boost::filesystem::path(path.toLocal8Bit());
-//    boost::filesystem::path s = boost::filesystem::path(save_path.toLocal8Bit());
-    libtorrent::torrent_handle to = libtorrent::add_magnet_uri(* LRTCoreInstance::instance()->getSession(),
-        uri.toStdString(), save_path.toStdString());
-//        uri.toStdString(), s);
+
+    // Actually add the torrent
+//    add_torrent_params p = initializeAddTorrentParams(hash);
+//    p.ti = t;
+
+//    // Get fast resume data if existing
+//    bool fastResume = false;
+//    std::vector<char> buf; // Needs to stay in the function scope
+//    if (resumed) {
+//      if (loadFastResumeData(hash, buf)) {
+//        fastResume = true;
+//        p.resume_data = &buf;
+//        qDebug("Successfully loaded fast resume data");
+//      }
+//    }
+
+//    QString savePath;
+//    if (!from_url.isEmpty() && savepathLabel_fromurl.contains(QUrl::fromEncoded(from_url.toUtf8()))) {
+//      // Enforcing the save path defined before URL download (from RSS for example)
+//      QPair<QString, QString> savePath_label = savepathLabel_fromurl.take(QUrl::fromEncoded(from_url.toUtf8()));
+//      if (savePath_label.first.isEmpty())
+//        savePath = getSavePath(hash, fromScanDir, path);
+//      else
+//        savePath = savePath_label.first;
+//      // Remember label
+//      TorrentTempData::setLabel(hash, savePath_label.second);
+//    } else {
+//      savePath = getSavePath(hash, fromScanDir, path);
+//    }
+//    if (!defaultTempPath.isEmpty() && !TorrentPersistentData::isSeed(hash) && resumed) {
+//      qDebug("addTorrent::Temp folder is enabled.");
+//      QString torrent_tmp_path = defaultTempPath.replace("\\", "/");
+//      p.save_path = torrent_tmp_path.toUtf8().constData();
+//      // Check if save path exists, creating it otherwise
+//      if (!QDir(torrent_tmp_path).exists()) QDir().mkpath(torrent_tmp_path);
+//      qDebug("addTorrent: using save_path: %s", qPrintable(torrent_tmp_path));
+//    } else {
+//      p.save_path = savePath.toUtf8().constData();
+//      // Check if save path exists, creating it otherwise
+//      if (!QDir(savePath).exists()) QDir().mkpath(savePath);
+//      qDebug("addTorrent: using save_path: %s", qPrintable(savePath));
+//    }
+
+//    // Adding torrent to Bittorrent session
+//    try {
+//      h =  QTorrentHandle(s->add_torrent(p);
+//    }catch(std::exception e) {
+//      qDebug("Error: %s", e.what());
+//    }
+
+    libtorrent::add_torrent_params p;
+//    p.seed_mode = false;
+//    p.auto_managed = true;
+    p.save_path = save_path.toStdString();
+    p.url = uri.toStdString();
+    libtorrent::torrent_handle to = LRTCoreInstance::instance()->getSession()->add_torrent(p);
 
     libtorrent::sha1_hash hash = to.info_hash();
     std::ostringstream o;
@@ -93,10 +176,69 @@ QString Session::addMagnet(const QString & uri, const QString & save_path)
     qDebug() << "hooooooooooooooooooooooooooooooooo";
     qDebug() << o.str().c_str();
     return QString(o.str().c_str());
-////    return QString(o.str().c_str());
 
-////            ->add_torrent(ti, s);
+    //    libtorrent::add_magnet_uri(* LRTCoreInstance::instance()->getSession(),
+    //        uri.toStdString(), save_path.toStdString());
+
+    //    return 0;
+
+//    typedef boost::function<storage_interface*(file_storage const&
+//            , file_storage const*, std::string const&, file_pool&
+//            , std::vector<boost::uint8_t> const&) storage_constructor_type;
+
+//    struct add_torrent_params
+//    {
+//            add_torrent_params(storage_constructor_type s);
+
+//            enum flags_t
+//            {
+//                    flag_seed_mode = 0x001,
+//                    flag_override_resume_data = 0x002,
+//                    flag_upload_mode = 0x004,
+//                    flag_share_mode = 0x008,
+//                    flag_apply_ip_filter = 0x010,
+//                    flag_paused = 0x020,
+//                    flag_auto_managed = 0x040.
+//                    flag_duplicate_is_error = 0x080,
+//                    flag_merge_resume_trackers = 0x100,
+//                    flag_update_subscribe = 0x200
+//            };
+
+//            int version;
+//            boost::intrusive_ptr<torrent_info> ti;
+//            std::vector<std::string> trackers;
+//            std::vector<std::pair<std::string, int> > dht_nodes;
+//            sha1_hash info_hash;
+//            std::string name;
+//            std::string save_path;
+//            std::vector<char>* resume_data;
+//            storage_mode_t storage_mode;
+//            storage_constructor_type storage;
+//            void* userdata;
+//            std::vector<boost::uint8_t> const* file_priorities;
+//            std::string trackerid;
+//            std::string url;
+//            std::string uuid;
+//            std::string source_feed_url;
+//            boost::uint64_t flags;
+//    };
+
+//    torrent_handle add_torrent(add_torrent_params const& params);
+//    torrent_handle add_torrent(add_torrent_params const& params
+//            , error_code& ec);
+//    void async_add_torrent(add_torrent_params const& params);
+
 }
+
+
+
+
+
+
+
+
+
+
 
 //add_magnet_uri()
 //torrent_handle add_magnet_uri(session& ses, std::string const& uri
@@ -122,7 +264,8 @@ void Session::loadState(const QString & entry)
 {
     const char * in = entry.toLocal8Bit().constData();
     libtorrent::lazy_entry e;
-    if (lazy_bdecode(&in[0], &in[0] + sizeof(in), e) == 0) {
+    libtorrent::error_code c;
+    if (lazy_bdecode(&in[0], &in[0] + sizeof(in), e, c) == 0) {
       LRTCoreInstance::instance()->getSession()->load_state(e);
     }
 }
@@ -184,68 +327,78 @@ void Session::stopLsd(){
 }
 
 const int Session::upload_rate_limit(){
-    return LRTCoreInstance::instance()->getSession()->upload_rate_limit();
+    return LRTCoreInstance::instance()->getSession()->settings().upload_rate_limit;
 }
 void Session::set_upload_rate_limit(const int rate){
-    LRTCoreInstance::instance()->getSession()->set_upload_rate_limit(rate);
+    // XXX Is this even working???
+    LRTCoreInstance::instance()->getSession()->settings().upload_rate_limit = rate;
+//    LRTCoreInstance::instance()->getSession()->set_upload_rate_limit(rate);
 }
 
 const int Session::download_rate_limit(){
-    return LRTCoreInstance::instance()->getSession()->download_rate_limit();
+    return LRTCoreInstance::instance()->getSession()->settings().download_rate_limit;
 }
 void Session::set_download_rate_limit(const int rate){
-    LRTCoreInstance::instance()->getSession()->set_download_rate_limit(rate);
+    LRTCoreInstance::instance()->getSession()->settings().download_rate_limit = rate;
+//    LRTCoreInstance::instance()->getSession()->set_download_rate_limit(rate);
 }
 
-const int Session::local_upload_rate_limit(){
-    return LRTCoreInstance::instance()->getSession()->local_upload_rate_limit();
-}
-void Session::set_local_upload_rate_limit(const int rate){
-    LRTCoreInstance::instance()->getSession()->set_local_upload_rate_limit(rate);
-}
+//const int Session::local_upload_rate_limit(){
+//    return 0; // LRTCoreInstance::instance()->getSession()->local_upload_rate_limit();
+//}
+//void Session::set_local_upload_rate_limit(const int rate){
+////    LRTCoreInstance::instance()->getSession()->set_local_upload_rate_limit(rate);
+//}
 
-const int Session::local_download_rate_limit(){
-    return LRTCoreInstance::instance()->getSession()->local_download_rate_limit();
-}
-void Session::set_local_download_rate_limit(const int rate){
-    LRTCoreInstance::instance()->getSession()->set_local_download_rate_limit(rate);
-}
+//const int Session::local_download_rate_limit(){
+//    return 0; // LRTCoreInstance::instance()->getSession()->local_download_rate_limit();
+//}
+//void Session::set_local_download_rate_limit(const int rate){
+////    LRTCoreInstance::instance()->getSession()->set_local_download_rate_limit(rate);
+//}
 
-const int Session::max_connections(){
-    return LRTCoreInstance::instance()->getSession()->max_connections();
-}
-void Session::set_max_connections(const int limit){
-    LRTCoreInstance::instance()->getSession()->set_max_connections(limit);
-}
+//const int Session::max_connections(){
+//    return 0;//LRTCoreInstance::instance()->getSession()->max_connections();
+//}
+//void Session::set_max_connections(const int limit){
+//    // LRTCoreInstance::instance()->getSession()->set_max_connections(limit);
+//}
 
-const int Session::max_half_open_connections(){
-    return LRTCoreInstance::instance()->getSession()->max_half_open_connections();
-}
-void Session::set_max_half_open_connections(const int limit){
-    LRTCoreInstance::instance()->getSession()->set_max_half_open_connections(limit);
-}
+//const int Session::max_half_open_connections(){
+//    return 0;//LRTCoreInstance::instance()->getSession()->max_half_open_connections();
+//}
+//void Session::set_max_half_open_connections(const int limit){
+//    // LRTCoreInstance::instance()->getSession()->set_max_half_open_connections(limit);
+//}
 
-const int Session::max_uploads(){
-    return LRTCoreInstance::instance()->getSession()->max_uploads();
-}
-void Session::set_max_uploads(const int limit){
-    LRTCoreInstance::instance()->getSession()->set_max_uploads(limit);
-}
+//const int Session::max_uploads(){
+//    return 0; // LRTCoreInstance::instance()->getSession()->max_uploads();
+//}
+//void Session::set_max_uploads(const int limit){
+////    LRTCoreInstance::instance()->getSession()->set_max_uploads(limit);
+//}
 
-const int Session::num_uploads(){
-    return LRTCoreInstance::instance()->getSession()->num_uploads();
-}
-const int Session::num_connections(){
-    return LRTCoreInstance::instance()->getSession()->num_connections();
-}
+//const int Session::num_uploads(){
+//    return 0; // LRTCoreInstance::instance()->getSession()->num_uploads();
+//}
+//const int Session::num_connections(){
+//    return 0; // LRTCoreInstance::instance()->getSession()->num_connections();
+//}
 
 const QVariant Session::popAlert(){
     std::auto_ptr<libtorrent::alert> t = LRTCoreInstance::instance()->getSession()->pop_alert();
     if(t.get()){
+        libtorrent::ptime boostDate =  t->timestamp();
+
+        // Previously was boostDate.time
+        struct std::tm tm;
+        tm = boost::posix_time::to_tm(boostDate);
+        const time_t ft = mktime(&tm);
+
         Alert* myalert = new Alert(QString::fromLocal8Bit(t->what()),
                                            QString::fromLocal8Bit(t->message().c_str()),
                                            t->category(),
-                                           qint64(t->timestamp().time),
+                                           qint64(ft),
                                            this);
         QVariant var(QMetaType::QObjectStar);
         var.setValue((QObject*) myalert);
@@ -258,9 +411,9 @@ void Session::setAlertMask(int m){
     LRTCoreInstance::instance()->getSession()->set_alert_mask(m);
 }
 
-void Session::setAlertQueueSizeLimit(int l){
-    LRTCoreInstance::instance()->getSession()->set_alert_queue_size_limit(l);
-}
+//void Session::setAlertQueueSizeLimit(int l){
+//    // LRTCoreInstance::instance()->getSession()->set_alert_queue_size_limit(l);
+//}
 
 const bool Session::is_listening(){
     return LRTCoreInstance::instance()->getSession()->is_listening();
