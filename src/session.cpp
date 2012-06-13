@@ -32,7 +32,7 @@ namespace RoxeeTorrent{
 Session::Session(const QString & id, const int & major, const int & minor, const int & revision, const int & tag, QObject* parent):
     QObject(parent)
 {
-    qDebug() << " [M] TORRENT: constructor";
+    qDebug() << "     +++ [Lib] {Torrent}: constructor";
     _rp_root = 0;
     // Check http://wiki.theory.org/BitTorrentSpecification#peer_id
     // Should be two char long
@@ -48,7 +48,6 @@ Session::Session(const QString & id, const int & major, const int & minor, const
 
 RoxeeTorrent::Root * Session::root()
 {
-    qDebug() << " [M] VLC: root getter";
     if(!_rp_root){
         _rp_root = new RoxeeTorrent::Root();
     }
@@ -256,7 +255,7 @@ QString Session::addMagnet(const QString & uri, const QString & save_path)
 // XXX will block until all trackers are notified - might or might not be what we want
 Session::~Session()
 {
-    qDebug() << " [M] TORRENT: destructor";
+    qDebug() << "     --- [Lib] {Torrent}: destructor";
     LRTCoreInstance::instance()->drop();
 }
 
@@ -286,23 +285,23 @@ const QString Session::saveState(const int & flags)
 
 
 const bool Session::is_paused(){
-    qDebug() << " [M] TORRENT: is paused?";
+    qDebug() << "     *** [Lib] {Torrent}: is paused?";
     LRTCoreInstance * c = LRTCoreInstance::instance();
     return c->getSession()->is_paused();
 }
 
 void Session::pause(){
-    qDebug() << " [M] TORRENT: pause";
+    qDebug() << "     *** [Lib] {Torrent}: pause";
     LRTCoreInstance::instance()->getSession()->pause();
 }
 
 void Session::resume(){
-    qDebug() << " [M] TORRENT: resume";
+    qDebug() << "     *** [Lib] {Torrent}: resume";
     LRTCoreInstance::instance()->getSession()->resume();
 }
 
 void Session::abort(){
-    qDebug() << " [M] TORRENT: abort";
+    qDebug() << "     *** [Lib] {Torrent}: abort";
     LRTCoreInstance::instance()->getSession()->abort();
 }
 

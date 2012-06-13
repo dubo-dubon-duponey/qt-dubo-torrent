@@ -28,6 +28,10 @@ Alert::Alert(const QString &what, const QString &message, const int category, co
     _category   = category;
 }
 
+Alert::~Alert() {
+
+}
+
 const QString Alert::message()    {
     return _message;
 }

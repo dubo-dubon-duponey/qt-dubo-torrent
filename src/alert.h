@@ -16,7 +16,7 @@
 
 #include "libroxeetorrent_global.h"
 
-#include <QtCore/QObject>
+#include <QtCore/qobject.h>
 
 namespace RoxeeTorrent
 {
@@ -31,6 +31,7 @@ namespace RoxeeTorrent
     public:
         /*! Constructor. Test. */
         explicit Alert(const QString &what, const QString &message, const int category, const qint64 timestamp, QObject *parent = 0);
+        ~Alert();
 
         /*! Title or subject of the alert*/
         Q_PROPERTY(QString      what        READ what)

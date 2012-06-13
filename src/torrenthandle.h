@@ -13,10 +13,9 @@
 #define ROXEETORRENT_TORRENTHANDLE_H
 
 #include "libroxeetorrent_global.h"
-// #include "qtlttorrentinfo.h"
 
-#include <QtCore/QObject>
-#include <QtCore/QVariant>
+#include <QtCore/qobject.h>
+#include <QtCore/qvariant.h>
 
 
 namespace RoxeeTorrent
@@ -31,6 +30,8 @@ namespace RoxeeTorrent
         /*! \cond */
         explicit TorrentHandle(const QString & info_hash, QObject *parent = 0);
         /*! \endcond */
+
+        ~TorrentHandle();
 
         /*! \brief Reads the torrent infohash. */
         Q_PROPERTY(const QString infoHash READ info_hash)

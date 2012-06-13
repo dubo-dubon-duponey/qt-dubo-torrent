@@ -14,7 +14,7 @@
 
 #include <libtorrent/session.hpp>
 
-#include <QtCore/QMutex>
+#include <QtCore/qmutex.h>
 
 /*! \cond */
 

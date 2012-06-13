@@ -14,8 +14,8 @@
 
 #include "libroxeetorrent_global.h"
 
-#include <QtCore/QObject>
-#include <QtCore/QVariant>
+#include <QtCore/qobject.h>
+#include <QtCore/qvariant.h>
 
 #include "root.h"
 

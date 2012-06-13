@@ -58,6 +58,11 @@ TorrentHandle::TorrentHandle(const QString & hash, QObject *parent) :
 //    }
 
 
+TorrentHandle::~TorrentHandle()
+{
+
+}
+
 bool TorrentHandle::is_valid()
 {
     // Convert string to ha1

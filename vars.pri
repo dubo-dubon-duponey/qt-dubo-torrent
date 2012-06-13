@@ -7,3 +7,4 @@ ADDITIONAL_DEPENDENCIES_DIR =
 ROXEE_DEPENDENCIES_DIR = /Users/dmp/buildd/deploy.webitup.org/client/Darwin
 #ROXEE_LINK_TYPE = static
 ROXEE_LINK_TYPE = dynamic
+TARGET = roxeetorrent

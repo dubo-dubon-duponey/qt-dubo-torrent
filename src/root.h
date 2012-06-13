@@ -41,7 +41,7 @@ This code is distributed under the terms of the BSD license.
 #define ROXEETORRENT_ROOT_H
 
 #include "libroxeetorrent_global.h"
-#include <QtCore/QObject>
+#include <QtCore/qobject.h>
 
 /*! \namespace RoxeeTorrent
 \brief The library namespace.

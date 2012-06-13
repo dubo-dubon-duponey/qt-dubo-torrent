@@ -1,5 +1,4 @@
 # Name of the target file (lowercase shit to avoid problems)
-TARGET = roxeetorrent
 INCNAME = lib$${TARGET}
 
 DEFINES += PROJECT_NAME=\\\"$${ROXEE_PROJECT_NAME}\\\"
@@ -29,7 +28,6 @@ message( -> Git revision $${ROXEE_GITVERSION} changeset number $${ROXEE_GITCHANG
 CONFIG(debug, debug|release){
     CONFIG -= release
     ROXEE_BUILD_TYPE = debug
-    TARGET = $${TARGET}-d
 }else{
     CONFIG -= debug declarative_debug
     ROXEE_BUILD_TYPE = release
@@ -69,7 +67,6 @@ macx-g++{
 macx-clang{
     ROXEE_COMPILER=mac-clang
 }
-
 
 RCC_DIR     = $${PWD}/../buildd/tmp/$${ROXEE_LINK_TYPE}-$${ROXEE_BUILD_TYPE}-$${ROXEE_COMPILER}/rcc
 UI_DIR      = $${PWD}/../buildd/tmp/$${ROXEE_LINK_TYPE}-$${ROXEE_BUILD_TYPE}-$${ROXEE_COMPILER}/ui
@@ -117,3 +114,7 @@ unix{
 
 #INSTALLS += src
 DESTDIR = $${DESTDIR}/lib
+
+CONFIG(debug, debug|release){
+    TARGET = $${TARGET}-d
+}

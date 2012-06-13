@@ -14,7 +14,7 @@
 
 #include "libroxeetorrent_global.h"
 
-#include <QtCore/QObject>
+#include <QtCore/qobject.h>
 
 namespace RoxeeTorrent
 {
