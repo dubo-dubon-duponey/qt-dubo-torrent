@@ -65,6 +65,11 @@ namespace RoxeeTorrent
         /*! \brief The (git) changeset of the library.*/
         Q_PROPERTY(const QString ROXEE_CHANGESET READ getChangeset)
 
+        /*! \brief The build type (release / debug of the library).*/
+        Q_PROPERTY(const QString ROXEE_BUILD READ getBuildType)
+        /*! \brief The type of the library (static / dynamic).*/
+        Q_PROPERTY(const QString ROXEE_LINK READ getLinkType)
+
         /*! \brief The nameof the underlying player library.*/
         Q_PROPERTY(const QString PLUGIN_NAME READ getLibName)
         /*! \brief The version of the underlying torrent library.*/
@@ -72,11 +77,15 @@ namespace RoxeeTorrent
         /*! \brief The revision of the underlying torrent library.*/
         Q_PROPERTY(const QString PLUGIN_REVISION READ getLibRevision)
 
+
         /*! \cond */
         const QString getName();
         const QString getVersion();
         const QString getRevision();
         const QString getChangeset();
+
+        const QString getBuildType();
+        const QString getLinkType();
 
         const QString getLibName(){ return QString::fromAscii("libtorrent");}
         const QString getLibVersion();

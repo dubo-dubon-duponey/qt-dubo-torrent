@@ -1,5 +1,3 @@
-# Entry point project file
-
 # Enforce recent QT
 lessThan(QT_VERSION, 4.8) {
     error("RoxeeTorrent is tested only with Qt 4.8 or greater")

@@ -1,17 +1,19 @@
 #Debug
 #CONFIG(debug, debug|release): CONFIG += console
 
-DESTDIR = $$PWD/../buildd-$$BT/$$PROJECT_NAME-$${PROJECT_VERSION_MAJOR}.$${PROJECT_VERSION_MINOR}.$${PROJECT_VERSION_BUGFIX}-NOGIT-NOGIT
+# Target windows XP minimum
+DEFINES += _WIN32_WINNT=0x0501
+
+
+
 
 
 INCLUDEPATH += ../../libtorrent-rasterbar-0.16.0/include
 INCLUDEPATH += ../../boost_1_49_0
 LIBS += -L../../boost_1_49_0/stage/lib
 
-
-contains(BT, debug){
+CONFIG(debug, debug|release){
     BTLT=-gd
-    DEFINES += TORRENT_DEBUG
 }else{
     BTLT=
 }
@@ -29,7 +31,7 @@ win32-g++ {
 
 }
 
-else {
+win32-msvc{
     include(confwin-msvc.pri)
     COMPER=vc100
     ICONT=
@@ -39,7 +41,6 @@ else {
 #LIBS += -llibboost_date_time-$${COMPER}-mt$${BTLT}-1_49
 LIBS += -llibboost_system-$${COMPER}-mt$${BTLT}-1_49
 LIBS += -L../../libtorrent-rasterbar-0.16.0/bin/$${COMPIE}/$${BT}/asserts-off/boost-source/geoip-static/$${ICONT}link-static/threading-multi
-LIBS += -llibtorrent
 
 CONFIG += dll
 
@@ -56,31 +57,40 @@ CONFIG += dll
 #src\assert.cpp"
 
 
-DEFINES += BOOST_ALL_NO_LIB
+
+
+
+
+
+#DEFINES += UNICODE
+#DEFINES += _UNICODE
+#DEFINES += BOOST_ALL_NO_LIB
+#DEFINES += BOOST_ASIO_SEPARATE_COMPILATION
+#DEFINES += BOOST_SYSTEM_STATIC_LINK=1
+#DEFINES += TORRENT_NO_ASSERTS=1
+#DEFINES += BOOST_THREAD_USE_LIB
+#DEFINES += _WIN32_WINNT=0x0500
+
 DEFINES += BOOST_ASIO_ENABLE_CANCELIO
 DEFINES += BOOST_ASIO_HASH_MAP_BUCKETS=1021
-DEFINES += BOOST_ASIO_SEPARATE_COMPILATION
 DEFINES += BOOST_EXCEPTION_DISABLE
-DEFINES += BOOST_SYSTEM_STATIC_LINK=1
-DEFINES += BOOST_THREAD_USE_LIB
-DEFINES += TORRENT_NO_ASSERTS=1
-DEFINES += TORRENT_USE_TOMMATH
 
-# Allow old windows versions to behave
-
-DEFINES += UNICODE
+# Windows stuff
 DEFINES += WIN32
 DEFINES += WIN32_LEAN_AND_MEAN
 DEFINES += _FILE_OFFSET_BITS=64
-DEFINES += _UNICODE
 DEFINES += _WIN32
-DEFINES += _WIN32_WINNT=0x0500
 DEFINES += __USE_W32_SOCKETS
-
-
 DEFINES += _CRT_SECURE_NO_DEPRECATE
 DEFINES += _CRT_SECURE_CPP_OVERLOAD_SECURE_NAMES
 DEFINES += _CRT_NONSTDC_NO_DEPRECATE
+
+
+
+
+
+
+
 
 
 #QMAKE_CFLAGS_RELEASE += -Zi

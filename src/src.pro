@@ -26,47 +26,60 @@ win32{
 }
 
 # Mac specific configuration
-macx{
+mac{
     message( -> Targetting osx)
     include(../conf/confmacx.pri)
 }
 
 # Unix specific configuration
-unix:!macx {
+unix:!mac {
     message( -> Targetting linux)
     include(../conf/confunix.pri)
 }
 
-# Other files to include in the distributable
-#DISTFILES   += ../res/redist/AUTHORS \
-#    ../res/redist/ChangeLog \
-#    ../res/redist/LICENSE.BSD2 \
-#    ../README
-
 INCLUDEPATH += $$PWD
-
 target.path = $$DESTDIR
 INSTALLS += target
 
+LIBS += -ltorrent -lboost_system-mt
+
+CONFIG += absolute_library_soname
 
 ##### libtorrent general configuration
+
 # Fixes things with Boost >= v1.46 where boost filesystem v3 is the default.
 # Using v3 makes for crash on OSX at least
 DEFINES += BOOST_FILESYSTEM_VERSION=2
+# Use libtorrent inner crypto
+DEFINES += TORRENT_USE_TOMMATH
+# Unicode, iconv yes
+DEFINES += UNICODE _UNICODE TORRENT_USE_ICONV=1
+# No deprecated functions
+DEFINES += TORRENT_NO_DEPRECATE
 
+DEFINES += TORRENT_USE_BOOST_DATE_TIME=1
+DEFINES += TORRENT_USE_IPV6=1
+# No asserts
+DEFINES += TORRENT_NO_ASSERTS=1
+# Use libtorrent bundled geoip source
 DEFINES += WITH_SHIPPED_GEOIP_H
 
-#DEFINES += TORRENT_DISABLE_GEO_IP
-#DEFINES += WITH_SHIPPED_GEOPIP_H
+# Torrent linking to boost depend as well
+contains(ROXEE_LINK_TYPE, static){
+    DEFINES += BOOST_ALL_NO_LIB
+    DEFINES += BOOST_ASIO_SEPARATE_COMPILATION
+}else{
+    DEFINES += BOOST_ALL_DYN_LINK
+    DEFINES += BOOST_ASIO_DYN_LINK
+}
 
+# And debug vary as well
+#BOOSTIE =
+CONFIG(debug, debug|release){
+    DEFINES += TORRENT_DEBUG
+#    BOOSTIE = -d
+}
 
-#win32|mac:!wince*:!win32-msvc:!macx-xcode:CONFIG += debug_and_release build_all
-#win32 {
-#    DLLDESTDIR = $$[QT_INSTALL_BINS]
-#    QMAKE_DISTCLEAN += $$[QT_INSTALL_BINS]\\$${QTSINGLEAPPLICATION_LIBNAME}.dll
-#}
-
-# qtlibtorrent.cpp \
 SOURCES += \
     session.cpp \
     alert.cpp \
@@ -74,12 +87,6 @@ SOURCES += \
     alerttypes.cpp \
     coreinstance.cpp \
     root.cpp
-#    qtltfileentry.cpp \
-#    qtlttorrentstatus.cpp \
-#    qtlttypessavestates.cpp \
-#    qtlttypestorrentstates.cpp \
-#    qtltsessionstatus.cpp \
-#    qtlttorrentinfo.cpp \
 
 HEADERS += \
     libroxeetorrent_global.h \
@@ -89,6 +96,27 @@ HEADERS += \
     alerttypes.h \
     coreinstance.h \
     root.h
+
+
+
+#DEFINES += TORRENT_DISABLE_GEO_IP
+
+#win32|mac:!wince*:!win32-msvc:!macx-xcode:CONFIG += debug_and_release build_all
+#win32 {
+#    DLLDESTDIR = $$[QT_INSTALL_BINS]
+#    QMAKE_DISTCLEAN += $$[QT_INSTALL_BINS]\\$${QTSINGLEAPPLICATION_LIBNAME}.dll
+#}
+
+
+
+# qtlibtorrent.cpp \
+#    qtltfileentry.cpp \
+#    qtlttorrentstatus.cpp \
+#    qtlttypessavestates.cpp \
+#    qtlttypestorrentstates.cpp \
+#    qtltsessionstatus.cpp \
+#    qtlttorrentinfo.cpp \
+
 #    qtltfileentry.h \
 #    qtlttorrentstatus.h \
 #    qtlttypessavestates.h \
