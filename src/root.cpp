@@ -26,6 +26,10 @@ const QString Root::getName(){
     return PROJECT_NAME;
 }
 
+const QString Root::getVendor(){
+    return PROJECT_VENDOR;
+}
+
 const QString Root::getVersion(){
     return VERSION_FULL;
 }
