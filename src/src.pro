@@ -41,7 +41,14 @@ INCLUDEPATH += $$PWD
 target.path = $$DESTDIR
 INSTALLS += target
 
+mac|win32{
 LIBS += -ltorrent -lboost_system-mt
+}
+
+unix:!mac{
+LIBS += -ltorrent-rasterbar -lboost_system-mt
+}
+
 
 CONFIG += absolute_library_soname
 
@@ -62,7 +69,7 @@ DEFINES += TORRENT_USE_IPV6=1
 # No asserts
 DEFINES += TORRENT_NO_ASSERTS=1
 # Use libtorrent bundled geoip source
-DEFINES += WITH_SHIPPED_GEOIP_H
+mac|win32: DEFINES += WITH_SHIPPED_GEOIP_H
 
 # Torrent linking to boost depend as well
 contains(ROXEE_LINK_TYPE, static){
