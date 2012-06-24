@@ -104,12 +104,12 @@ namespace RoxeeTorrent
         bool is_sequential_download();
         bool is_valid();
 
-        const int num_files();
-        const bool priv();
-        const qint64 total_size();
-        const qint64 all_time_download();
-        const int piece_length();
-        const int num_pieces();
+        int num_files();
+        bool priv();
+        qint64 total_size();
+        qint64 all_time_download();
+        int piece_length();
+        int num_pieces();
     //    const QString info_hash();
 
     //    const QString name();

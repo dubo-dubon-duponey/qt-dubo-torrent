@@ -93,11 +93,11 @@ namespace RoxeeTorrent
 //        Q_PROPERTY(int numConnections           READ num_connections)
 
         /*! \cond */
-        const bool is_paused();
-        const bool is_dht_running();
-        const int upload_rate_limit();
+        bool is_paused();
+        bool is_dht_running();
+        int upload_rate_limit();
         void set_upload_rate_limit(const int rate);
-        const int download_rate_limit();
+        int download_rate_limit();
         void set_download_rate_limit(const int rate);
 //        const int local_upload_rate_limit();
 //        void set_local_upload_rate_limit(const int rate);
@@ -121,8 +121,8 @@ namespace RoxeeTorrent
         Q_INVOKABLE void listenOn(const int startPort, const int endPort);
 
         /*! \cond */
-        const bool is_listening();
-        const int listen_port();
+        bool is_listening();
+        int listen_port();
         /*! \endcond */
 
         /*! \brief Retrieve the last alert. @see Alert */
@@ -133,7 +133,7 @@ namespace RoxeeTorrent
 //        Q_INVOKABLE void setAlertQueueSizeLimit(int l);
 
         /*! \brief Gets the total number of torrents. */
-        Q_INVOKABLE const int getTorrentsLength();
+        Q_INVOKABLE int getTorrentsLength();
         /*! \brief Returns a torrent handle at position "pos". @see TorrentHandle */
         Q_INVOKABLE const QVariant getTorrentAt(int pos);
         /*! \brief Delete torrent at position "pos" (including files). */
