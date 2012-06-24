@@ -66,19 +66,19 @@ public:
     Q_PROPERTY(const int ALL          READ all)
 
     /*! \cond */
-    const int error();
-    const int peer();
-    const int port_mapping();
-    const int storage();
-    const int tracker();
-    const int debug();
-    const int status();
-    const int progress();
-    const int ip_block();
-    const int performance();
-    const int dht();
-    const int stats();
-    const int all();
+    int error();
+    int peer();
+    int port_mapping();
+    int storage();
+    int tracker();
+    int debug();
+    int status();
+    int progress();
+    int ip_block();
+    int performance();
+    int dht();
+    int stats();
+    int all();
     /*! \endcond */
 
 private:

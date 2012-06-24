@@ -43,19 +43,19 @@ AlertTypes::~AlertTypes()
 }
 
 
-const int AlertTypes::all()             { return libtorrent::alert::all_categories;}
-const int AlertTypes::debug()           { return libtorrent::alert::debug_notification;}
-const int AlertTypes::dht()             { return libtorrent::alert::dht_notification;}
-const int AlertTypes::error()           { return libtorrent::alert::error_notification;}
-const int AlertTypes::ip_block()        { return libtorrent::alert::ip_block_notification;}
-const int AlertTypes::peer()            { return libtorrent::alert::peer_notification;}
-const int AlertTypes::performance()     { return libtorrent::alert::performance_warning;}
-const int AlertTypes::port_mapping()    { return libtorrent::alert::port_mapping_notification;}
-const int AlertTypes::progress()        { return libtorrent::alert::progress_notification;}
-const int AlertTypes::stats()           { return libtorrent::alert::stats_notification;}
-const int AlertTypes::status()          { return libtorrent::alert::status_notification;}
-const int AlertTypes::storage()         { return libtorrent::alert::storage_notification;}
-const int AlertTypes::tracker()         { return libtorrent::alert::tracker_notification;}
+int AlertTypes::all()             { return libtorrent::alert::all_categories;}
+int AlertTypes::debug()           { return libtorrent::alert::debug_notification;}
+int AlertTypes::dht()             { return libtorrent::alert::dht_notification;}
+int AlertTypes::error()           { return libtorrent::alert::error_notification;}
+int AlertTypes::ip_block()        { return libtorrent::alert::ip_block_notification;}
+int AlertTypes::peer()            { return libtorrent::alert::peer_notification;}
+int AlertTypes::performance()     { return libtorrent::alert::performance_warning;}
+int AlertTypes::port_mapping()    { return libtorrent::alert::port_mapping_notification;}
+int AlertTypes::progress()        { return libtorrent::alert::progress_notification;}
+int AlertTypes::stats()           { return libtorrent::alert::stats_notification;}
+int AlertTypes::status()          { return libtorrent::alert::status_notification;}
+int AlertTypes::storage()         { return libtorrent::alert::storage_notification;}
+int AlertTypes::tracker()         { return libtorrent::alert::tracker_notification;}
 
 }
 
