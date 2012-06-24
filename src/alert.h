@@ -45,8 +45,8 @@ namespace RoxeeTorrent
         /*! \cond */
         const QString message();
         const QString what();
-        const qint64 timestamp();
-        const int category();
+        qint64 timestamp();
+        int category();
         /*! \endcond */
 
     private:

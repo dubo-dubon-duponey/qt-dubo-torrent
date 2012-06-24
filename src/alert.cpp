@@ -12,7 +12,7 @@
 // * XXX timestamp are deadly borked - not too sure why - see session initialization to get it right
 
 #include "alert.h"
-#include <QtCore/qDebug>
+#include <QtCore/qdebug.h>
 
 /*! \cond */
 
@@ -40,12 +40,12 @@ const QString Alert::what()      {
     return _what;
 }
 
-const qint64 Alert::timestamp()
+qint64 Alert::timestamp()
 {
     return _timestamp;
 }
 
-const int Alert::category()       {
+int Alert::category()       {
     return _category;
 }
 
