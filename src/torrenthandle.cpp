@@ -123,7 +123,11 @@ QString TorrentHandle::filePathAt(const int pos)
     libtorrent::torrent_handle h = LRTCoreInstance::instance()->getSession()->find_torrent(x);
     if(h.is_valid()){
         libtorrent::file_entry const& fe = h.get_torrent_info().file_at(pos);
+#if LIBTORRENT_VERSION_MINOR >= 16
         return QString::fromStdString(fe.path);
+#else
+        return QString::fromUtf8(fe.path.string().c_str());
+#endif
 //        return QString::fromUtf8(fe.path.string().c_str());
     }
     return 0;
@@ -176,9 +180,12 @@ bool TorrentHandle::is_sequential_download()
     libtorrent::torrent_handle h = LRTCoreInstance::instance()->getSession()->find_torrent(x);
     if(!h.is_valid()) return 0;
     libtorrent::torrent_status s = h.status();
+#if LIBTORRENT_VERSION_MINOR >= 16
     if(!s.has_metadata) return 0;
-
     return s.sequential_download;
+#else
+	return 0;
+#endif
 }
 
 void TorrentHandle::setSequential(bool flag)
@@ -220,7 +227,7 @@ void TorrentHandle::setSequential(bool flag)
 
 
 
-const int TorrentHandle::num_files()
+int TorrentHandle::num_files()
 {
     // Convert string to ha1
     std::string str(m_hash.toAscii().data());
@@ -231,8 +238,12 @@ const int TorrentHandle::num_files()
     libtorrent::torrent_handle h = LRTCoreInstance::instance()->getSession()->find_torrent(x);
     if(!h.is_valid()) return 0;
     libtorrent::torrent_status s = h.status();
+#if LIBTORRENT_VERSION_MINOR >= 16
     if (!s.has_metadata) return 0;
     return h.get_torrent_info().num_files();
+#else
+	return 0;
+#endif
 }
 
 //const QtLtFileEntry * TorrentHandle::getFileAt(const int & pos)
@@ -242,7 +253,7 @@ const int TorrentHandle::num_files()
 //    return q;
 //}
 
-const bool TorrentHandle::priv()
+bool TorrentHandle::priv()
 {
     // Convert string to ha1
     std::string str(m_hash.toAscii().data());
@@ -253,12 +264,16 @@ const bool TorrentHandle::priv()
     libtorrent::torrent_handle h = LRTCoreInstance::instance()->getSession()->find_torrent(x);
     if(!h.is_valid()) return 0;
     libtorrent::torrent_status s = h.status();
+#if LIBTORRENT_VERSION_MINOR >= 16
     if (!s.has_metadata) return 0;
 
     return h.get_torrent_info().priv();
+#else
+	return 0;
+#endif
 }
 
-const qint64 TorrentHandle::total_size()
+qint64 TorrentHandle::total_size()
 {
 //    if(!m_hash.length()){
 //        return;
@@ -272,12 +287,16 @@ const qint64 TorrentHandle::total_size()
     libtorrent::torrent_handle h = LRTCoreInstance::instance()->getSession()->find_torrent(x);
     if(!h.is_valid()) return 0;
     libtorrent::torrent_status s = h.status();
+#if LIBTORRENT_VERSION_MINOR >= 16
     if (!s.has_metadata) return 0;
 
     return h.get_torrent_info().total_size();
+#else
+	return 0;
+#endif
 }
 
-const int TorrentHandle::num_pieces()
+int TorrentHandle::num_pieces()
 {
     // Convert string to ha1
     std::string str(m_hash.toAscii().data());
@@ -288,12 +307,16 @@ const int TorrentHandle::num_pieces()
     libtorrent::torrent_handle h = LRTCoreInstance::instance()->getSession()->find_torrent(x);
     if(!h.is_valid()) return 0;
     libtorrent::torrent_status s = h.status();
+#if LIBTORRENT_VERSION_MINOR >= 16
     if (!s.has_metadata) return 0;
 
     return h.get_torrent_info().num_pieces();
+#else
+	return 0;
+#endif
 }
 
-const int TorrentHandle::piece_length()
+int TorrentHandle::piece_length()
 {
     // Convert string to ha1
     std::string str(m_hash.toAscii().data());
@@ -304,9 +327,13 @@ const int TorrentHandle::piece_length()
     libtorrent::torrent_handle h = LRTCoreInstance::instance()->getSession()->find_torrent(x);
     if(!h.is_valid()) return 0;
     libtorrent::torrent_status s = h.status();
+#if LIBTORRENT_VERSION_MINOR >= 16
     if (!s.has_metadata) return 0;
 
     return h.get_torrent_info().piece_length();
+#else
+	return 0;
+#endif
 }
 
 
@@ -321,9 +348,13 @@ const QString TorrentHandle::comment()
     libtorrent::torrent_handle h = LRTCoreInstance::instance()->getSession()->find_torrent(x);
     if(!h.is_valid()) return 0;
     libtorrent::torrent_status s = h.status();
+#if LIBTORRENT_VERSION_MINOR >= 16
     if (!s.has_metadata) return 0;
 
     return h.get_torrent_info().comment().c_str();
+#else
+	return 0;
+#endif
 }
 
 const QString TorrentHandle::creator()
@@ -337,9 +368,13 @@ const QString TorrentHandle::creator()
     libtorrent::torrent_handle h = LRTCoreInstance::instance()->getSession()->find_torrent(x);
     if(!h.is_valid()) return 0;
     libtorrent::torrent_status s = h.status();
+#if LIBTORRENT_VERSION_MINOR >= 16
     if (!s.has_metadata) return 0;
 
     return h.get_torrent_info().creator().c_str();
+#else
+	return 0;
+#endif
 }
 
 const QString TorrentHandle::metadata()
@@ -353,12 +388,16 @@ const QString TorrentHandle::metadata()
     libtorrent::torrent_handle h = LRTCoreInstance::instance()->getSession()->find_torrent(x);
     if(!h.is_valid()) return 0;
     libtorrent::torrent_status s = h.status();
+#if LIBTORRENT_VERSION_MINOR >= 16
     if (!s.has_metadata) return 0;
 
     return h.get_torrent_info().metadata().get();// c_str();
+#else
+	return 0;
+#endif
 }
 
-const qint64 TorrentHandle::all_time_download()
+qint64 TorrentHandle::all_time_download()
 {
     // Convert string to ha1
     std::string str(m_hash.toAscii().data());
@@ -369,9 +408,13 @@ const qint64 TorrentHandle::all_time_download()
     libtorrent::torrent_handle h = LRTCoreInstance::instance()->getSession()->find_torrent(x);
     if(!h.is_valid()) return 0;
     libtorrent::torrent_status s = h.status();
+#if LIBTORRENT_VERSION_MINOR >= 16
     if (!s.has_metadata) return 0;
 
     return h.status().all_time_download;// c_str();
+#else
+	return 0;
+#endif
 }
 
 }
