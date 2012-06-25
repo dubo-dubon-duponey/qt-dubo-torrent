@@ -46,6 +46,7 @@ LIBS += -ltorrent -lboost_system-mt
 }
 
 unix:!mac{
+DEFINES += BOOST_ASIO_HEADER_ONLY
 LIBS += -ltorrent-rasterbar -lboost_system-mt
 }
 
