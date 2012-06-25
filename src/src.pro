@@ -42,6 +42,7 @@ target.path = $$DESTDIR
 INSTALLS += target
 
 mac|win32{
+# XXX -mt-d!!!
 LIBS += -ltorrent -lboost_system-mt
 }
 
