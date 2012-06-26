@@ -46,6 +46,10 @@ const QString Root::getLinkType(){
     return PROJECT_LINKTYPE;
 }
 
+const QString Root::getQt(){
+    return QT_VERSION_STR;
+}
+
 const QString Root::getChangeset(){
     return VERSION_CHANGE;
 }

@@ -3,8 +3,14 @@ ROXEE_VENDOR_NAME = WebItUp
 ROXEE_PROJECT_VERSION_MAJOR = {PUKE-VERSION-MAJOR}
 ROXEE_PROJECT_VERSION_MINOR = {PUKE-VERSION-MINOR}
 ROXEE_PROJECT_VERSION_BUGFIX = {PUKE-VERSION-BUGFIX}
-ROXEE_DESTDIR = {PUKE-OUTPUT-DIR}
+
+# Where to find additional dependencies (eg: external (win)-sparkle)
+# This will take precedence over the provided third-party builds
 ADDITIONAL_DEPENDENCIES_DIR = {PUKE-DEP-DIR}
-ROXEE_DEPENDENCIES_DIR =
-ROXEE_LINK_TYPE = static #dynamic
+# Where to output the final build
+ROXEE_DESTDIR = {PUKE-OUTPUT-DIR}
+# Wether to build static, shared, or plugin
+ROXEE_LINK_TYPE = static
+#ROXEE_LINK_TYPE = plugin
+#ROXEE_LINK_TYPE = dynamic
 TARGET = roxeetorrent

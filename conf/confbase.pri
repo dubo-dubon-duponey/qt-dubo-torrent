@@ -1,15 +1,24 @@
-# Name of the target file (lowercase shit to avoid problems)
-INCNAME = lib$${TARGET}
+# QT basic config
+CONFIG +=   QT_NO_CAST_FROM_ASCII \
+            QT_NO_CAST_TO_ASCII \
+            QT_STRICT_ITERATORS \
+            QT_USE_FAST_CONCATENATION QT_USE_FAST_OPERATOR_PLUS
 
+# To validate with breakpad
+CONFIG += warn_on qt thread exceptions rtti stl
+
+# App or libs use these
+VER_MAJ = $$ROXEE_PROJECT_VERSION_MAJOR
+VER_MIN = $$ROXEE_PROJECT_VERSION_MINOR
+VER_PAT = $$ROXEE_PROJECT_VERSION_BUGFIX
+VERSION = $${ROXEE_PROJECT_VERSION_MAJOR}.$${ROXEE_PROJECT_VERSION_MINOR}.$${ROXEE_PROJECT_VERSION_BUGFIX}
+
+# Export these to the root object
 DEFINES += PROJECT_NAME=\\\"$${ROXEE_PROJECT_NAME}\\\"
 DEFINES += PROJECT_VENDOR=\\\"$${ROXEE_VENDOR_NAME}\\\"
-DEFINES += VERSION_MAJOR=$${ROXEE_PROJECT_VERSION_MAJOR}
-DEFINES += VERSION_MINOR=$${ROXEE_PROJECT_VERSION_MINOR}
-DEFINES += VERSION_BUGFIX=$${ROXEE_PROJECT_VERSION_BUGFIX}
 DEFINES += VERSION_FULL=\\\"$${ROXEE_PROJECT_VERSION_MAJOR}.$${ROXEE_PROJECT_VERSION_MINOR}.$${ROXEE_PROJECT_VERSION_BUGFIX}\\\"
 
-message( -> Building $${ROXEE_PROJECT_NAME} $${ROXEE_PROJECT_VERSION_MAJOR}.$${ROXEE_PROJECT_VERSION_MINOR}.$${ROXEE_PROJECT_VERSION_BUGFIX})
-
+# Informations about the git version
 ROXEE_GITVERSION = NOGIT
 ROXEE_GITCHANGENUMBER = NOGIT
 exists(../.git/HEAD) {
@@ -23,11 +32,8 @@ exists(../.git/HEAD) {
 DEFINES += VERSION_GIT=\\\"$${ROXEE_GITVERSION}\\\"
 DEFINES += VERSION_CHANGE=\\\"$${ROXEE_GITCHANGENUMBER}\\\"
 
-message( -> Git revision $${ROXEE_GITVERSION} changeset number $${ROXEE_GITCHANGENUMBER})
-
 # Build type
 CONFIG(debug, debug|release){
-    CONFIG -= release
     ROXEE_BUILD_TYPE = debug
 }else{
     CONFIG -= debug declarative_debug
@@ -36,8 +42,7 @@ CONFIG(debug, debug|release){
 }
 DEFINES += PROJECT_BUILDTYPE=\\\"$${ROXEE_BUILD_TYPE}\\\"
 
-message( -> Building a $${ROXEE_BUILD_TYPE} version)
-
+# Link
 FORCE_STATIC{
     ROXEE_LINK_TYPE=static
 }
@@ -46,76 +51,70 @@ FORCE_DYNAMIC{
     ROXEE_LINK_TYPE=dynamic
 }
 
-contains(ROXEE_LINK_TYPE, static){
-    contains(TEMPLATE, lib){
-        CONFIG += STATIC
-    }
+FORCE_PLUGIN{
+    ROXEE_LINK_TYPE=plugin
 }
 
 DEFINES += PROJECT_LINKTYPE=\\\"$${ROXEE_LINK_TYPE}\\\"
 
-message( -> Building a $${ROXEE_LINK_TYPE} version)
+# Echo
+message( -> Building: $${ROXEE_PROJECT_NAME} $${VERSION} ($${ROXEE_VENDOR_NAME}))
+message( -> Git: $${ROXEE_GITVERSION} changeset number $${ROXEE_GITCHANGENUMBER})
+message( -> Build type: $${ROXEE_BUILD_TYPE})
+message( -> Link: $${ROXEE_LINK_TYPE} version)
 
-win32-msvc{
-    ROXEE_COMPILER=win-msvc
-}
-win32-g++{
-    ROXEE_COMPILER=win-ming
-}
-macx-g++{
-    ROXEE_COMPILER=mac-g++
-}
-macx-clang{
-    ROXEE_COMPILER=mac-clang
-}
 
-RCC_DIR     = $${PWD}/../buildd/tmp/$${ROXEE_LINK_TYPE}-$${ROXEE_BUILD_TYPE}-$${ROXEE_COMPILER}/rcc
-UI_DIR      = $${PWD}/../buildd/tmp/$${ROXEE_LINK_TYPE}-$${ROXEE_BUILD_TYPE}-$${ROXEE_COMPILER}/ui
-MOC_DIR     = $${PWD}/../buildd/tmp/$${ROXEE_LINK_TYPE}-$${ROXEE_BUILD_TYPE}-$${ROXEE_COMPILER}/moc
-OBJECTS_DIR = $${PWD}/../buildd/tmp/$${ROXEE_LINK_TYPE}-$${ROXEE_BUILD_TYPE}-$${ROXEE_COMPILER}/obj
 
-message( -> Using temp build dir $${PWD}/../buildd/tmp/$${ROXEE_LINK_TYPE}-$${ROXEE_BUILD_TYPE}-$${ROXEE_COMPILER})
+# Setting path
+TMP_BASE_DIR = $${PWD}/../buildd/tmp/$${ROXEE_LINK_TYPE}-$${ROXEE_BUILD_TYPE}-$${QMAKE_CC}
+RCC_DIR     = $${TMP_BASE_DIR}/rcc
+UI_DIR      = $${TMP_BASE_DIR}/ui
+MOC_DIR     = $${TMP_BASE_DIR}/moc
+OBJECTS_DIR = $${TMP_BASE_DIR}/obj
+
+message( -> Temp build dir: $${TMP_BASE_DIR})
+
 
 # If we don't have a specific destination directory
 isEmpty(ROXEE_DESTDIR){
-#    CONFIG += debug_and_release build_all
-    DESTDIR = $${PWD}/../buildd/$${TARGET}-$${ROXEE_PROJECT_VERSION_MAJOR}.$${ROXEE_PROJECT_VERSION_MINOR}.$${ROXEE_PROJECT_VERSION_BUGFIX}-$${ROXEE_COMPILER}-$${ROXEE_LINK_TYPE}
+    DESTDIR = $${PWD}/../buildd/$${ROXEE_LINK_TYPE}-$${ROXEE_BUILD_TYPE}-$${QMAKE_CC}
 }else{
     DESTDIR = $${ROXEE_DESTDIR}
 }
 
 message( -> Using build destination dir $${DESTDIR})
 
-# Only relevant for libs: enable dep tracking
-CONFIG += create_prl
-
-# Allow app to read prl, conversely
-CONFIG += link_prl
-
 # Linking
 !isEmpty(ADDITIONAL_DEPENDENCIES_DIR){
     INCLUDEPATH += $${ADDITIONAL_DEPENDENCIES_DIR}/include
     LIBS += -L$${ADDITIONAL_DEPENDENCIES_DIR}/lib
-    message( -> Link/inc using $${ADDITIONAL_DEPENDENCIES_DIR})
+    message( -> Using external lib/include: $${ADDITIONAL_DEPENDENCIES_DIR})
 }
 
-!isEmpty(ROXEE_DEPENDENCIES_DIR){
-    INCLUDEPATH += $${ROXEE_DEPENDENCIES_DIR}/$${ROXEE_BUILD_TYPE}/$${ROXEE_LINK_TYPE}/include
-    LIBS += -L$${ROXEE_DEPENDENCIES_DIR}/$${ROXEE_BUILD_TYPE}/$${ROXEE_LINK_TYPE}/lib
-    message( -> Link/inc using $${ROXEE_DEPENDENCIES_DIR}/$${ROXEE_BUILD_TYPE}/$${ROXEE_LINK_TYPE})
+
+# Only relevant for libs: enable dep tracking
+contains(TEMPLATE, lib){
+    CONFIG += absolute_library_soname
+    CONFIG += create_prl
+    DESTDIR = $${DESTDIR}/lib
+    contains(ROXEE_LINK_TYPE, static){
+        CONFIG += static
+    }
+    contains(ROXEE_LINK_TYPE, plugin){
+        CONFIG += plugin
+    }
+    contains(ROXEE_LINK_TYPE, dynamic){
+        CONFIG += shared
+    }
 }
 
-# Copying source to install destination
-unix{
-# XXX Kind of dirty really - only non private headers should go in
-    system(rm -fR $${DESTDIR}/include/$${INCNAME})
-    system(mkdir -p $${DESTDIR}/include/$${INCNAME})
-    system(cp $${PWD}/../src/*.h $${DESTDIR}/include/$${INCNAME})
+# Allow app to read prl, conversely
+contains(TEMPLATE, app){
+    CONFIG += link_prl
+    DESTDIR = $${DESTDIR}/bin
 }
 
-#INSTALLS += src
-DESTDIR = $${DESTDIR}/lib
-
-CONFIG(debug, debug|release){
-    TARGET = $${TARGET}-d
+mac{
+    QMAKE_MACOSX_DEPLOYMENT_TARGET = 10.6
 }
+

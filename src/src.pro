@@ -1,23 +1,18 @@
 # Basic consumer variables
 include(../vars.pri)
 
-# This is a library (to be ovveridden by eg MSVC specific config)
-TEMPLATE = lib
-
 # Requires only core
 QT = core
 
-# And be boring
-CONFIG +=   QT_NO_CAST_FROM_ASCII \
-            QT_NO_CAST_TO_ASCII \
-            QT_STRICT_ITERATORS \
-            QT_USE_FAST_CONCATENATION QT_USE_FAST_OPERATOR_PLUS
-
-# Yes, this will build a lib
+# Build a lib
+TEMPLATE = lib
 DEFINES += LIBROXEETORRENT_LIBRARY
 
 # Basic stuff (version and build/path magic)
 include(../conf/confbase.pri)
+
+# Third-party stuff
+include(../third-party/bootstrap.pri)
 
 # Windows specific configuration
 win32{
@@ -33,13 +28,16 @@ mac{
 
 # Unix specific configuration
 unix:!mac {
-    message( -> Targetting linux)
+    message( -> Targetting *nux)
     include(../conf/confunix.pri)
 }
 
 INCLUDEPATH += $$PWD
+INCLUDEPATH += $$PWD/include/libroxeetorrent
 target.path = $$DESTDIR
 INSTALLS += target
+
+
 
 mac|win32{
 # XXX -mt-d!!!
@@ -50,9 +48,6 @@ unix:!mac{
 DEFINES += BOOST_ASIO_HEADER_ONLY
 LIBS += -ltorrent-rasterbar -lboost_system-mt
 }
-
-
-CONFIG += absolute_library_soname
 
 ##### libtorrent general configuration
 
@@ -98,13 +93,13 @@ SOURCES += \
     root.cpp
 
 HEADERS += \
-    libroxeetorrent_global.h \
-    session.h \
     alert.h \
     torrenthandle.h \
-    alerttypes.h \
     coreinstance.h \
-    root.h
+    include/libroxeetorrent/libroxeetorrent_global.h \
+    include/libroxeetorrent/session.h \
+    include/libroxeetorrent/alerttypes.h \
+    include/libroxeetorrent/root.h
 
 
 
