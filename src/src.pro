@@ -74,6 +74,7 @@ contains(ROXEE_DEPEND_LINK, static){
 mac|win32{
     LIBS += -ltorrent
     contains(ROXEE_DEPEND_LINK, static){
+        message(*********************** OGT ICONV)
         LIBS += -liconv
     }
 }else{
