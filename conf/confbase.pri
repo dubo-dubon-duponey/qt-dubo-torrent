@@ -57,6 +57,18 @@ FORCE_PLUGIN{
 
 DEFINES += PROJECT_LINKTYPE=\\\"$${ROXEE_LINK_TYPE}\\\"
 
+mac {
+    PLT = mac
+}
+
+win32 {
+    PLT = win
+}
+
+!mac:!win32{
+    PLT = other-$$system(arch)
+}
+
 # Echo
 message( -> Building: $${ROXEE_PROJECT_NAME} $${VERSION} ($${ROXEE_VENDOR_NAME}))
 message( -> Git: $${ROXEE_GITVERSION} changeset number $${ROXEE_GITCHANGENUMBER})
@@ -66,7 +78,7 @@ message( -> Link: $${ROXEE_LINK_TYPE} version)
 
 
 # Setting path
-TMP_BASE_DIR = $${PWD}/../buildd/tmp/$${ROXEE_LINK_TYPE}-$${ROXEE_BUILD_TYPE}-$${QMAKE_CC}
+TMP_BASE_DIR = $${PWD}/../buildd/tmp/$${ROXEE_LINK_TYPE}-$${ROXEE_BUILD_TYPE}-$${QMAKE_CC}-$${PLT}
 RCC_DIR     = $${TMP_BASE_DIR}/rcc
 UI_DIR      = $${TMP_BASE_DIR}/ui
 MOC_DIR     = $${TMP_BASE_DIR}/moc
@@ -77,7 +89,7 @@ message( -> Temp build dir: $${TMP_BASE_DIR})
 
 # If we don't have a specific destination directory
 isEmpty(ROXEE_DESTDIR){
-    DESTDIR = $${PWD}/../buildd/$${ROXEE_LINK_TYPE}-$${ROXEE_BUILD_TYPE}-$${QMAKE_CC}
+    DESTDIR = $${PWD}/../buildd/$${ROXEE_LINK_TYPE}-$${ROXEE_BUILD_TYPE}-$${QMAKE_CC}-$${PLT}
 }else{
     DESTDIR = $${ROXEE_DESTDIR}
 }

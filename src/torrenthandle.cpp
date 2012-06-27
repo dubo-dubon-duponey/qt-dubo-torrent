@@ -12,7 +12,7 @@
 #include "coreinstance.h"
 #include "torrenthandle.h"
 
-#include <QtCore/QDebug>
+#include <QtCore/qdebug.h>
 
 /*! \cond */
 

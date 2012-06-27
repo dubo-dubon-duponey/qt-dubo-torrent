@@ -13,7 +13,7 @@
 
 #include <libtorrent/alert_types.hpp>
 
-#include <QtCore/QMutex>
+#include <QtCore/qmutex.h>
 
 /*! \cond */
 

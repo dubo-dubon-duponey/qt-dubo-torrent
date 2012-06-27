@@ -19,9 +19,9 @@
 #include <libtorrent/torrent_handle.hpp>
 #include <libtorrent/magnet_uri.hpp>
 
-#include <QtCore/QDateTime>
-#include <QtCore/QDebug>
-#include <QtCore/QByteArray>
+#include <QtCore/qdatetime.h>
+#include <QtCore/qdebug.h>
+#include <QtCore/qbytearray.h>
 
 /*! \cond */
 

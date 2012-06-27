@@ -38,17 +38,6 @@ target.path = $$DESTDIR
 INSTALLS += target
 
 
-
-mac|win32{
-# XXX -mt-d!!!
-LIBS += -ltorrent -lboost_system-mt
-}
-
-unix:!mac{
-DEFINES += BOOST_ASIO_HEADER_ONLY
-LIBS += -ltorrent-rasterbar -lboost_system-mt
-}
-
 ##### libtorrent general configuration
 
 # Fixes things with Boost >= v1.46 where boost filesystem v3 is the default.
@@ -65,24 +54,63 @@ DEFINES += TORRENT_USE_BOOST_DATE_TIME=1
 DEFINES += TORRENT_USE_IPV6=1
 # No asserts
 DEFINES += TORRENT_NO_ASSERTS=1
-# Use libtorrent bundled geoip source
+
+CONFIG(debug, debug|release){
+    DEFINES += TORRENT_DEBUG
+}
+
+# Use libtorrent bundled geoip source on platforms where it's possible (eg: we control compiling libtorrent)
 mac|win32: DEFINES += WITH_SHIPPED_GEOIP_H
 
-# Torrent linking to boost depend as well
-contains(ROXEE_LINK_TYPE, static){
-    DEFINES += BOOST_ALL_NO_LIB
+# ASIO
+DEFINES += BOOST_ASIO_HEADER_ONLY
+# Kind of borked, but well
+contains(ROXEE_DEPEND_LINK, static){
     DEFINES += BOOST_ASIO_SEPARATE_COMPILATION
 }else{
-    DEFINES += BOOST_ALL_DYN_LINK
     DEFINES += BOOST_ASIO_DYN_LINK
 }
 
+mac|win32{
+    LIBS += -ltorrent
+    contains(ROXEE_DEPEND_LINK, static){
+        LIBS += -liconv
+    }
+}else{
+    LIBS += -ltorrent-rasterbar
+}
+
+LIBS += -lboost_system
+
+
+#}
+
+#    DEFINES += BOOST_ALL_DYN_LINK
+
+
+#mac|win32{
+## XXX -mt-d!!!
+#    CONFIG(debug, debug|release){
+#        LIBS += -lboost_system-mt-d
+#    }else{
+#        LIBS += -lboost_system-mt
+#    }
+#}
+
+#unix:!mac{
+#    DEFINES += BOOST_ASIO_HEADER_ONLY
+#    LIBS += -ltorrent-rasterbar -lboost_system-mt
+#}
+
+
+#contains(ROXEE_LINK_TYPE, static){
+#    LIBS += -liconv
+#}
+
+
+
 # And debug vary as well
 #BOOSTIE =
-CONFIG(debug, debug|release){
-    DEFINES += TORRENT_DEBUG
-#    BOOSTIE = -d
-}
 
 SOURCES += \
     session.cpp \
