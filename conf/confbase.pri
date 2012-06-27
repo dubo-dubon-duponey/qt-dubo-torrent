@@ -66,7 +66,7 @@ win32 {
 }
 
 !mac:!win32{
-    PLT = other-$$system(arch)
+    PLT = $$system(uname)-$$system(uname -n)-$$system(arch)
 }
 
 # Echo
