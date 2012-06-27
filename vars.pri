@@ -7,8 +7,8 @@ ROXEE_PROJECT_VERSION_BUGFIX = 0
 # Where to output the final build
 ROXEE_DESTDIR =
 # Wether to build static, shared, or plugin
-#ROXEE_LINK_TYPE = static
-ROXEE_LINK_TYPE = dynamic
+ROXEE_LINK_TYPE = static
+#ROXEE_LINK_TYPE = dynamic
 #ROXEE_LINK_TYPE = plugin
 # Wether to link to dependency statically or dynamically
 ROXEE_DEPEND_LINK = static

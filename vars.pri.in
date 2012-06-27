@@ -11,6 +11,7 @@ ADDITIONAL_DEPENDENCIES_DIR = {PUKE-DEP-DIR}
 ROXEE_DESTDIR = {PUKE-OUTPUT-DIR}
 # Wether to build static, shared, or plugin
 ROXEE_LINK_TYPE = static
-#ROXEE_LINK_TYPE = plugin
-#ROXEE_LINK_TYPE = dynamic
+# Wether to link to dependency statically or dynamically
+ROXEE_DEPEND_LINK = static
+#ROXEE_DEPEND_LINK = dynamic
 TARGET = roxeetorrent
