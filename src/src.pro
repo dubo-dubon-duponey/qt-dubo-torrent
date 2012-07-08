@@ -12,12 +12,14 @@ DEFINES += LIBROXEETORRENT_LIBRARY
 include(../conf/confbase.pri)
 
 # Third-party stuff
-include(../third-party/bootstrap.pri)
+exists(../third-party/bootstrap.pri){
+    include(../third-party/bootstrap.pri)
+}
 
 # Windows specific configuration
 win32{
     message( -> Targetting windows)
-    include(../conf/confwin.pri)
+#    include(../conf/confwin.pri)
 }
 
 # Mac specific configuration
@@ -38,50 +40,93 @@ target.path = $$DESTDIR
 INSTALLS += target
 
 
-##### libtorrent general configuration
 
-# Fixes things with Boost >= v1.46 where boost filesystem v3 is the default.
-# Using v3 makes for crash on OSX at least
-DEFINES += BOOST_FILESYSTEM_VERSION=2
-# Use libtorrent inner crypto
-DEFINES += TORRENT_USE_TOMMATH
-# Unicode, iconv yes
-DEFINES += UNICODE _UNICODE TORRENT_USE_ICONV=1
-# No deprecated functions
-DEFINES += TORRENT_NO_DEPRECATE
 
-DEFINES += TORRENT_USE_BOOST_DATE_TIME=1
-DEFINES += TORRENT_USE_IPV6=1
-# No asserts
-DEFINES += TORRENT_NO_ASSERTS=1
 
-CONFIG(debug, debug|release){
-    DEFINES += TORRENT_DEBUG
-}
-
-# Use libtorrent bundled geoip source on platforms where it's possible (eg: we control compiling libtorrent)
-mac|win32: DEFINES += WITH_SHIPPED_GEOIP_H
-
-# ASIO
-DEFINES += BOOST_ASIO_HEADER_ONLY
-# Kind of borked, but well
-contains(ROXEE_DEPEND_LINK, static){
-    DEFINES += BOOST_ASIO_SEPARATE_COMPILATION
-}else{
+win32{
+    DEFINES += BOOST_ALL_DYN_LINK
+    DEFINES += BOOST_ALL_NO_LIB
     DEFINES += BOOST_ASIO_DYN_LINK
-}
+    DEFINES += BOOST_ASIO_ENABLE_CANCELIO
+    DEFINES += BOOST_ASIO_HASH_MAP_BUCKETS=1021
+    DEFINES += BOOST_ASIO_SEPARATE_COMPILATION
+    DEFINES += BOOST_EXCEPTION_DISABLE
+    DEFINES += BOOST_SYSTEM_STATIC_LINK=1
+    DEFINES += BOOST_FILESYSTEM_VERSION=2
 
-mac|win32{
-    LIBS += -ltorrent
-    contains(ROXEE_DEPEND_LINK, static){
-        message(*********************** OGT ICONV)
-        LIBS += -liconv
+    DEFINES += __USE_W32_SOCKETS
+
+    # XXX was compiling with WRONG ROXEE_DEPEND_LINK
+    !contains(ROXEE_LINK_TYPE, static){
+        DEFINES += TORRENT_LINKING_SHARED
     }
+
+    CONFIG(debug, debug|release){
+        DEFINES += TORRENT_DEBUG
+    }
+
+    DEFINES += TORRENT_USE_TOMMATH
+    DEFINES += TORRENT_NO_DEPRECATE
+    DEFINES += TORRENT_USE_BOOST_DATE_TIME=1
+    DEFINES += TORRENT_USE_IPV6=1
+    DEFINES += TORRENT_NO_ASSERTS=1
+    DEFINES += UNICODE _UNICODE
+    DEFINES += TORRENT_USE_ICONV=1
+
+    LIBS += -lboost_system
+    LIBS += -ltorrent
+
 }else{
-    LIBS += -ltorrent-rasterbar
+
+    # Fixes things with Boost >= v1.46 where boost filesystem v3 is the default.
+    # Using v3 makes for crash on OSX at least
+    DEFINES += BOOST_FILESYSTEM_VERSION=2
+    # Use libtorrent inner crypto
+    DEFINES += TORRENT_USE_TOMMATH
+    DEFINES += TORRENT_NO_DEPRECATE
+    DEFINES += TORRENT_USE_BOOST_DATE_TIME=1
+    DEFINES += TORRENT_USE_IPV6=1
+    # No asserts
+    DEFINES += TORRENT_NO_ASSERTS=1
+
+    ##### libtorrent general configuration
+    # Unicode, iconv yes
+    # Windows only?
+    DEFINES += UNICODE _UNICODE
+
+    CONFIG(debug, debug|release){
+        DEFINES += TORRENT_DEBUG
+    }
+
+    # Use libtorrent bundled geoip source on platforms where it's possible (eg: we control compiling libtorrent)
+    mac|win32: DEFINES += WITH_SHIPPED_GEOIP_H
+
+    # ASIO
+    DEFINES += BOOST_ASIO_HEADER_ONLY
+    # Kind of borked, but well
+    contains(ROXEE_DEPEND_LINK, static){
+        DEFINES += BOOST_ASIO_SEPARATE_COMPILATION
+        mac{
+            LIBS += -liconv
+        }
+    }else{
+        DEFINES += BOOST_ASIO_DYN_LINK
+    }
+
+    DEFINES += TORRENT_USE_ICONV=1
+
+    LIBS += -lboost_system
+
+    mac|win32{
+        LIBS += -ltorrent
+    }else{
+        LIBS += -ltorrent-rasterbar
+    }
+
 }
 
-LIBS += -lboost_system
+
+
 
 
 #}

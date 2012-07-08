@@ -344,7 +344,7 @@ int Session::upload_rate_limit(){
 void Session::set_upload_rate_limit(const int rate){
     // XXX Is this even working???
 #if LIBTORRENT_VERSION_MINOR >= 16
-    LRTCoreInstance::instance()->getSession()->settings().upload_rate_limit = rate;
+    // LRTCoreInstance::instance()->getSession()->settings().upload_rate_limit = rate;
 #else
 	qDebug() << "Cant set rate! Too old libtorrent";
 	qDebug() << rate;
@@ -361,10 +361,11 @@ int Session::download_rate_limit(){
 }
 void Session::set_download_rate_limit(const int rate){
 #if LIBTORRENT_VERSION_MINOR >= 16
-    LRTCoreInstance::instance()->getSession()->settings().download_rate_limit = rate;
+    libtorrent::session_settings settings = LRTCoreInstance::instance()->getSession()->settings();
+    settings.download_rate_limit = rate;
+    // LRTCoreInstance::instance()->getSession()->settings().download_rate_limit = rate;
 #else
-	qDebug() << "Cant set rate! Too old libtorrent";
-	qDebug() << rate;
+    s->set_download_rate_limit(rate);
 #endif
 //    LRTCoreInstance::instance()->getSession()->set_download_rate_limit(rate);
 }

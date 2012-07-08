@@ -78,7 +78,7 @@ message( -> Link: $${ROXEE_LINK_TYPE} version)
 
 
 # Setting path
-TMP_BASE_DIR = $${PWD}/../buildd/tmp/$${ROXEE_LINK_TYPE}-$${ROXEE_BUILD_TYPE}-$${QMAKE_CC}-$${PLT}
+TMP_BASE_DIR = $${PWD}/../buildd/$${PLT}-tmp/$${QMAKE_CC}/$${ROXEE_LINK_TYPE}-$${ROXEE_BUILD_TYPE}
 RCC_DIR     = $${TMP_BASE_DIR}/rcc
 UI_DIR      = $${TMP_BASE_DIR}/ui
 MOC_DIR     = $${TMP_BASE_DIR}/moc
@@ -89,7 +89,7 @@ message( -> Temp build dir: $${TMP_BASE_DIR})
 
 # If we don't have a specific destination directory
 isEmpty(ROXEE_DESTDIR){
-    DESTDIR = $${PWD}/../buildd/$${ROXEE_LINK_TYPE}-$${ROXEE_BUILD_TYPE}-$${QMAKE_CC}-$${PLT}
+    DESTDIR = $${PWD}/../buildd/$${PLT}/$${QMAKE_CC}/$${ROXEE_LINK_TYPE}-$${ROXEE_BUILD_TYPE}
 }else{
     DESTDIR = $${ROXEE_DESTDIR}
 }
@@ -111,12 +111,14 @@ contains(TEMPLATE, lib){
     DESTDIR = $${DESTDIR}/lib
     contains(ROXEE_LINK_TYPE, static){
         CONFIG += static
+        CONFIG += staticlib
     }
     contains(ROXEE_LINK_TYPE, plugin){
         CONFIG += plugin
     }
     contains(ROXEE_LINK_TYPE, dynamic){
         CONFIG += shared
+        CONFIG += dll
     }
 }
 
@@ -130,3 +132,51 @@ mac{
     QMAKE_MACOSX_DEPLOYMENT_TARGET = 10.6
 }
 
+win32{
+    # Exclude cruft from the SDK
+    DEFINES += WIN32_LEAN_AND_MEAN
+
+    # Windows XP
+    DEFINES += _WIN32_WINNT=0x0501
+    DEFINES += _WIN32_IE=0x0501
+
+    # Disable warnings (older macro)
+    #DEFINES += _CRT_SECURE_NO_DEPRECATE
+    # Disable warnings (newer macro)
+    #DEFINES += _CRT_SECURE_NO_WARNINGS
+    # Disable POSIX deprecation warnings
+    #DEFINES += _CRT_NONSTDC_NO_DEPRECATE
+    # Overload the secure versions so that the signature stays the same
+    #DEFINES += _CRT_SECURE_CPP_OVERLOAD_SECURE_NAMES
+    # Cygwin requires that stuff when using boost ASIO - but we don't support cygwin
+    #DEFINES += __USE_W32_SOCKETS
+    # Same shit
+#    DEFINES += _SCL_SECURE_NO_DEPRECATE
+
+    # http://stackoverflow.com/questions/662084/whats-the-difference-between-the-win32-and-win32-defines-in-c
+    DEFINES += WIN32
+    DEFINES += _WIN32
+
+    # Large support
+    DEFINES += _FILE_OFFSET_BITS=64
+
+    DEFINES += UNICODE
+    DEFINES += _UNICODE
+    DEFINES += __USE_W32_SOCKETS
+
+    #QMAKE_CFLAGS_RELEASE += -Zi
+    #QMAKE_LFLAGS_RELEASE += /DEBUG
+
+}
+
+
+
+
+#DEFINES += BOOST_ALL_NO_LIB
+#DEFINES += BOOST_ASIO_HASH_MAP_BUCKETS=1021
+#DEFINES += BOOST_EXCEPTION_DISABLE
+#DEFINES += BOOST_SYSTEM_STATIC_LINK=1
+#DEFINES += BOOST_THREAD_USE_LIB
+#DEFINES += BOOST_THREAD_USE_LIB=1
+#DEFINES += UNICODE
+#DEFINES += _UNICODE
