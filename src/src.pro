@@ -1,46 +1,37 @@
-# Basic consumer variables
-include(../vars.pri)
-
-# Requires only core
+TEMPLATE = lib
 QT = core
 
-# Build a lib
-TEMPLATE = lib
-DEFINES += LIBROXEETORRENT_LIBRARY
-
-# Basic stuff (version and build/path magic)
-include(../conf/confbase.pri)
-
-# Third-party stuff
-exists(../third-party/bootstrap.pri){
-    include(../third-party/bootstrap.pri)
-}
+include($$PWD/../vars.pri)
+include($$PWD/../conf/confbase.pri)
 
 # Windows specific configuration
 win32{
     message( -> Targetting windows)
-#    include(../conf/confwin.pri)
+    include($$PWD/../conf/confwin.pri)
 }
 
 # Mac specific configuration
 mac{
     message( -> Targetting osx)
-    include(../conf/confmacx.pri)
+    include($$PWD/../conf/confmacx.pri)
 }
 
 # Unix specific configuration
 unix:!mac {
     message( -> Targetting *nux)
-    include(../conf/confunix.pri)
+    include($$PWD/../conf/confunix.pri)
+}
+
+DEFINES += LIBROXEETORRENT_LIBRARY
+
+contains(ROXEE_LINK_TYPE, static){
+    DEFINES += LIBROXEETORRENT_USE_STATIC
 }
 
 INCLUDEPATH += $$PWD
-INCLUDEPATH += $$PWD/include/libroxeetorrent
+INCLUDEPATH += $$PWD/include
 target.path = $$DESTDIR
 INSTALLS += target
-
-
-
 
 
 win32{
@@ -159,21 +150,21 @@ win32{
 #BOOSTIE =
 
 SOURCES += \
-    session.cpp \
-    alert.cpp \
-    torrenthandle.cpp \
-    alerttypes.cpp \
-    coreinstance.cpp \
-    root.cpp
+    $$PWD/session.cpp \
+    $$PWD/alert.cpp \
+    $$PWD/torrenthandle.cpp \
+    $$PWD/alerttypes.cpp \
+    $$PWD/coreinstance.cpp \
+    $$PWD/root.cpp
 
 HEADERS += \
-    alert.h \
-    torrenthandle.h \
-    coreinstance.h \
-    include/libroxeetorrent/libroxeetorrent_global.h \
-    include/libroxeetorrent/session.h \
-    include/libroxeetorrent/alerttypes.h \
-    include/libroxeetorrent/root.h
+    $$PWD/alert.h \
+    $$PWD/torrenthandle.h \
+    $$PWD/coreinstance.h \
+    $$PWD/include/libroxeetorrent/libroxeetorrent_global.h \
+    $$PWD/include/libroxeetorrent/session.h \
+    $$PWD/include/libroxeetorrent/alerttypes.h \
+    $$PWD/include/libroxeetorrent/root.h
 
 
 

@@ -14,7 +14,7 @@
 #ifndef ROXEETORRENT_ALERT_H
 #define ROXEETORRENT_ALERT_H
 
-#include "libroxeetorrent_global.h"
+#include "libroxeetorrent/libroxeetorrent_global.h"
 
 #include <QtCore/qobject.h>
 

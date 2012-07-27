@@ -12,7 +12,7 @@
 #ifndef ROXEETORRENT_TORRENTHANDLE_H
 #define ROXEETORRENT_TORRENTHANDLE_H
 
-#include "libroxeetorrent_global.h"
+#include "libroxeetorrent/libroxeetorrent_global.h"
 
 #include <QtCore/qobject.h>
 #include <QtCore/qvariant.h>

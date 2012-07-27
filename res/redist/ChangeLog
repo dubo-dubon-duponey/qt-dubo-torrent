@@ -1,3 +1,8 @@
+RoxeeTorrent-0.6.0
+    Cosmetic tweaks.
+    Version bump to stay synched with Roxee.
+    Build cleanup.
+
 RoxeeTorrent-0.5.0:
     Clean-up build system
     Linux building

@@ -10,7 +10,7 @@
  */
 
 #include "coreinstance.h"
-#include "session.h"
+#include "libroxeetorrent/session.h"
 #include "torrenthandle.h"
 #include "alert.h"
 
