@@ -363,11 +363,10 @@ void Session::set_download_rate_limit(const int rate){
 #if LIBTORRENT_VERSION_MINOR >= 16
     libtorrent::session_settings settings = LRTCoreInstance::instance()->getSession()->settings();
     settings.download_rate_limit = rate;
-    // LRTCoreInstance::instance()->getSession()->settings().download_rate_limit = rate;
+    LRTCoreInstance::instance()->getSession()->set_settings(settings);
 #else
-    s->set_download_rate_limit(rate);
+    LRTCoreInstance::instance()->getSession()->set_download_rate_limit(rate);
 #endif
-//    LRTCoreInstance::instance()->getSession()->set_download_rate_limit(rate);
 }
 
 //const int Session::local_upload_rate_limit(){
