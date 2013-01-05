@@ -93,7 +93,7 @@ namespace RoxeeTorrent
         const QString getLinkType();
         const QString getQt();
 
-        const QString getLibName(){ return QString::fromAscii("libtorrent");}
+        const QString getLibName(){ return QString::fromLatin1("libtorrent");}
         const QString getLibVersion();
         const QString getLibRevision();
         /*! \endcond */

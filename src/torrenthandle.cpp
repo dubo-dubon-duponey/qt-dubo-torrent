@@ -27,7 +27,7 @@ TorrentHandle::TorrentHandle(const QString & hash, QObject *parent) :
 //    qDebug() << QString("HAD" + m_hash);
 
 //    // Convert string to ha1
-//    std::string str(hash.toAscii().data());
+//    std::string str(hash.toLatin1().data());
 //    std::istringstream i(str);
 //    libtorrent::sha1_hash x;
 //    i>>x;
@@ -50,7 +50,7 @@ TorrentHandle::TorrentHandle(const QString & hash, QObject *parent) :
 //      return QString(o.str().c_str());
 //    }
 //    static inline libtorrent::sha1_hash QStringToSha1(const QString& s) {
-//      std::string str(s.toAscii().data());
+//      std::string str(s.toLatin1().data());
 //      std::istringstream i(str);
 //      libtorrent::sha1_hash x;
 //      i>>x;
@@ -66,7 +66,7 @@ TorrentHandle::~TorrentHandle()
 bool TorrentHandle::is_valid()
 {
     // Convert string to ha1
-    std::string str(m_hash.toAscii().data());
+    std::string str(m_hash.toLatin1().data());
     std::istringstream i(str);
     libtorrent::sha1_hash x;
     i>>x;
@@ -80,7 +80,7 @@ const QString TorrentHandle::info_hash()
 {
     return m_hash;
 //    // Convert string to ha1
-//    std::string str(m_hash.toAscii().data());
+//    std::string str(m_hash.toLatin1().data());
 //    std::istringstream i(str);
 //    libtorrent::sha1_hash x;
 //    i>>x;
@@ -99,7 +99,7 @@ const QString TorrentHandle::info_hash()
 const QString TorrentHandle::name()
 {
     // Convert string to ha1
-    std::string str(m_hash.toAscii().data());
+    std::string str(m_hash.toLatin1().data());
     std::istringstream i(str);
     libtorrent::sha1_hash x;
     i>>x;
@@ -115,7 +115,7 @@ const QString TorrentHandle::name()
 QString TorrentHandle::filePathAt(const int pos)
 {
     // Convert string to ha1
-    std::string str(m_hash.toAscii().data());
+    std::string str(m_hash.toLatin1().data());
     std::istringstream i(str);
     libtorrent::sha1_hash x;
     i>>x;
@@ -136,7 +136,7 @@ QString TorrentHandle::filePathAt(const int pos)
 qint64 TorrentHandle::fileSizeAt(const int pos)
 {
     // Convert string to ha1
-    std::string str(m_hash.toAscii().data());
+    std::string str(m_hash.toLatin1().data());
     std::istringstream i(str);
     libtorrent::sha1_hash x;
     i>>x;
@@ -172,7 +172,7 @@ bool TorrentHandle::is_sequential_download()
         return 0;
     }
     // Convert string to ha1
-    std::string str(m_hash.toAscii().data());
+    std::string str(m_hash.toLatin1().data());
     std::istringstream i(str);
     libtorrent::sha1_hash x;
     i>>x;
@@ -194,7 +194,7 @@ void TorrentHandle::setSequential(bool flag)
         return;
     }
 //    // Convert string to ha1
-    std::string str(m_hash.toAscii().data());
+    std::string str(m_hash.toLatin1().data());
     std::istringstream i(str);
     libtorrent::sha1_hash x;
     i>>x;
@@ -208,7 +208,7 @@ void TorrentHandle::setSequential(bool flag)
 //QVariant TorrentHandle::getInfo()
 //{
 //    // Convert string to ha1
-//    std::string str(m_hash.toAscii().data());
+//    std::string str(m_hash.toLatin1().data());
 //    std::istringstream i(str);
 //    libtorrent::sha1_hash x;
 //    i>>x;
@@ -230,7 +230,7 @@ void TorrentHandle::setSequential(bool flag)
 int TorrentHandle::num_files()
 {
     // Convert string to ha1
-    std::string str(m_hash.toAscii().data());
+    std::string str(m_hash.toLatin1().data());
     std::istringstream i(str);
     libtorrent::sha1_hash x;
     i>>x;
@@ -256,7 +256,7 @@ int TorrentHandle::num_files()
 bool TorrentHandle::priv()
 {
     // Convert string to ha1
-    std::string str(m_hash.toAscii().data());
+    std::string str(m_hash.toLatin1().data());
     std::istringstream i(str);
     libtorrent::sha1_hash x;
     i>>x;
@@ -279,7 +279,7 @@ qint64 TorrentHandle::total_size()
 //        return;
 //    }
     // Convert string to ha1
-    std::string str(m_hash.toAscii().data());
+    std::string str(m_hash.toLatin1().data());
     std::istringstream i(str);
     libtorrent::sha1_hash x;
     i>>x;
@@ -299,7 +299,7 @@ qint64 TorrentHandle::total_size()
 int TorrentHandle::num_pieces()
 {
     // Convert string to ha1
-    std::string str(m_hash.toAscii().data());
+    std::string str(m_hash.toLatin1().data());
     std::istringstream i(str);
     libtorrent::sha1_hash x;
     i>>x;
@@ -319,7 +319,7 @@ int TorrentHandle::num_pieces()
 int TorrentHandle::piece_length()
 {
     // Convert string to ha1
-    std::string str(m_hash.toAscii().data());
+    std::string str(m_hash.toLatin1().data());
     std::istringstream i(str);
     libtorrent::sha1_hash x;
     i>>x;
@@ -340,7 +340,7 @@ int TorrentHandle::piece_length()
 const QString TorrentHandle::comment()
 {
     // Convert string to ha1
-    std::string str(m_hash.toAscii().data());
+    std::string str(m_hash.toLatin1().data());
     std::istringstream i(str);
     libtorrent::sha1_hash x;
     i>>x;
@@ -360,7 +360,7 @@ const QString TorrentHandle::comment()
 const QString TorrentHandle::creator()
 {
     // Convert string to ha1
-    std::string str(m_hash.toAscii().data());
+    std::string str(m_hash.toLatin1().data());
     std::istringstream i(str);
     libtorrent::sha1_hash x;
     i>>x;
@@ -380,7 +380,7 @@ const QString TorrentHandle::creator()
 const QString TorrentHandle::metadata()
 {
     // Convert string to ha1
-    std::string str(m_hash.toAscii().data());
+    std::string str(m_hash.toLatin1().data());
     std::istringstream i(str);
     libtorrent::sha1_hash x;
     i>>x;
@@ -400,7 +400,7 @@ const QString TorrentHandle::metadata()
 qint64 TorrentHandle::all_time_download()
 {
     // Convert string to ha1
-    std::string str(m_hash.toAscii().data());
+    std::string str(m_hash.toLatin1().data());
     std::istringstream i(str);
     libtorrent::sha1_hash x;
     i>>x;
