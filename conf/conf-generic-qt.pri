@@ -80,6 +80,4 @@ contains(TEMPLATE, lib){
 contains(TEMPLATE, app){
     CONFIG += link_prl
     DESTDIR = $${DESTDIR}/bin
-    LIBS += -L$$DESTDIR/../lib
-    LIBS += -l$${TARGET}
 }

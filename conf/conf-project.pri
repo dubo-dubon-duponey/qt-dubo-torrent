@@ -1,3 +1,9 @@
+contains(TEMPLATE, app){
+    INCLUDEPATH +=  $$DESTDIR/../include
+    LIBS += -L$$DESTDIR/../lib
+    LIBS += -l$${TARGET}
+}
+
 contains(TEMPLATE, lib){
     # Use libtorrent inner crypto
     DEFINES += TORRENT_USE_TOMMATH
@@ -89,6 +95,14 @@ contains(TEMPLATE, lib){
 #    }
 }
 
+# XXX is this necessary?
+win32{
+    DEFINES += _CRT_SECURE_NO_DEPRECATE
+    DEFINES += _CRT_SECURE_CPP_OVERLOAD_SECURE_NAMES
+    DEFINES += _CRT_NONSTDC_NO_DEPRECATE
+}
+
+
 
 # Kind of borked, but well
 
@@ -98,5 +112,4 @@ contains(TEMPLATE, app){
             LIBS += -liconv
         }
     }
-    INCLUDEPATH +=  $$DESTDIR/../include
 }
