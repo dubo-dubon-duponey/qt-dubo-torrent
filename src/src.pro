@@ -15,13 +15,12 @@ target.path = $$DESTDIR
 INSTALLS += target
 
 # Copy headers to destination
-system(rm -Rf "$$DESTDIR/../include")
-system(mkdir -p "$$DESTDIR/../")
-system(cp -R "$$PWD/include" "$$DESTDIR/../")
-system(rm -Rf "$$DESTDIR/../share")
+system(rm -Rf "$$DESTDIR/../include/libroxeetorrent")
+system(mkdir -p "$$DESTDIR/../include")
+system(cp -R "$$PWD/include/libroxeetorrent" "$$DESTDIR/../include")
+system(rm -Rf "$$DESTDIR/../share/libroxeetorrent")
 system(mkdir -p "$$DESTDIR/../share/libroxeetorrent")
 system(cp "$$PWD/../res/redist/*" "$$DESTDIR/../share/libroxeetorrent")
-
 
 #}
 
