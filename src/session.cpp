@@ -426,8 +426,9 @@ const QVariant Session::popAlert(){
                                            t->category(),
                                            qint64(ft),
                                            this);
-        QVariant var(QMetaType::QObjectStar);
-        var.setValue((QObject*) myalert);
+//        QVariant var = QVariant(QMetaType::QObjectStar);
+//        var.setValue((QObject*) myalert);
+        QVariant var = QVariant::fromValue((QObject*) myalert);
         return var;
     }
     return 0;
@@ -503,8 +504,9 @@ const QVariant Session::getTorrentAt(const int pos)
             std::ostringstream o;
             o << hash;
             TorrentHandle * h2 = new TorrentHandle(QString(o.str().c_str()), this);
-            QVariant var(QMetaType::QObjectStar);
-            var.setValue((QObject*) h2);
+
+            QVariant var = QVariant::fromValue((QObject*) h2);
+
             return var;
 //            return QString(h.get_torrent_info().info_hash());
         }
