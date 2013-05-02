@@ -45,14 +45,26 @@ AlertTypes::~AlertTypes()
 
 int AlertTypes::all()             { return libtorrent::alert::all_categories;}
 int AlertTypes::debug()           { return libtorrent::alert::debug_notification;}
-int AlertTypes::dht()             { return libtorrent::alert::dht_notification;}
+int AlertTypes::dht()             {
+#if LIBTORRENT_VERSION_MINOR >= 15
+    return libtorrent::alert::dht_notification;
+#else
+    return 10000;
+#endif
+}
 int AlertTypes::error()           { return libtorrent::alert::error_notification;}
 int AlertTypes::ip_block()        { return libtorrent::alert::ip_block_notification;}
 int AlertTypes::peer()            { return libtorrent::alert::peer_notification;}
 int AlertTypes::performance()     { return libtorrent::alert::performance_warning;}
 int AlertTypes::port_mapping()    { return libtorrent::alert::port_mapping_notification;}
 int AlertTypes::progress()        { return libtorrent::alert::progress_notification;}
-int AlertTypes::stats()           { return libtorrent::alert::stats_notification;}
+int AlertTypes::stats()           {
+#if LIBTORRENT_VERSION_MINOR >= 15
+    return libtorrent::alert::stats_notification;
+#else
+    return 10000;
+#endif
+}
 int AlertTypes::status()          { return libtorrent::alert::status_notification;}
 int AlertTypes::storage()         { return libtorrent::alert::storage_notification;}
 int AlertTypes::tracker()         { return libtorrent::alert::tracker_notification;}

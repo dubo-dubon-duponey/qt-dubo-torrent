@@ -39,11 +39,18 @@ Session::Session(const QString & id, const int & major, const int & minor, const
     // XXX BOGUS
 //    const char * identifier = id.toLocal8Bit().constData();
 //    std::string identifier = id.toStdString();
+#if LIBTORRENT_VERSION_MINOR >= 15
     LRTCoreInstance::instance()->setSession( new libtorrent::session(
                libtorrent::fingerprint( id.toLocal8Bit().constData(), major, minor, revision, tag),
                 libtorrent::session::start_default_features
                 | libtorrent::session::add_default_plugins,
                 libtorrent::alert::all_categories));
+#else
+    LRTCoreInstance::instance()->setSession( new libtorrent::session(
+               libtorrent::fingerprint( id.toLocal8Bit().constData(), major, minor, revision, tag),
+                libtorrent::session::start_default_features
+                | libtorrent::session::add_default_plugins));
+#endif
 }
 
 RoxeeTorrent::Root * Session::root()
@@ -266,20 +273,25 @@ Session::~Session()
 void Session::loadState(const QString & entry)
 {
     const char * in = entry.toLocal8Bit().constData();
+#if LIBTORRENT_VERSION_MINOR >= 16
     libtorrent::lazy_entry e;
     libtorrent::error_code c;
-#if LIBTORRENT_VERSION_MINOR >= 16
     if (lazy_bdecode(&in[0], &in[0] + sizeof(in), e, c) == 0) {
       LRTCoreInstance::instance()->getSession()->load_state(e);
     }
+#elif LIBTORRENT_VERSION_MINOR >= 15
+    libtorrent::lazy_entry e;
+    libtorrent::error_code c;
+    lazy_bdecode(&in[0], &in[0] + sizeof(in), e);
+    LRTCoreInstance::instance()->getSession()->load_state(e);
 #else
-	lazy_bdecode(&in[0], &in[0] + sizeof(in), e);
-	LRTCoreInstance::instance()->getSession()->load_state(e);
+    qDebug() << "Libtorrent (too old) NOT functional on your platform";
 #endif
 }
 
 const QString Session::saveState(const int & flags)
 {
+#if LIBTORRENT_VERSION_MINOR >= 15
     libtorrent::entry e;
     if(flags){
         LRTCoreInstance::instance()->getSession()->save_state(e, flags);
@@ -290,6 +302,10 @@ const QString Session::saveState(const int & flags)
     bencode(std::back_inserter(out), e);
 //    QByteArray * q = new QByteArray();
     return QString::fromLocal8Bit(out.data());
+#else
+    qDebug() << "Libtorrent (too old) NOT functional on your platform";
+    return QString::fromLatin1("");
+#endif
 }
 
 
@@ -315,7 +331,12 @@ void Session::abort(){
 }
 
 bool Session::is_dht_running(){
+#if LIBTORRENT_VERSION_MINOR >= 15
     return LRTCoreInstance::instance()->getSession()->is_dht_running();
+#else
+    qDebug() << "Libtorrent (too old) NOT functional on your platform";
+    return false;
+#endif
 }
 
 void Session::startDht(){
