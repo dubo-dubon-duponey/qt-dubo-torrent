@@ -14,13 +14,46 @@ INCLUDEPATH += $$PWD/include
 target.path = $$DESTDIR
 INSTALLS += target
 
-# Copy headers to destination
-system(rm -Rf "$$DESTDIR/../include/libroxeetorrent")
-system(mkdir -p "$$DESTDIR/../include")
-system(cp -R "$$PWD/include/libroxeetorrent" "$$DESTDIR/../include")
-system(rm -Rf "$$DESTDIR/../share/libroxeetorrent")
-system(mkdir -p "$$DESTDIR/../share/libroxeetorrent")
-system(cp "$$PWD/../res/redist/*" "$$DESTDIR/../share/libroxeetorrent")
+
+
+defineTest(copyToDestdir) {
+    files = $$1
+    dest = $$2
+
+    for(FILE, files) {
+        DDIR = $$dest
+
+        # Replace slashes in paths with backslashes for Windows
+        win32:FILE ~= s,/,\\,g
+        win32:DDIR ~= s,/,\\,g
+
+        win32{
+            system(mkdir $$quote($$DDIR))
+        }else{
+            system(mkdir -p $$quote($$DDIR))
+        }
+        message(********************************************)
+        message($$QMAKE_COPY $$quote($$FILE) $$quote($$DDIR) $$escape_expand(\\n\\t))
+        message(********************************************)
+
+        QMAKE_POST_LINK += $$QMAKE_COPY $$quote($$FILE) $$quote($$DDIR) $$escape_expand(\\n\\t)
+    }
+
+    export(QMAKE_POST_LINK)
+}
+
+copyToDestdir($$PWD/include/libroxeetorrent/*, $$DESTDIR/../include/libroxeetorrent)
+copyToDestdir($$PWD/../res/redist/*, $$DESTDIR/../share/libroxeetorrent)
+
+# XXX careful with that - if both directories are the same
+#win32{
+#    contains(ROXEE_LINK_TYPE, dynamic){
+#        copyToDestdir($$SPARK/WinSparkle.dll, $$DESTDIR)
+##        copyToDestdir($$ROXEE_EXTERNAL/lib/libvlccore.dll, $$DESTDIR)
+#    #    copyToDestdir($$ROXEE_EXTERNAL/lib/plugins/*, $$DESTDIR/plugins)
+#    }
+#}
+
 
 #}
 
