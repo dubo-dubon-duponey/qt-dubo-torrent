@@ -25,12 +25,18 @@ ROXEE_INTERNAL_PATH =
 
 # Where to find additional dependencies (include and libs)
 # Note this will be used BEFORE any other manually specified source, so, careful with that
-ROXEE_EXTERNAL =
-CONFIG(debug, debug|release){
-    ROXEE_EXTERNAL = C:/roxeelove/buildd-deploy/msvc/debug/static
-}else{
-    ROXEE_EXTERNAL = C:/roxeelove/buildd-deploy/msvc/release/static
+win32{
+    CONFIG(debug, debug|release){
+        ROXEE_EXTERNAL = C:/roxeelove/buildd-deploy/msvc/debug/static
+    }else{
+        ROXEE_EXTERNAL = C:/roxeelove/buildd-deploy/msvc/release/static
+    }
 }
+
+mac{
+    ROXEE_EXTERNAL = /Users/dmp/buildd/deploy.webitup.org/client/Darwin/debug/static/
+}
+
 
 # Where to output the final build (will default to buildd/platform/compiler-qtmajorversion-linktype-debug)
 ROXEE_DESTDIR =
