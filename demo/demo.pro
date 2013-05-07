@@ -16,7 +16,6 @@ contains(ROXEE_LINK_TYPE, static){
     DEFINES += LIBROXEESINAPP_USE_STATIC
 
     win32{
-        DEFINES += LIBROXEETORRENT_USE_STATIC
         copyToDestdir($$ROXEE_EXTERNAL/libtorrent.dll, $$DESTDIR)
     }
 }

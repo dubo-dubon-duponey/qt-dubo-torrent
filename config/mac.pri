@@ -3,8 +3,8 @@
 ###############
 
 # Wether to build static, plugin or shared library
-#ROXEE_LINK_TYPE = static
-ROXEE_LINK_TYPE = dynamic
+ROXEE_LINK_TYPE = static
+#ROXEE_LINK_TYPE = dynamic
 # XXX unlikely to work presently ROXEE_LINK_TYPE = plugin
 
 # You can choose to link against the third-party provided libraries.
