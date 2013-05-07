@@ -17,7 +17,7 @@ mac {
 include($$PWD/mac.pri)
 }
 
-win {
+win32 {
 include($$PWD/win.pri)
 }
 
