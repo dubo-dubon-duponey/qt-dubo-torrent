@@ -38,7 +38,7 @@ VERSION = $${ROXEE_PROJECT_VERSION_MAJOR}.$${ROXEE_PROJECT_VERSION_MINOR}.$${ROX
 
 # Setting path
 VARIED_DIR = $${QMAKE_CC}-$${QT_MAJOR_VERSION}-$${ROXEE_LINK_TYPE}-$${ROXEE_BUILD_TYPE}
-TMP_BASE_DIR = $${PWD}/../buildd/$${ROXEE_PLATFORM}-tmp/$${VARIED_DIR}
+TMP_BASE_DIR = $${PWD}/../../buildd/$${ROXEE_PLATFORM}-tmp/$${VARIED_DIR}
 RCC_DIR     = $${TMP_BASE_DIR}/rcc
 UI_DIR      = $${TMP_BASE_DIR}/ui
 MOC_DIR     = $${TMP_BASE_DIR}/moc
@@ -47,20 +47,30 @@ OBJECTS_DIR = $${TMP_BASE_DIR}/obj
 
 # If we don't have a specific destination directory
 isEmpty(ROXEE_DESTDIR){
-    DESTDIR = $${PWD}/../buildd/$${ROXEE_PLATFORM}/$${VARIED_DIR}
+    DESTDIR = $${PWD}/../../buildd/$${ROXEE_PLATFORM}/$${VARIED_DIR}
 }else{
     DESTDIR = $${ROXEE_DESTDIR}
-}
-
-# Linking
-!isEmpty(ROXEE_EXTERNAL){
-    INCLUDEPATH += $${ROXEE_EXTERNAL}/include
-    LIBS += -L$${ROXEE_EXTERNAL}/lib
 }
 
 # Only relevant for libs: enable dep tracking
 contains(TEMPLATE, lib){
     CONFIG += absolute_library_soname
+
+    # Linking against third-party libs if any
+    !isEmpty(ROXEE_EXTERNAL){
+        INCLUDEPATH += $${ROXEE_EXTERNAL}/include
+        LIBS += -L$${ROXEE_EXTERNAL}/lib
+        mac{
+            QMAKE_LFLAGS += -F$${ROXEE_EXTERNAL}/Frameworks
+        }
+        !isEmpty(ROXEE_INC){
+            INCLUDEPATH += $${ROXEE_EXTERNAL}/$${ROXEE_INC}
+        }
+    }
+
+    # Add custom flags to link against third-party, if any necessary
+    LIBS += $$ROXEE_LIBS
+
     CONFIG += create_prl
     DESTDIR = $${DESTDIR}/lib
     contains(ROXEE_LINK_TYPE, static){
@@ -79,5 +89,9 @@ contains(TEMPLATE, lib){
 # Allow app to read prl, conversely
 contains(TEMPLATE, app){
     CONFIG += link_prl
+
+    INCLUDEPATH +=  $$DESTDIR/include
+    LIBS += -L$$DESTDIR/lib
+
     DESTDIR = $${DESTDIR}/bin
 }

@@ -41,25 +41,9 @@ win32{
 }
 
 
-contains(TEMPLATE, lib){
-    win32{
-        LIBS += $$ROXEE_WIN_LIBS
-        win32-g++ {
-        }
-        else {
-            #QMAKE_CFLAGS_RELEASE += -Zi
-            # THIS CRAP IS THE ONLY WAY to not have my crappy shitty singleton crash on me
-            # QMAKE_LFLAGS_RELEASE += /DEBUG
-        }
-    }
+#contains(TEMPLATE, lib){
+    #QMAKE_CFLAGS_RELEASE += -Zi
+    # THIS CRAP IS THE ONLY WAY to not have my crappy shitty singleton crash on me
+    # QMAKE_LFLAGS_RELEASE += /DEBUG
+#}
 
-    # Mac specific configuration
-    mac{
-        LIBS += $$ROXEE_OSX_LIBS
-    }
-
-    # Unix specific configuration
-    unix:!mac {
-        LIBS += $$ROXEE_NUX_LIBS
-    }
-}
