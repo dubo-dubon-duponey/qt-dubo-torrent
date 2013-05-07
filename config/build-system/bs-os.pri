@@ -33,6 +33,7 @@ win32{
 
     DEFINES += UNICODE
     DEFINES += _UNICODE
+    # Needed by gcc when linkling againt win32 socket lib
     DEFINES += __USE_W32_SOCKETS
 
     #QMAKE_CFLAGS_RELEASE += -Zi

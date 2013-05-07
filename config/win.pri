@@ -15,9 +15,17 @@ ROXEE_INTERNAL_PATH =
 # If you rather want to link against your own, specify ROXEE_EXTERNAL, a directory that must contain include and lib folders with the necessary dependencies
 # Note this will be used BEFORE any other manually specified source
 CONFIG(debug, debug|release){
-    ROXEE_EXTERNAL = C:/roxeelove/buildd-deploy/msvc/debug/static
+    contains(QMAKE_CC, cl){
+        ROXEE_EXTERNAL = C:/roxeelove/buildd-deploy/msvc/debug/$${ROXEE_LINK_TYPE}
+    }else{
+        ROXEE_EXTERNAL = C:/roxeelove/buildd-deploy/gcc/debug/$${ROXEE_LINK_TYPE}
+    }
 }else{
-    ROXEE_EXTERNAL = C:/roxeelove/buildd-deploy/msvc/release/static
+    contains(QMAKE_CC, cl){
+        ROXEE_EXTERNAL = C:/roxeelove/buildd-deploy/msvc/release/$${ROXEE_LINK_TYPE}
+    }else{
+        ROXEE_EXTERNAL = C:/roxeelove/buildd-deploy/gcc/release/$${ROXEE_LINK_TYPE}
+    }
 }
 
 # Not specifying either means your third-party are already installed system-wide.
@@ -26,6 +34,18 @@ CONFIG(debug, debug|release){
 ROXEE_DESTDIR =
 
 # Flags to use in order to link to the third-party (lib only)
-ROXEE_LIBS = -lboost_system -ltorrent
+contains(QMAKE_CC, cl){
+    CONFIG(debug, debug|release){
+        ROXEE_LIBS = -llibtorrent -llibboost_system-vc100-mt-gd-1_53
+    }else{
+        ROXEE_LIBS = -llibtorrent -llibboost_system-vc100-mt-1_53
+    }
+}else{
+    CONFIG(debug, debug|release){
+        ROXEE_LIBS = -ltorrent -lboost_system-mgw47-mt-d-1_53 -lws2_32 -lwsock32
+    }else{
+        ROXEE_LIBS = -ltorrent -lboost_system-mgw47-mt-1_53 -lws2_32 -lwsock32
+    }
+}
 # Special include paths (appended to external deps, if any)  (lib only)
-ROXEE_INC =
+ROXEE_INC = include/boost-1_53
