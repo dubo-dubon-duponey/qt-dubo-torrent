@@ -1,6 +1,12 @@
 TEMPLATE = lib
 QT = core
 
+# Libtorrent has problems on that front
+QMAKE_CXXFLAGS_WARN_OFF += -Wno-unused-parameter
+QMAKE_CXXFLAGS_WARN_ON += -Wno-unused-parameter
+#QMAKE_CXXFLAGS_WARN_OFF -= -Wunused-parameter
+#QMAKE_CXXFLAGS_WARN_ON -= -Wunused-parameter
+
 include($$PWD/../config/common.pri)
 
 DEFINES += LIBROXEETORRENT_LIBRARY
