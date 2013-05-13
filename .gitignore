@@ -3,3 +3,7 @@ Makefile*
 *.pro.user
 buildd*
 
+
+*.xcodeproj
+*.Release
+*.Debug
