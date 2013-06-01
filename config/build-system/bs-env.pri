@@ -73,7 +73,7 @@ win32 {
 ROXEE_LINK_NAME = $${TARGET}
 win32{
     contains(ROXEE_LINK_TYPE, dynamic){
-        ROXEE_LINK_NAME = $${TARGET}0
+        ROXEE_LINK_NAME = $${TARGET}$${VER_MAJ}
     }
 }
 # Export these to the root object

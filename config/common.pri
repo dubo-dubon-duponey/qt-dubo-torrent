@@ -43,6 +43,7 @@ message( -> Temporary build dir: $${TMP_BASE_DIR})
 message( -> Build destination dir $${DESTDIR})
 message( -> Additional lib/include: $${ROXEE_EXTERNAL})
 
+XHOST = $$system(uname)
 
 defineTest(copyToDestdir) {
     files = $$1
@@ -51,11 +52,13 @@ defineTest(copyToDestdir) {
     for(FILE, files) {
         DDIR = $$dest
 
-        # Replace slashes in paths with backslashes for Windows
-        win32:FILE ~= s,/,\\,g
-        win32:DDIR ~= s,/,\\,g
+        !contains(XHOST, Darwin){
+            # Replace slashes in paths with backslashes for Windows
+            win32:FILE ~= s,/,\\,g
+            win32:DDIR ~= s,/,\\,g
+        }
 
-        win32{
+        !contains(XHOST, Darwin):win32{
             system(mkdir $$quote($$DDIR))
         }else{
             system(mkdir -p $$quote($$DDIR))
@@ -65,8 +68,4 @@ defineTest(copyToDestdir) {
     }
 
     export(QMAKE_POST_LINK)
-}
-
-defineTest(roxeeLibHelper) {
-
 }
