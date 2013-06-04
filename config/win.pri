@@ -42,9 +42,13 @@ contains(QMAKE_CC, cl){
     }
 }else{
     CONFIG(debug, debug|release){
-        ROXEE_LIBS = -ltorrent -lboost_system-mgw47-mt-d-1_53 -lws2_32 -lwsock32
+# XXX Depends on boost layout... using system for now
+#        ROXEE_LIBS = -ltorrent -lboost_system-mgw47-mt-d-1_53 -lws2_32 -lwsock32
+        ROXEE_LIBS = -ltorrent -lboost_system -lws2_32 -lwsock32
     }else{
-        ROXEE_LIBS = -ltorrent -lboost_system-mgw47-mt-1_53 -lws2_32 -lwsock32
+# Depends on boost layout...
+#        ROXEE_LIBS = -ltorrent -lboost_system-mgw47-mt-1_53 -lws2_32 -lwsock32
+        ROXEE_LIBS = -ltorrent -lboost_system -lws2_32 -lwsock32
     }
 }
 # Special include paths (appended to external deps, if any)  (lib only)
