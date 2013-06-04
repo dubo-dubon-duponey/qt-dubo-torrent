@@ -13,7 +13,7 @@ INSTALLS += target
 LIBS += -l$${ROXEE_LINK_NAME}
 
 contains(ROXEE_LINK_TYPE, static){
-    DEFINES += LIBROXEESINAPP_USE_STATIC
+    DEFINES += LIBROXEETORRENT_USE_STATIC
 
     win32{
         copyToDestdir($$ROXEE_EXTERNAL/libtorrent.dll, $$DESTDIR)
