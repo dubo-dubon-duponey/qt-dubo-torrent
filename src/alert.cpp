@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2012, WebItUp <contact@webitup.fr>
+ * Copyright (c) 2018, Dubo Dubon Duponey <dubodubonduponey@gmail.com>
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without modification, are permitted provided that the following conditions are met:
@@ -16,8 +16,8 @@
 
 /*! \cond */
 
-using namespace RoxeeTorrent;
-namespace RoxeeTorrent{
+using namespace DuboTorrent;
+namespace DuboTorrent{
 
 Alert::Alert(const QString &what, const QString &message, const int category, const qint64 timestamp, QObject *parent):
     QObject(parent)

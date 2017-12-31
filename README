@@ -1,10 +1,10 @@
 ================
-RoxeeTorrent
+DuboTorrent
 ================
 
 This is a (very) thin layer on top of rasterbar libtorrent that exposes a uniform scriptable API for it.
 
-It is primarily meant to serve as part of the Roxee runner application, though other people might find interest in it.
+It is primarily meant to serve as part of the Dubo webrunner application, though other people might find interest in it.
 It's released with the same license as libtorrent itself.
 
 Note that it's tested linking to libtorrent 0.16.0 using the following config:

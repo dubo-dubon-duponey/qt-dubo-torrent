@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2012, WebItUp <contact@webitup.fr>
+ * Copyright (c) 2018, Dubo Dubon Duponey <dubodubonduponey@gmail.com>
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without modification, are permitted provided that the following conditions are met:
@@ -11,14 +11,14 @@
 
 // * XXX timestamp are deadly borked - not too sure why - see session initialization to get it right
 
-#ifndef ROXEETORRENT_ALERT_H
-#define ROXEETORRENT_ALERT_H
+#ifndef DUBOTORRENT_ALERT_H
+#define DUBOTORRENT_ALERT_H
 
-#include "libroxeetorrent/libroxeetorrent_global.h"
+#include "libdubotorrent/libdubotorrent_global.h"
 
 #include <QtCore/qobject.h>
 
-namespace RoxeeTorrent
+namespace DuboTorrent
 {
     /*! \brief Every alert message implements this.
 
@@ -58,4 +58,4 @@ namespace RoxeeTorrent
     };
 }
 
-#endif // ROXEETORRENT_ALERT_H
+#endif // DUBOTORRENT_ALERT_H

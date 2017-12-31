@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2012, WebItUp <contact@webitup.fr>
+ * Copyright (c) 2018, Dubo Dubon Duponey <dubodubonduponey@gmail.com>
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without modification, are permitted provided that the following conditions are met:
@@ -10,7 +10,7 @@
  */
 
 #include "coreinstance.h"
-#include "libroxeetorrent/session.h"
+#include "libdubotorrent/session.h"
 #include "torrenthandle.h"
 #include "alert.h"
 
@@ -27,8 +27,8 @@
 
 /*! \cond */
 
-using namespace RoxeeTorrent;
-namespace RoxeeTorrent{
+using namespace DuboTorrent;
+namespace DuboTorrent{
 
 // XXX maybe let pass the error mask?
 Session::Session(const QString & id, const int & major, const int & minor, const int & revision, const int & tag, QObject* parent):
@@ -41,24 +41,24 @@ Session::Session(const QString & id, const int & major, const int & minor, const
     // XXX BOGUS
 //    const char * identifier = id.toLocal8Bit().constData();
 //    std::string identifier = id.toStdString();
-#if LIBTORRENT_VERSION_MINOR >= 15
+//#if LIBTORRENT_VERSION_MINOR >= 15
     LRTCoreInstance::instance()->setSession( new libtorrent::session(
                libtorrent::fingerprint( id.toLocal8Bit().constData(), major, minor, revision, tag),
                 libtorrent::session::start_default_features
                 | libtorrent::session::add_default_plugins,
                 libtorrent::alert::all_categories));
-#else
+/*#else
     LRTCoreInstance::instance()->setSession( new libtorrent::session(
                libtorrent::fingerprint( id.toLocal8Bit().constData(), major, minor, revision, tag),
                 libtorrent::session::start_default_features
                 | libtorrent::session::add_default_plugins));
-#endif
+#endif*/
 }
 
-RoxeeTorrent::Root * Session::root()
+DuboTorrent::Root * Session::root()
 {
     if(!_rp_root){
-        _rp_root = new RoxeeTorrent::Root();
+        _rp_root = new DuboTorrent::Root();
     }
     return _rp_root;
 }
@@ -175,7 +175,7 @@ QString Session::addMagnet(const QString & uri, const QString & save_path)
     libtorrent::add_torrent_params p;
     p.save_path = save_path.toStdString();
 
-#if LIBTORRENT_VERSION_MINOR >= 16
+// #if LIBTORRENT_VERSION_MINOR >= 16
 //    p.seed_mode = false;
 //    p.auto_managed = true;
     p.url = uri.toStdString();
@@ -187,12 +187,12 @@ QString Session::addMagnet(const QString & uri, const QString & save_path)
     qDebug() << "hooooooooooooooooooooooooooooooooo";
     qDebug() << o.str().c_str();
     return QString(o.str().c_str());
-#else
+/*#else
 	// XXX dirty temporary hack to have the shit compile
 	libtorrent::add_magnet_uri(* LRTCoreInstance::instance()->getSession(),
 		uri.toStdString(), p);
 	return 0;
-#endif
+#endif*/
 
 //    typedef boost::function<storage_interface*(file_storage const&
 //            , file_storage const*, std::string const&, file_pool&
@@ -275,25 +275,25 @@ Session::~Session()
 void Session::loadState(const QString & entry)
 {
     const char * in = entry.toLocal8Bit().constData();
-#if LIBTORRENT_VERSION_MINOR >= 16
+// #if LIBTORRENT_VERSION_MINOR >= 16
     libtorrent::lazy_entry e;
     libtorrent::error_code c;
     if (lazy_bdecode(&in[0], &in[0] + sizeof(in), e, c) == 0) {
       LRTCoreInstance::instance()->getSession()->load_state(e);
     }
-#elif LIBTORRENT_VERSION_MINOR >= 15
+/*#elif LIBTORRENT_VERSION_MINOR >= 15
     libtorrent::lazy_entry e;
     libtorrent::error_code c;
     lazy_bdecode(&in[0], &in[0] + sizeof(in), e);
     LRTCoreInstance::instance()->getSession()->load_state(e);
 #else
     qDebug() << "Libtorrent (too old) NOT functional on your platform";
-#endif
+#endif*/
 }
 
 const QString Session::saveState(const int & flags)
 {
-#if LIBTORRENT_VERSION_MINOR >= 15
+// #if LIBTORRENT_VERSION_MINOR >= 15
     libtorrent::entry e;
     if(flags){
         LRTCoreInstance::instance()->getSession()->save_state(e, flags);
@@ -304,10 +304,10 @@ const QString Session::saveState(const int & flags)
     bencode(std::back_inserter(out), e);
 //    QByteArray * q = new QByteArray();
     return QString::fromLocal8Bit(out.data());
-#else
+/*#else
     qDebug() << "Libtorrent (too old) NOT functional on your platform";
     return QString::fromLatin1("");
-#endif
+#endif*/
 }
 
 
@@ -333,12 +333,12 @@ void Session::abort(){
 }
 
 bool Session::is_dht_running(){
-#if LIBTORRENT_VERSION_MINOR >= 15
+// #if LIBTORRENT_VERSION_MINOR >= 15
     return LRTCoreInstance::instance()->getSession()->is_dht_running();
-#else
+/* #else
     qDebug() << "Libtorrent (too old) NOT functional on your platform";
     return false;
-#endif
+#endif*/
 }
 
 void Session::startDht(){
@@ -358,38 +358,38 @@ void Session::stopLsd(){
 }
 
 int Session::upload_rate_limit(){
-#if LIBTORRENT_VERSION_MINOR >= 16
+// #if LIBTORRENT_VERSION_MINOR >= 16
     return LRTCoreInstance::instance()->getSession()->settings().upload_rate_limit;
-#else
+/* #else
 	return 0;
-#endif
+#endif*/
 }
 void Session::set_upload_rate_limit(const int rate){
     // XXX Is this even working???
-#if LIBTORRENT_VERSION_MINOR >= 16
+// #if LIBTORRENT_VERSION_MINOR >= 16
     // LRTCoreInstance::instance()->getSession()->settings().upload_rate_limit = rate;
-#else
+/* #else
 	qDebug() << "Cant set rate! Too old libtorrent";
 	qDebug() << rate;
-#endif
+#endif*/
 //    LRTCoreInstance::instance()->getSession()->set_upload_rate_limit(rate);
 }
 
 int Session::download_rate_limit(){
-#if LIBTORRENT_VERSION_MINOR >= 16
+// #if LIBTORRENT_VERSION_MINOR >= 16
     return LRTCoreInstance::instance()->getSession()->settings().download_rate_limit;
-#else
+/* #else
 	return 0;
-#endif
+#endif*/
 }
 void Session::set_download_rate_limit(const int rate){
-#if LIBTORRENT_VERSION_MINOR >= 16
+// #if LIBTORRENT_VERSION_MINOR >= 16
     libtorrent::session_settings settings = LRTCoreInstance::instance()->getSession()->settings();
     settings.download_rate_limit = rate;
     LRTCoreInstance::instance()->getSession()->set_settings(settings);
-#else
+/* #else
     LRTCoreInstance::instance()->getSession()->set_download_rate_limit(rate);
-#endif
+#endif*/
 }
 
 //const int Session::local_upload_rate_limit(){
@@ -477,11 +477,11 @@ void Session::listenOn(const int startPort, const int endPort){
     // XXX doesn't support interface specific listening
     std::pair<int,int> ports(startPort, endPort);
     libtorrent::error_code ec;
-#if LIBTORRENT_VERSION_MINOR >= 16
+// #if LIBTORRENT_VERSION_MINOR >= 16
     LRTCoreInstance::instance()->getSession()->listen_on(ports, ec);
-#else
+/*#else
     LRTCoreInstance::instance()->getSession()->listen_on(ports);
-#endif
+#endif*/
 }
 
 

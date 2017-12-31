@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2012, WebItUp <contact@webitup.fr>
+ * Copyright (c) 2018, Dubo Dubon Duponey <dubodubonduponey@gmail.com>
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without modification, are permitted provided that the following conditions are met:
@@ -12,7 +12,7 @@
 
 /*!
 \mainpage
-This library is primarily meant to be used by the Roxee Webrunner.
+This library is primarily meant to be used by the Dubo Webrunner.
 Its purpose is to provide a clean, QT-ified, scriptable API that introduces as little extra complexity as possible over
 the underyling torrent library, and ideally, be API independent from that library.
 Right now though, it only supports (and is meant for) rasterbar libtorrent (http://www.rasterbar.com/products/libtorrent/).
@@ -24,7 +24,7 @@ To compile:
  - DESTDIR=# should point to wherever you want the library to be compiled
 - qmake, then make
 
-To use it, just create a RoxeeTorrent::Session object, possibly expose it inside your webkit and learn to swim.
+To use it, just create a DuboTorrent::Session object, possibly expose it inside your webkit and learn to swim.
 
 Big fat warning: this pile of code may or may not work for you. If it does, you may send a thank you note :).
 If it doesn't, you can probably:
@@ -37,42 +37,42 @@ If it doesn't, you can probably:
 This code is distributed under the terms of the BSD license.
 */
 
-#ifndef ROXEETORRENT_ROOT_H
-#define ROXEETORRENT_ROOT_H
+#ifndef DUBOTORRENT_ROOT_H
+#define DUBOTORRENT_ROOT_H
 
-#include "libroxeetorrent_global.h"
+#include "libdubotorrent_global.h"
 #include <QtCore/qobject.h>
 
-/*! \namespace RoxeeTorrent
+/*! \namespace DuboTorrent
 \brief The library namespace.
 */
 
-namespace RoxeeTorrent
+namespace DuboTorrent
 {
     /*!
       \brief A dummy object exposing version and name informations.
     */
-    class LIBROXEETORRENTSHARED_EXPORT Root: public QObject {
+    class LIBDUBOTORRENTSHARED_EXPORT Root: public QObject {
         Q_OBJECT
     public:
 
         /*! \brief The name of the library.*/
-        Q_PROPERTY(const QString ROXEE_NAME READ getName)
+        Q_PROPERTY(const QString DUBO_NAME READ getName)
         /*! \brief The name of the vendor.*/
-        Q_PROPERTY(const QString ROXEE_VENDOR READ getVendor)
+        Q_PROPERTY(const QString DUBO_VENDOR READ getVendor)
         /*! \brief The version of the library.*/
-        Q_PROPERTY(const QString ROXEE_VERSION READ getVersion)
+        Q_PROPERTY(const QString DUBO_VERSION READ getVersion)
         /*! \brief The (git) revision of the library.*/
-        Q_PROPERTY(const QString ROXEE_REVISION READ getRevision)
+        Q_PROPERTY(const QString DUBO_REVISION READ getRevision)
         /*! \brief The (git) changeset of the library.*/
-        Q_PROPERTY(const QString ROXEE_CHANGESET READ getChangeset)
+        Q_PROPERTY(const QString DUBO_CHANGESET READ getChangeset)
 
         /*! \brief The build type (release / debug of the library).*/
-        Q_PROPERTY(const QString ROXEE_BUILD READ getBuildType)
+        Q_PROPERTY(const QString DUBO_BUILD READ getBuildType)
         /*! \brief The type of the library (static / dynamic).*/
-        Q_PROPERTY(const QString ROXEE_LINK READ getLinkType)
+        Q_PROPERTY(const QString DUBO_LINK READ getLinkType)
         /*! \brief QT Version used to build.*/
-        Q_PROPERTY(const QString ROXEE_QT READ getQt)
+        Q_PROPERTY(const QString DUBO_QT READ getQt)
 
         /*! \brief The nameof the underlying player library.*/
         Q_PROPERTY(const QString PLUGIN_NAME READ getLibName)
@@ -100,4 +100,4 @@ namespace RoxeeTorrent
     };
 }
 
-#endif // ROXEETORRENT_ROOT_H
+#endif // DUBOTORRENT_ROOT_H

@@ -1,28 +1,28 @@
 TEMPLATE = lib
 QT = core
 
+# XXX do this ASAP
+# DEFINES += TORRENT_NO_DEPRECATE
+
+PROJECT_ROOT = $$PWD/..
+include($$PROJECT_ROOT/config/qmakeitup.pri)
+
+INCLUDEPATH += $$PWD
+
+DEFINES += LIBDUBOTORRENT_LIBRARY
+contains(DUBO_LINK_TYPE, static){
+    DEFINES += LIBDUBOTORRENT_USE_STATIC
+}
+
+copyToDestdir($$PWD/lib$${TARGET}/*, $$DESTDIR/../include/lib$${TARGET})
+copyToDestdir($$PWD/../res/redist/*, $$DESTDIR/../share/lib$${TARGET})
+
+
 # Libtorrent has problems on that front
 QMAKE_CXXFLAGS_WARN_OFF += -Wno-unused-parameter
 QMAKE_CXXFLAGS_WARN_ON += -Wno-unused-parameter
 #QMAKE_CXXFLAGS_WARN_OFF -= -Wunused-parameter
 #QMAKE_CXXFLAGS_WARN_ON -= -Wunused-parameter
-
-include($$PWD/../config/common.pri)
-
-DEFINES += LIBROXEETORRENT_LIBRARY
-
-contains(ROXEE_LINK_TYPE, static){
-    DEFINES += LIBROXEETORRENT_USE_STATIC
-}
-
-INCLUDEPATH += $$PWD
-INCLUDEPATH += $$PWD/include
-target.path = $$DESTDIR
-INSTALLS += target
-
-
-copyToDestdir($$PWD/include/libroxeetorrent/*, $$DESTDIR/../include/libroxeetorrent)
-copyToDestdir($$PWD/../res/redist/*, $$DESTDIR/../share/libroxeetorrent)
 
 
 SOURCES += \
@@ -37,11 +37,10 @@ HEADERS += \
     $$PWD/alert.h \
     $$PWD/torrenthandle.h \
     $$PWD/coreinstance.h \
-    $$PWD/include/libroxeetorrent/libroxeetorrent_global.h \
-    $$PWD/include/libroxeetorrent/session.h \
-    $$PWD/include/libroxeetorrent/alerttypes.h \
-    $$PWD/include/libroxeetorrent/root.h
-
+    $$PWD/lib$${TARGET}/lib$${TARGET}_global.h \
+    $$PWD/lib$${TARGET}/session.h \
+    $$PWD/lib$${TARGET}/alerttypes.h \
+    $$PWD/lib$${TARGET}/root.h
 
 # Windows only?
 DEFINES += UNICODE _UNICODE
@@ -50,11 +49,12 @@ CONFIG(debug, debug|release){
     DEFINES += TORRENT_DEBUG
 }
 
-contains(ROXEE_LINK_TYPE, static){
+contains(DUBO_LINK_TYPE, static){
     DEFINES += BOOST_ASIO_SEPARATE_COMPILATION
 }else{
     DEFINES += BOOST_ASIO_DYN_LINK
 }
+
 
 DEFINES += TORRENT_USE_BOOST_DATE_TIME=1
 DEFINES += TORRENT_USE_TOMMATH
@@ -78,7 +78,6 @@ win32{
 #DEFINES += BOOST_ASIO_HEADER_ONLY
 
 # Use libtorrent inner crypto
-#DEFINES += TORRENT_NO_DEPRECATE
 #DEFINES += TORRENT_USE_IPV6=1
 #DEFINES += TORRENT_USE_ICONV=1
 
@@ -103,8 +102,8 @@ win32{
 #    DEFINES += BOOST_ALL_DYN_LINK
 #    DEFINES += BOOST_SYSTEM_STATIC_LINK=1
 
-#    # XXX was compiling with WRONG ROXEE_DEPEND_LINK
-#    !contains(ROXEE_LINK_TYPE, static){
+#    # XXX was compiling with WRONG DUBO_DEPEND_LINK
+#    !contains(DUBO_LINK_TYPE, static){
 #        DEFINES += TORRENT_LINKING_SHARED
 #    }
 
@@ -125,8 +124,8 @@ win32{
 # Linking dynamically on OSX
 #DEFINES += BOOST_ASIO_DYN_LINK
 
-# -lboost_system-mt-roxee
-# -lcrypto  -lboost_filesystem-mt-roxee -lboost_thread-mt-roxee
+# -lboost_system-mt-dubo
+# -lcrypto  -lboost_filesystem-mt-dubo -lboost_thread-mt-dubo
 #    }
 
 

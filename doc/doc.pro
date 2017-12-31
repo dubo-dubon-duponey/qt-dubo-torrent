@@ -1,7 +1,9 @@
 TEMPLATE = subdirs
-OTHER_FILES +=  $$PWD/doc.sh \
-                $$PWD/doxygen.tpl
+OTHER_FILES += $$PWD/doxygen.tpl
 
-!win32{
-    system(./doc.sh)
+# !win32
+system(which doxygen){
+    system(doxygen doxygen.tpl)
+}else{
+    warning(NO doxygen install - skipping documentation generation)
 }
