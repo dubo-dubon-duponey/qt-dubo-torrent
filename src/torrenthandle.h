@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2018, Dubo Dubon Duponey <dubodubonduponey@gmail.com>
+ * Copyright (c) 2018, Dubo Dubon Duponey <dubodubonduponey+github@pm.me>
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without modification, are permitted provided that the following conditions are met:
@@ -12,10 +12,10 @@
 #ifndef DUBOTORRENT_TORRENTHANDLE_H
 #define DUBOTORRENT_TORRENTHANDLE_H
 
-#include "libdubotorrent/libdubotorrent_global.h"
+#include "libdubotorrent/global.h"
 
-#include <QtCore/qobject.h>
-#include <QtCore/qvariant.h>
+#include <QObject>
+#include <QVariant>
 
 
 namespace DuboTorrent
@@ -28,7 +28,7 @@ namespace DuboTorrent
         Q_OBJECT
     public:
         /*! \cond */
-        explicit TorrentHandle(const QString & info_hash, QObject *parent = 0);
+        explicit TorrentHandle(const QString & info_hash, QObject * parent = nullptr);
         /*! \endcond */
 
         ~TorrentHandle();

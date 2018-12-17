@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2018, Dubo Dubon Duponey <dubodubonduponey@gmail.com>
+ * Copyright (c) 2018, Dubo Dubon Duponey <dubodubonduponey+github@pm.me>
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without modification, are permitted provided that the following conditions are met:
@@ -14,9 +14,9 @@
 #ifndef DUBOTORRENT_ALERT_H
 #define DUBOTORRENT_ALERT_H
 
-#include "libdubotorrent/libdubotorrent_global.h"
+#include "libdubotorrent/global.h"
 
-#include <QtCore/qobject.h>
+#include <QObject>
 
 namespace DuboTorrent
 {
@@ -30,7 +30,7 @@ namespace DuboTorrent
         Q_OBJECT
     public:
         /*! Constructor. Test. */
-        explicit Alert(const QString &what, const QString &message, const int category, const qint64 timestamp, QObject *parent = 0);
+        explicit Alert(const QString &what, const QString &message, const int category, const qint64 timestamp, QObject * parent = nullptr);
         ~Alert();
 
         /*! Title or subject of the alert*/

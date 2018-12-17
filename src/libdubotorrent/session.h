@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2018, Dubo Dubon Duponey <dubodubonduponey@gmail.com>
+ * Copyright (c) 2018, Dubo Dubon Duponey <dubodubonduponey+github@pm.me>
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without modification, are permitted provided that the following conditions are met:
@@ -12,10 +12,10 @@
 #ifndef DUBOTORRENT_SESSION_H
 #define DUBOTORRENT_SESSION_H
 
-#include "libdubotorrent_global.h"
+#include "global.h"
 
-#include <QtCore/qobject.h>
-#include <QtCore/qvariant.h>
+#include <QObject>
+#include <QVariant>
 
 #include "root.h"
 
@@ -31,7 +31,7 @@ namespace DuboTorrent
         // XXX maybe let pass the error mask?
         // XXX maybe let expose the constructor to JS
         /*! \brief Session constructor.*/
-        explicit Session(const QString & id, const int & major, const int & minor, const int & revision, const int & tag, QObject* parent = 0);
+        explicit Session(const QString & id, const int & major, const int & minor, const int & revision, const int & tag, QObject* parent = nullptr);
         ~Session();
 
         /*! \brief Accessor to the Root object */

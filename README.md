@@ -1,6 +1,4 @@
-================
-DuboTorrent
-================
+# Torrent
 
 This is a (very) thin layer on top of rasterbar libtorrent that exposes a uniform scriptable API for it.
 
@@ -12,10 +10,7 @@ geoip=static timer=boost ipv6=on iconv=on asserts=off windows-version=xp dht-sup
 
 Licensed under BSD2.
 
-
-================
-Caveats
-================
+## Caveats
 
 Building on windows is a fucking pain in the bozoum.
 

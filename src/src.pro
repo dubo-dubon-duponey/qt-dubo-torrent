@@ -14,7 +14,7 @@ contains(DUBO_LINK_TYPE, static){
     DEFINES += LIBDUBOTORRENT_USE_STATIC
 }
 
-copyToDestdir($$PWD/lib$${TARGET}/*, $$DESTDIR/../include/lib$${TARGET})
+copyToDestdir($$PWD/lib$${TARGET}/*.h, $$DESTDIR/../include/lib$${TARGET})
 copyToDestdir($$PWD/../res/redist/*, $$DESTDIR/../share/lib$${TARGET})
 
 
@@ -37,7 +37,7 @@ HEADERS += \
     $$PWD/alert.h \
     $$PWD/torrenthandle.h \
     $$PWD/coreinstance.h \
-    $$PWD/lib$${TARGET}/lib$${TARGET}_global.h \
+    $$PWD/lib$${TARGET}/global.h \
     $$PWD/lib$${TARGET}/session.h \
     $$PWD/lib$${TARGET}/alerttypes.h \
     $$PWD/lib$${TARGET}/root.h
