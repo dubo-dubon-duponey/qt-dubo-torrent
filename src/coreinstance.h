@@ -37,12 +37,12 @@ public:
     {
         // Destroy the session
         m_Instance->getSession()->~session();
-        m_Instance->setSession(0);
+        m_Instance->setSession(nullptr);
 
         static QMutex mutex;
         mutex.lock();
         delete m_Instance;
-        m_Instance = 0;
+        m_Instance = nullptr;
         mutex.unlock();
     }
 

@@ -35,7 +35,7 @@ Session::Session(const QString & id, const int & major, const int & minor, const
     QObject(parent)
 {
     qDebug() << "     +++ [Lib] {Torrent}: constructor";
-    _rp_root = 0;
+    _rp_root = nullptr;
     // Check http://wiki.theory.org/BitTorrentSpecification#peer_id
     // Should be two char long
     // XXX BOGUS

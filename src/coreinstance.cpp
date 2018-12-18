@@ -13,6 +13,6 @@
 
 /*! \cond */
 
-LRTCoreInstance* LRTCoreInstance::m_Instance = 0;
+LRTCoreInstance* LRTCoreInstance::m_Instance = nullptr;
 
 /*! \endcond */

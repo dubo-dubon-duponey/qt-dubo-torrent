@@ -108,7 +108,7 @@ const QString TorrentHandle::name()
     if(h.is_valid()){
         return h.name().c_str();
     }
-    return 0;
+    return nullptr;
 }
 
 
@@ -130,7 +130,7 @@ QString TorrentHandle::filePathAt(const int pos)
 #endif*/
 //        return QString::fromUtf8(fe.path.string().c_str());
     }
-    return 0;
+    return nullptr;
 }
 
 qint64 TorrentHandle::fileSizeAt(const int pos)
@@ -346,10 +346,10 @@ const QString TorrentHandle::comment()
     i>>x;
 
     libtorrent::torrent_handle h = LRTCoreInstance::instance()->getSession()->find_torrent(x);
-    if(!h.is_valid()) return 0;
+    if(!h.is_valid()) return nullptr;
     libtorrent::torrent_status s = h.status();
 // #if LIBTORRENT_VERSION_MINOR >= 16
-    if (!s.has_metadata) return 0;
+    if (!s.has_metadata) return nullptr;
 
     return h.get_torrent_info().comment().c_str();
 /* #else
@@ -366,10 +366,10 @@ const QString TorrentHandle::creator()
     i>>x;
 
     libtorrent::torrent_handle h = LRTCoreInstance::instance()->getSession()->find_torrent(x);
-    if(!h.is_valid()) return 0;
+    if(!h.is_valid()) return nullptr;
     libtorrent::torrent_status s = h.status();
 // #if LIBTORRENT_VERSION_MINOR >= 16
-    if (!s.has_metadata) return 0;
+    if (!s.has_metadata) return nullptr;
 
     return h.get_torrent_info().creator().c_str();
 /* #else
@@ -386,10 +386,10 @@ const QString TorrentHandle::metadata()
     i>>x;
 
     libtorrent::torrent_handle h = LRTCoreInstance::instance()->getSession()->find_torrent(x);
-    if(!h.is_valid()) return 0;
+    if(!h.is_valid()) return nullptr;
     libtorrent::torrent_status s = h.status();
 // #if LIBTORRENT_VERSION_MINOR >= 16
-    if (!s.has_metadata) return 0;
+    if (!s.has_metadata) return nullptr;
 
     return h.get_torrent_info().metadata().get();// c_str();
 /* #else

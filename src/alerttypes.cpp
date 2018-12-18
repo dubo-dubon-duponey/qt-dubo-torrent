@@ -18,7 +18,7 @@
 /*! \cond */
 
 namespace DuboTorrent{
-AlertTypes* AlertTypes::m_Instance = 0;
+AlertTypes* AlertTypes::m_Instance = nullptr;
 
 AlertTypes* AlertTypes::instance()
 {
@@ -38,7 +38,7 @@ AlertTypes::~AlertTypes()
     static QMutex mutex;
     mutex.lock();
     delete m_Instance;
-    m_Instance = 0;
+    m_Instance = nullptr;
     mutex.unlock();
 }
 
