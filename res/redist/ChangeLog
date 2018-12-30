@@ -1,2 +1,5 @@
+DuboTorrent-2.0.0:
+    Move to QT5 only
+
 DuboTorrent-1.0.0-dev:
     Adopt code

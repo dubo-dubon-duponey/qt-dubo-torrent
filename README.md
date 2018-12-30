@@ -1,4 +1,4 @@
-# Torrent
+# DuboTorrent
 
 This is a (very) thin layer on top of rasterbar libtorrent that exposes a uniform scriptable API for it.
 

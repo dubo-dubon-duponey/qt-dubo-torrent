@@ -1,9 +1,6 @@
 TEMPLATE = lib
 QT = core
 
-# XXX do this ASAP
-# DEFINES += TORRENT_NO_DEPRECATE
-
 PROJECT_ROOT = $$PWD/..
 include($$PROJECT_ROOT/config/qmakeitup.pri)
 
@@ -23,6 +20,9 @@ QMAKE_CXXFLAGS_WARN_OFF += -Wno-unused-parameter
 QMAKE_CXXFLAGS_WARN_ON += -Wno-unused-parameter
 #QMAKE_CXXFLAGS_WARN_OFF -= -Wunused-parameter
 #QMAKE_CXXFLAGS_WARN_ON -= -Wunused-parameter
+
+# XXX do this ASAP
+# DEFINES += TORRENT_NO_DEPRECATE
 
 
 SOURCES += \
