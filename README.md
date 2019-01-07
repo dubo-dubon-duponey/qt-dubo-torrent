@@ -1,5 +1,11 @@
 # DuboTorrent
 
+> "Dubo Components" are lightweight, targeted c++ libraries meant for QT applications.
+> They aim at providing *simple to use* interfaces for a range of functionality
+(notification, crash reporting, zero conf, application update, torrent, etc).
+> Fully scriptable, they are primarily meant for javascript (from a QWebEngine) - thought they are usable as well in plain QT.
+> Put together, these components should provide a comprehensive foundation for these building a "WebRunner", similarly to Electron.
+
 This is a (very) thin layer on top of rasterbar libtorrent that exposes a uniform scriptable API for it.
 
 It is primarily meant to serve as part of the Dubo webrunner application, though other people might find interest in it.

@@ -22,7 +22,7 @@
 #include <boost/date_time/posix_time/conversion.hpp>
 
 #include <QtCore/qdatetime.h>
-#include <QtCore/qdebug.h>
+#include <QDebug>
 #include <QtCore/qbytearray.h>
 
 /*! \cond */
@@ -274,6 +274,20 @@ Session::~Session()
 
 void Session::loadState(const QString & entry)
 {
+    QByteArray data = entry.toLocal8Bit();
+
+    libtorrent::bdecode_node e;
+    libtorrent::error_code c;
+    if (libtorrent::bdecode(data.constData(), data.constData() + data.size(), e, c) == 0) {
+        LRTCoreInstance::instance()->getSession()->load_state(e);
+    }
+    /*    libtorrent::bdecode(data.constData(), data.constData() + data.size(), e, c);
+    if (c || (e.type() != libtorrent::bdecode_node::dict_t))
+        return false;
+*/
+
+
+/*
     const char * in = entry.toLocal8Bit().constData();
 // #if LIBTORRENT_VERSION_MINOR >= 16
     libtorrent::lazy_entry e;
@@ -281,7 +295,10 @@ void Session::loadState(const QString & entry)
     if (lazy_bdecode(&in[0], &in[0] + sizeof(in), e, c) == 0) {
       LRTCoreInstance::instance()->getSession()->load_state(e);
     }
-/*#elif LIBTORRENT_VERSION_MINOR >= 15
+
+*/
+
+    /*#elif LIBTORRENT_VERSION_MINOR >= 15
     libtorrent::lazy_entry e;
     libtorrent::error_code c;
     lazy_bdecode(&in[0], &in[0] + sizeof(in), e);
@@ -437,12 +454,16 @@ void Session::set_download_rate_limit(const int rate){
 const QVariant Session::popAlert(){
     std::auto_ptr<libtorrent::alert> t = LRTCoreInstance::instance()->getSession()->pop_alert();
     if(t.get()){
+/*
+ XXX broken
         libtorrent::ptime boostDate =  t->timestamp();
 
         // Previously was boostDate.time
         struct std::tm tm;
         tm = boost::posix_time::to_tm(boostDate);
         const time_t ft = mktime(&tm);
+*/
+        const time_t ft = 0;
 
         Alert* myalert = new Alert(QString::fromLocal8Bit(t->what()),
                                            QString::fromLocal8Bit(t->message().c_str()),

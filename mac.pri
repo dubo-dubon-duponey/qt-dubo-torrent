@@ -2,10 +2,6 @@
 # Any of the following may be overriden by the environment
 ###############
 
-# Wether to build static or shared library
-#DUBO_LINK_TYPE = static
-DUBO_LINK_TYPE = dynamic
-
 # You can choose to link against the third-party provided libraries.
 # If so, this should be not null and point to a specific version and subpath
 DUBO_INTERNAL_VERSION =
@@ -22,6 +18,8 @@ DUBO_EXTERNAL = /Users/dmp/Applications/bin/homebrew/
 DUBO_DESTDIR =
 
 # Flags to use in order to link to the third-party (lib only)
-DUBO_LIBS = -ltorrent -lboost_system -liconv #useful only if libtorrent is statically compiled it seems
+DUBO_LIBS = -ltorrent-rasterbar -lboost_system
+# -lboost_iostreams-mt -liconv -lboost_thread-mt -lboost_system-mt -lboost_chrono-mt # useful only if libtorrent is statically compiled it seems
+#   -liconv
 # Special include paths (appended to external deps, if any)  (lib only)
 DUBO_INC =

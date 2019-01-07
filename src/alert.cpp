@@ -12,7 +12,7 @@
 // * XXX timestamp are deadly borked - not too sure why - see session initialization to get it right
 
 #include "alert.h"
-#include <QtCore/qdebug.h>
+#include <QDebug>
 
 /*! \cond */
 

@@ -1,6 +1,6 @@
 TEMPLATE = subdirs
 
-OTHER_FILES +=  $$PWD/README \
+OTHER_FILES +=  $$PWD/README.md \
                 $$PWD/bootstrap.sh
 
 PROJECT_ROOT = $$PWD/..

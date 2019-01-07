@@ -1,5 +1,9 @@
+CONFIG += c++14
+
 TEMPLATE = app
 QT = core widgets webengine webenginewidgets webchannel
+
+QMAKE_TARGET_BUNDLE_PREFIX=com.dubo-dubon-duponey
 
 PROJECT_ROOT = $$PWD/..
 include($$PROJECT_ROOT/config/qmakeitup.pri)
