@@ -27,6 +27,8 @@ mac{
 }
 
 
+# Boost still depends on removed features from C++17
+DEFINES += _LIBCPP_ENABLE_CXX17_REMOVED_AUTO_PTR
 
 
 

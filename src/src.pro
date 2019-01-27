@@ -49,6 +49,9 @@ CONFIG(debug, debug|release){
     DEFINES += TORRENT_DEBUG
 }
 
+# Boost still depends on removed features from C++17
+DEFINES += _LIBCPP_ENABLE_CXX17_REMOVED_AUTO_PTR
+
 #contains(DUBO_LINK_TYPE, static){
 #    DEFINES += BOOST_ASIO_SEPARATE_COMPILATION
 #}else{
