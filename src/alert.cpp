@@ -28,15 +28,18 @@ Alert::Alert(const QString &what, const QString &message, const int category, co
     _category   = category;
 }
 
-Alert::~Alert() {
+Alert::~Alert()
+{
 
 }
 
-const QString Alert::message()    {
+const QString Alert::message()
+{
     return _message;
 }
 
-const QString Alert::what()      {
+const QString Alert::what()
+{
     return _what;
 }
 
@@ -45,7 +48,8 @@ qint64 Alert::timestamp()
     return _timestamp;
 }
 
-int Alert::category()       {
+int Alert::category()
+{
     return _category;
 }
 

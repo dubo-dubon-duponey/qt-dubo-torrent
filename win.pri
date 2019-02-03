@@ -1,12 +1,3 @@
-###############
-# Any of the following may be overriden by the environment
-###############
-
-# You can choose to link against the third-party provided libraries.
-# If so, this should be not null and point to a specific version and subpath
-DUBO_INTERNAL_VERSION =
-DUBO_INTERNAL_PATH =
-
 # If you rather want to link against your own, specify DUBO_EXTERNAL, a directory that must contain include and lib folders with the necessary dependencies
 # Note this will be used BEFORE any other manually specified source
 CONFIG(debug, debug|release){

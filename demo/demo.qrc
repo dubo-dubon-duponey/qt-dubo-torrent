@@ -1,5 +1,7 @@
-<RCC>
+<!DOCTYPE RCC>
+<RCC version="1.0">
     <qresource prefix="/">
         <file>demo.html</file>
+        <file>demo.js</file>
     </qresource>
 </RCC>
