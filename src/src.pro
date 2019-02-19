@@ -26,8 +26,8 @@ SOURCES += \
 # XXX do this ASAP
 # DEFINES += TORRENT_NO_DEPRECATE
 
-# Boost still depends on removed features from C++17 (eg: _LIBCPP_ENABLE_CXX17_REMOVED_AUTO_PTR)
-DEFINES += BOOST_NO_AUTO_PTR
+# Boost still depends on removed features from C++17, and so does libtorrent (eg: BOOST_NO_AUTO_PTR will break)
+DEFINES += _LIBCPP_ENABLE_CXX17_REMOVED_AUTO_PTR
 
 
 
